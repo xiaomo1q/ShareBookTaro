@@ -1,0 +1,41 @@
+.nav_custom_bar {
+  width: 100%;
+  min-height: auto;
+  background: transparent;
+
+  .nav-container {
+    width: calc(100% - 80px);
+    height: inherit;
+    margin: 0 48px 0 32px;
+    display: flex;
+    align-items: center;
+  }
+  .nav_custom_bar_back {
+    width: 48px;
+    height: 100%;
+    display: flex;
+    font-size: 42px !important;
+    align-items: center;
+    &.hidden {
+      display: none;
+    }
+  }
+  .title {
+    width: calc(100% - 84px);
+    height: 100%;
+    padding: 0px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .nav_custom_bar_title {
+      width: auto;
+      height: auto;
+      font-size: 36px;
+      font-family: PingFangSC-Medium, PingFang SC;
+      font-weight: 500;
+      text-align: center;
+      line-height: 50px;
+      color: #f7f7f7;
+    }
+  }
+}
