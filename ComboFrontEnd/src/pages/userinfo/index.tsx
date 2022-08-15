@@ -8,8 +8,7 @@ const Index = () => {
   const [value, setValue] = useState(3)
   return (
     <View className='index'>
-      <Rate value={value} onChange={(e) => setValue(e.detail)} />
-      <Text>Hello world!</Text>
+      <Text>个人中心</Text>
     </View>
   );
 };
