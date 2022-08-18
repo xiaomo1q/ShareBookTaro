@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Taro from '@tarojs/taro';
 import { View, Text, Image } from '@tarojs/components';
 import { Tab, Tabs } from '@antmjs/vantui'
 import styles from './courses.module.less';
-
+import { GETRequest } from "../../utils/net-requests";
 
 function RenderTabPanel() {
   return (<View className={`flex-col ${styles['home-tab-panel']}`}>
@@ -39,8 +39,17 @@ function RenderTabPanel() {
 }
 
 
-export default function Courses() {
+const HomeView = () => {
   const data = {};
+
+  useEffect(() => {
+    fun()
+  }, []);
+
+  const fun = async () => {
+    // 图灵社区 https://m.ituring.com.cn/book?tab=all&sort=vote
+    // https://api.ituring.com.cn/api/Book?tag=36515&page=1&sort=new
+  }
 
   return (
     <View className={`flex-col ${styles['home-index']}`}>
@@ -78,17 +87,16 @@ export default function Courses() {
         </View>
       </View>
       <View className={`flex-col ${styles['home-tab-list']}`}>
-        <Tabs active={1}>
-          <Tab title='标签 1'>     <RenderTabPanel /></Tab>
-          <Tab title='标签 2'>内容 2</Tab>
+        <Tabs active={0}>
+          <Tab title='热门图书'><RenderTabPanel /></Tab>
+          <Tab title='电子信息'>内容 2</Tab>
           <Tab title='标签 3'>内容 3</Tab>
           <Tab title='标签 4'>内容 4</Tab>
           <Tab title='标签 5'>内容 5</Tab>
           <Tab title='标签 6'>内容 6</Tab>
         </Tabs>
-
-
       </View>
     </View>
   );
 }
+export default HomeView;

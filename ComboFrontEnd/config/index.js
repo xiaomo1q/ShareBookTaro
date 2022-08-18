@@ -104,7 +104,7 @@ const config = {
             hot: true
         },
         staticDirectory: 'static',
-        // esnextModules: [/@antmjs[\\/]vantui/],
+        esnextModules: [/@antmjs[\\/]vantui/],
         postcss: {
             autoprefixer: {
                 enable: true,

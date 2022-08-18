@@ -78,6 +78,37 @@
     margin-top: 24.5px;
     padding-left: 19px;
     padding-right: 11px;
+    :global{
+      .van-tabs--line .van-tabs__wrap {
+        height: auto;
+      }
+      .van-tabs__scroll{
+        height: 30px;
+        line-height: 30px;
+        background: transparent;
+        .van-tabs__line{
+          display: none;
+        }
+        .tab-class{
+          height: 30px;
+          line-height: 30px;
+          flex-basis: auto !important;
+          .van-ellipsis{
+            font-size: 14px;
+            color: #333;
+          }
+        }
+        .tab-active-class{
+          background: @color-txt;
+          border-radius: 20px;
+          .van-ellipsis{
+            font-size: 14px;
+            color: #fff;
+          }
+        }
+      }
+   
+    }
     .home-tab-panel {
       margin-top: 16px;
       .section_5 {
