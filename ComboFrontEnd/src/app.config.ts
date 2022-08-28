@@ -1,10 +1,10 @@
 export default defineAppConfig({
   pages: [
+    'pages/userinfo/index',
     'pages/home/index',
     'pages/subtract/index',
     'pages/release/index',
     'pages/message/index',
-    'pages/userinfo/index',
   ],
   // subpackages: [
   //   {
@@ -13,35 +13,35 @@ export default defineAppConfig({
   //   },
   // ],
   "tabBar": {
-    "custom": true,
+    "custom": false,
     "color": "#000000",
     "selectedColor": "#FECB58",
-    "backgroundColor": "#fff",
+    "backgroundColor": "#f8f8f8",
     "list": [{
       "pagePath": "pages/home/index",
       "text": "",
-      iconPath: './assets/icon/home_fill.svg',
-      selectedIconPath: './assets/icon/home_fill_active.svg',
+      iconPath: './assets/icon/home_fill.png',
+      selectedIconPath: './assets/icon/home_fill_active.png',
     }, {
       "pagePath": "pages/subtract/index",
       text: '',
-      iconPath: './assets/icon/subtract_fill.svg',
-      selectedIconPath: './assets/icon/subtract_fill_active.svg',
+      iconPath: './assets/icon/subtract_fill.png',
+      selectedIconPath: './assets/icon/subtract_fill_active.png',
     }, {
       "pagePath": "pages/release/index",
       text: '',
-      iconPath: './assets/icon/release_fill.svg',
-      selectedIconPath: './assets/icon/release_fill_active.svg',
+      iconPath: './assets/icon/release_fill.png',
+      selectedIconPath: './assets/icon/release_fill_active.png',
     }, {
       "pagePath": "pages/message/index",
       text: '',
-      iconPath: './assets/icon/message_fill.svg',
-      selectedIconPath: './assets/icon/message_fill_active.svg',
+      iconPath: './assets/icon/message_fill.png',
+      selectedIconPath: './assets/icon/message_fill_active.png',
     }, {
       "pagePath": "pages/userinfo/index",
       text: '',
-      iconPath: './assets/icon/user_fill.svg',
-      selectedIconPath: './assets/icon/user_fill_active.svg',
+      iconPath: './assets/icon/user_fill.png',
+      selectedIconPath: './assets/icon/user_fill_active.png',
     },
     ]
   },
@@ -49,6 +49,7 @@ export default defineAppConfig({
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',
     navigationBarTitleText: 'WeChat',
-    navigationBarTextStyle: 'black'
+    navigationBarTextStyle: 'black',
+
   }
 })
