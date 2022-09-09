@@ -9,6 +9,7 @@ import models from "./models";
 
 import './app.less'
 // 需要通过less变量/var()更改主题，引用它
+import 'taro-ui/dist/style/index.scss'
 import '@antmjs/vantui/lib/index.less'
 import Taro from "@tarojs/taro";
 

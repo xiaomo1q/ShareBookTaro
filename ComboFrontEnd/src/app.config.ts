@@ -1,10 +1,10 @@
 export default defineAppConfig({
   pages: [
-    'pages/userinfo/index',
     'pages/home/index',
     'pages/subtract/index',
     'pages/release/index',
     'pages/message/index',
+    'pages/userinfo/index',
   ],
   // subpackages: [
   //   {

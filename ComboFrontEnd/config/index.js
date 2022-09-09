@@ -14,9 +14,9 @@ const config = {
     date: '2022-7-12',
     designWidth: 375,
     deviceRatio: {
-        375: 2 / 1,
+        375: 1 / 2,
         640: 2.34 / 2,
-        750: 1,
+        750: 1 / 2,
         828: 1.81 / 2
     },
     env: {
@@ -59,7 +59,7 @@ const config = {
         optimizeMainPackage: {
             enable: true
         },
-        esnextModules: [/@antmjs[\\/]vantui/],
+        esnextModules: [/@antmjs[\\/]vantui/, 'taro-ui'],
         postcss: {
             pxtransform: {
                 enable: true,
@@ -105,7 +105,8 @@ const config = {
             hot: true
         },
         staticDirectory: 'static',
-        esnextModules: [/@antmjs[\\/]vantui/],
+        // esnextModules: ['taro-ui', /@antmjs[\\/]vantui/],
+        esnextModules: ['taro-ui'],
         postcss: {
             autoprefixer: {
                 enable: true,
@@ -117,12 +118,20 @@ const config = {
                     namingPattern: 'module', // 转换模式，取值为 global/module
                     generateScopedName: '[name]__[local]___[hash:base64:5]'
                 }
-            }
+            },
+            "postcss-px-scale": {
+                "enable": true,
+                "config": {
+                    "scale": 0.5, //缩放为1/2
+                    "units": "rem",
+                    "includes": ["taro-ui"]
+                }
+            },
         }
     }
 }
 
-module.exports = function(merge) {
+module.exports = function (merge) {
     if (process.env.NODE_ENV === 'development') {
         return merge({}, config, require('./dev'))
     }
