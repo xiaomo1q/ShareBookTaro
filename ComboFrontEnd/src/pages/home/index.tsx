@@ -15,7 +15,7 @@ const book_type = [
 const RenderTabPanel = ({ data }) => {
   console.log(data, '.............data');
 
-  return (<View className={`flex-col ${styles['home-tab-panel']}`}>
+  return (<View className={`flex-col ${styles['home-tab-panel']}`} onClick={() => { Taro.redirectTo({ url: "/pages/book-detail/index" }) }}>
     {
       data && data.length > 0 ? data.map((item, index) =>
         <View className={`flex-col  ${styles['section_5']} ${styles['view']}`} key={index}>
@@ -85,7 +85,7 @@ const HomeView = () => {
         </Swiper>
       </View>
       <View className={`flex-col ${styles['home-tab-list']}`}>
-        <AtTabs  scroll current={tabActive} tabList={bookType} onClick={(value) => setTabActive(value)}>
+        <AtTabs scroll current={tabActive} tabList={bookType} onClick={(value) => setTabActive(value)}>
           {
             bookType && bookType.length > 0 && bookType.map((it, ix) =>
               <AtTabsPane current={ix} key={ix} index={ix}  >
