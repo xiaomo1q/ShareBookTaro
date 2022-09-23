@@ -4,6 +4,23 @@ const Controller = require('egg').Controller;
 const svgCaptcha = require('svg-captcha');
 
 class IndexController extends Controller {
+  // async index() {
+  //   const ctx = this.ctx
+  //   const authorization = ctx.get('Authorization');
+  //   if (authorization === '') { // 判断请求头有没有携带 token ,没有直接返回 401
+  //     ctx.throw(401, 'no token detected in http header "Authorization"');
+  //   }
+  //   const token = authorization.split(' ')[1];
+  //   // console.log(token)
+  //   let tokenContent;
+  //   try {
+  //     tokenContent = await jwt.verify(token, 'shenzhouhaotian');     //如果 token 过期或验证失败，将返回401
+  //     console.log(tokenContent)
+  //     ctx.body = tokenContent     // token有效，返回 userInfo ;同理，其它接口在这里处理对应逻辑并返回
+  //   } catch (err) {
+  //     ctx.throw(401, 'invalid token');
+  //   }
+  // }
   /** 注册 */
   * registered() {
     const params = yield this.ctx.request.body;

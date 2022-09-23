@@ -6,6 +6,8 @@
 module.exports = app => {
     const { router, controller, jwt, io } = app;
     router.get('/', controller.home.index);
+    router.get('/api/get_exchange_square_list', controller.exchangeSquare.get_exchange_square_list);
+    router.post('/api/add_exchange_square_detail', controller.exchangeSquare.add_exchange_square_detail);
     // router.post('/api/registered', controller.user.registered); // 注册
     // router.post('/api/login', controller.user.login); // 登录并生成Token
     // router.get('/api/captcha', controller.user.captcha); // 登录并生成Token
