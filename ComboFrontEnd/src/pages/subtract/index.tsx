@@ -39,7 +39,7 @@ const SubtractIndex = () => {
       <View className={`flex-col ${styles['si-list']}`}>
         {data.list.map((item, i) => (
           <View className={`flex-col ${styles['space-y-9']} ${styles['list-item']}`} key={i}
-            onClick={() => { Taro.redirectTo({ url: 'pages/subtract/only-detail/index' }) }}
+            onClick={() => { Taro.redirectTo({ url: '/pages/subtract/only-detail/index' }) }}
           >
             <View className={`flex-row ${styles['space-x-14']}`}>
               <Image src={item.avatar} className={`${styles['image']}`} />

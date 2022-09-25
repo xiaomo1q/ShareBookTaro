@@ -5,9 +5,12 @@
  */
 module.exports = app => {
     const { router, controller, jwt, io } = app;
-    router.get('/', controller.home.index);
+    router.get('/api/add_book', controller.book.add_book); // 添加图书信息
+    router.get('/api/get_book_type', controller.book.get_book_type); // 获取图书类型
+    router.get('/api/get_book_list', controller.book.get_book_list); // 获取图书列表
+    router.get('/api/get_only_book_detail', controller.book.get_only_book_detail); // 获取图书详情
     // router.post('/api/registered', controller.user.registered); // 注册
-    // router.post('/api/login', controller.user.login); // 登录并生成Token
+    router.post('/api/login', controller.user.login); // 登录并生成Token
     // router.get('/api/captcha', controller.user.captcha); // 登录并生成Token
 
     // 使用egg-jwt中间件来授权，授权成功才会执行下一个中间件

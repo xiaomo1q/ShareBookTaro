@@ -14,13 +14,13 @@ const config = {
     date: '2022-7-12',
     designWidth: 375,
     deviceRatio: {
-        375: 1 / 2,
-        640: 2.34 / 2,
-        750: 1 / 2,
-        828: 1.81 / 2
+        '640': 2.34 / 2,
+        '750': 1,
+        '828': 1.81 / 2,
+        '375': 2 / 1
     },
     env: {
-        URL: '"https://xxxx/health"'
+        URL: '"https://images-1300238189.cos.ap-shanghai.myqcloud.com/"'
     },
     sourceRoot: 'src',
     outputRoot: 'dist',
@@ -55,16 +55,25 @@ const config = {
         '@/assets': path.resolve(__dirname, '..', 'src/assets'),
     },
     mini: {
-        // plugins: ['taro-plugin-compiler-optimization'],
+        plugins: ['taro-plugin-compiler-optimization'],
         optimizeMainPackage: {
             enable: true
         },
-        esnextModules: [/@antmjs[\\/]vantui/, 'taro-ui'],
+        // esnextModules: [/@antmjs[\\/]vantui/, 'taro-ui'],
+        // esnextModules: ['taro-ui'],
         postcss: {
             pxtransform: {
                 enable: true,
                 config: {
                     selectorBlackList: [/van-/]
+                }
+            },
+            "postcss-px-scale": {
+                "enable": true,
+                "config": {
+                    "scale": 0.5, //缩放为1/2
+                    "units": "rpx",
+                    "includes": ["taro-ui"]
                 }
             },
             url: {
@@ -131,7 +140,7 @@ const config = {
     }
 }
 
-module.exports = function (merge) {
+module.exports = function(merge) {
     if (process.env.NODE_ENV === 'development') {
         return merge({}, config, require('./dev'))
     }

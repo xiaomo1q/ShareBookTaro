@@ -1,8 +1,8 @@
 /* eslint-disable import/first */
 import React, { Component, useEffect } from "react";
 import { Provider } from "react-redux";
-import { persistStore } from 'redux-persist';
-import { PersistGate } from 'redux-persist/integration/react';
+// import { persistStore } from 'redux-persist';
+// import { PersistGate } from 'redux-persist/integration/react';
 import dva from "@/utils/dva";
 import models from "./models";
 // eslint-disable-next-line import/first
@@ -31,9 +31,9 @@ const App = (props) => {
   useEffect(() => {
   }, [])
   return <Provider store={store}>
-    <PersistGate loading={null} persistor={persistStore(store)}>
+    {/* <PersistGate loading={null} persistor={persistStore(store)}> */}
       {props.children}
-    </PersistGate>
+    {/* </PersistGate> */}
   </Provider>;
 }
 export default App;

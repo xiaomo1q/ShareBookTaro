@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Taro from '@tarojs/taro';
 import { View, Text, Image, Swiper, SwiperItem } from '@tarojs/components';
 import {
@@ -6,6 +6,7 @@ import {
   MiniLoginButton,
 } from '@antmjs/vantui'
 import WXBizDataCrypt from '@/utils/WXBizDataCrypt'
+import { _login } from '@/service/index'
 import styles from './index.module.less';
 
 /**  个人中心 */
@@ -30,32 +31,20 @@ const RenderUserInfoView = () => {
     </View>
     <View className={`${styles['grid']}`}>
       <View className={`flex-col items-center ${styles['grid-item']}`}>
-        <Image
-          src='https://codefun-proj-user-res-1256085488.cos.ap-guangzhou.myqcloud.com/6205f5225a7e3f0310991140/62f22336fb1d5f00118595e3//16612482264715012657.png'
-          className={`${styles['image']}`}
-        />
+        <Image src={process.env.URL + 'shujia.png'} className={`${styles['image']}`} />
         <Text className={`${styles['text_8']}`}>拥有的书</Text>
       </View>
-      <View className={`flex-col items-center ${styles['grid-item_1']}`}>
-        <Image
-          src='https://codefun-proj-user-res-1256085488.cos.ap-guangzhou.myqcloud.com/6205f5225a7e3f0310991140/62f22336fb1d5f00118595e3//16612482264759926250.png'
-          className={`${styles['image']}`}
-        />
-        <Text className={`${styles['text_9']}`}>想换的书</Text>
+      <View className={`flex-col items-center ${styles['grid-item']}`}>
+        <Image src={process.env.URL + 'tubiaozhi.png'} className={`${styles['image']}`} />
+        <Text className={`${styles['text_8']}`}>想换的书</Text>
       </View>
-      <View className={`flex-col items-center ${styles['grid-item_2']}`}>
-        <Image
-          src='https://codefun-proj-user-res-1256085488.cos.ap-guangzhou.myqcloud.com/6205f5225a7e3f0310991140/62f22336fb1d5f00118595e3//16612482264782972460.png'
-          className={`${styles['image']}`}
-        />
-        <Text className={`${styles['text_10']}`}>成功匹配</Text>
+      <View className={`flex-col items-center ${styles['grid-item']}`}>
+        <Image src={process.env.URL + 'wenjian.png'} className={`${styles['image']}`} />
+        <Text className={`${styles['text_8']}`}>成功匹配</Text>
       </View>
-      <View className={`flex-col items-center ${styles['grid-item_3']}`}>
-        <Image
-          src='https://codefun-proj-user-res-1256085488.cos.ap-guangzhou.myqcloud.com/6205f5225a7e3f0310991140/62f22336fb1d5f00118595e3//16612482264791444776.png'
-          className={`${styles['image']}`}
-        />
-        <Text className={`${styles['text_11']}`}>交换记录</Text>
+      <View className={`flex-col items-center ${styles['grid-item']}`}>
+      <Image src={process.env.URL + 'wenjianjia.png'} className={`${styles['image']}`} />
+        <Text className={`${styles['text_8']}`}>交换记录</Text>
       </View>
     </View>
   </View>
@@ -64,36 +53,43 @@ const RenderUserInfoView = () => {
 const LoginUser = () => {
   const [isLogin, setIsLogin] = useState(false);
 
-
+  useEffect(() => {
+    Taro.checkSession({
+      success() {
+        //session_key 未过期，并且在本生命周期一直有效
+        console.log('session_key 未过期，并且在本生命周期一直有效');
+        setIsLogin(true)
+      },
+      fail() {
+        console.log('session_key 已经失效，需要重新执行登录流程');
+        setIsLogin(false)
+      }
+    })
+  }, [])
   const loginClickedHandler = (e) => {
-    console.log(e, 'phone');
     Taro.login({
       success(res) {
         console.log('code: ', res,);
         // var userinfo = wx.getStorageSync('userInfo');
         if (res.errMsg === 'login:ok') {
-          Taro.request({
-            url: 'http://101.34.135.102:8080/account/wx/sessionKey/',
-            method: 'GET',
-            data: {
-              code: res.code,
-            },
-            header: { 'content-type': 'application/json' },
-            success: function (ress) {
-              console.log(ress, '.....可以更新');
-              if (ress.data.code === 2000) {
-                const appId = 'wx7e774715f8b2f0c0'
-                var pc = new WXBizDataCrypt(appId, ress.data.data.sessionKey)
-                var data = pc.decryptData(e.detail.encryptedData, e.detail.iv)
+          _login({ code: res.code }).then((result) => {
+            Taro.getUserInfo({
+              success: (req) => {
+                // 保存用户信息微信登录
+                Taro.setStorageSync('userInfo', req.userInfo)
+                console.log(req.userInfo, '.....');
+                const pc = new WXBizDataCrypt(result.appid, result.session_key)
+                const data = pc.decryptData(e.detail.encryptedData, e.detail.iv)
                 console.log('解密后 data: ', data)
-                // 用户已经进入新的版本，可以更新本地数据
-                // wx.setStorageSync('versions', '1');
-                // wx.navigateTo({
-                //   url: '/pages/index/index',
-                // })
               }
-            }
-          });
+            })
+
+            // 用户已经进入新的版本，可以更新本地数据
+            // wx.setStorageSync('versions', '1');
+            // wx.navigateTo({
+            //   url: '/pages/index/index',
+            // })
+          })
         }
 
       }
@@ -103,39 +99,38 @@ const LoginUser = () => {
   const getUserInfoClickedHandler = (res) => {
     if (res.detail.userInfo) { // 返回的信息中包含用户信息则证明用户允许获取信息授权
       console.log('授权成功')
-      // 保存用户信息微信登录
-      Taro.setStorageSync('userInfo', res.detail.userInfo)
-      setIsLogin(true)
+
+      // setIsLogin(true)
       // setLoading(!loading)
       Taro.login()
         .then(resLogin => {
           // 发送 res.code 到后台换取 openId, sessionKey, unionId
           if (resLogin.code) {
-            Taro.getUserInfo({
-              success: function (res) {
-              }
-            })
-            // 登录
-            // _login({ ...res.detail, code: resLogin.code }, (result) => {
-            //   if (result.data.status === 200) {
-            //     // 设置 token
-            //     Taro.setStorageSync('token', result.data.data.token)
-            //     // 登录成功返回首页并刷新首页数据
-            //     Taro.switchTab({ url: '/pages/index/index' })
-            //   } else {
-            //     Taro.showToast({
-            //       title: '登录失败，请稍后重试',
-            //       icon: 'none',
-            //       mask: true
-            //     })
+            // Taro.getUserInfo({
+            //   success: function (res) {
             //   }
-            // }, () => {
-            //   Taro.showToast({
-            //     title: '登录失败，请稍后重试',
-            //     icon: 'none',
-            //     mask: true
-            //   })
             // })
+            // 登录
+            _login({ ...res, code: resLogin.code }).then((result) => {
+              // if (result.data.status === 200) {
+              //   // 设置 token
+              //   Taro.setStorageSync('token', result.data.data.token)
+              //   // 登录成功返回首页并刷新首页数据
+              //   Taro.switchTab({ url: '/pages/index/index' })
+              // } else {
+              //   Taro.showToast({
+              //     title: '登录失败，请稍后重试',
+              //     icon: 'none',
+              //     mask: true
+              //   })
+              // }
+            }).catch(() => {
+              Taro.showToast({
+                title: '登录失败，请稍后重试',
+                icon: 'none',
+                mask: true
+              })
+            })
           }
           // setLoading(false)
         })
@@ -174,13 +169,13 @@ const LoginUser = () => {
       <Text className={`${styles['text_1']}`}>Free Books to Get More Knowledgeg</Text>
 
       <View className='flex-col items-center'>
-        <Button className={`${styles['button']}`} openType='getUserInfo' onGetUserInfo={getUserInfoClickedHandler} >微信一键登录  </Button>
-        {/* <Button
+        {/* <Button className={`${styles['button']}`} openType='getUserInfo' onGetUserInfo={getUserInfoClickedHandler} >微信一键登录  </Button> */}
+        <Button
           className={`${styles['button']}`}
           openType='getPhoneNumber'
           onGetPhoneNumber={loginClickedHandler}
           id='phoneNumber'
-        >手机号登录</Button> */}
+        >手机号登录</Button>
       </View>
 
     </View>);
