@@ -9,6 +9,9 @@ module.exports = app => {
     router.get('/api/get_book_type', controller.book.get_book_type); // 获取图书类型
     router.get('/api/get_book_list', controller.book.get_book_list); // 获取图书列表
     router.get('/api/get_only_book_detail', controller.book.get_only_book_detail); // 获取图书详情
+    router.get('/', controller.home.index);
+    router.get('/api/get_exchange_square_list', controller.exchangeSquare.get_exchange_square_list);
+    router.post('/api/add_exchange_square_detail', controller.exchangeSquare.add_exchange_square_detail);
     // router.post('/api/registered', controller.user.registered); // 注册
     router.post('/api/login', controller.user.login); // 登录并生成Token
     // router.get('/api/captcha', controller.user.captcha); // 登录并生成Token
