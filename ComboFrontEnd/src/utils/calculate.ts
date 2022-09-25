@@ -1,3 +1,5 @@
+import Taro from "@tarojs/taro";
+
 // 更改日期格式
 export const Formatter = (value) => {
   const date = new Date(value);
@@ -125,4 +127,18 @@ export const range = (params: string | number, data1?: any[], data2?: any[], dat
     currentMin = 0;
   }
   return [currentMin, currentMax];
+};
+
+// 转base64
+export const fileToBase64 = (filePath) => {
+  return new Promise((resolve) => {
+    let fileManager = Taro.getFileSystemManager();
+    fileManager.readFile({
+      filePath,
+      encoding: 'base64',
+      success: (e: any) => {
+        resolve(`data:image/jpg;base64,${e.data}`);
+      }
+    });
+  });
 };

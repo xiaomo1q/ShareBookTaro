@@ -66,7 +66,7 @@ const interceptor = (chain: {
 
   requestParams.header = {
     ...requestParams.header,
-    Authorization: "Bearer " + token, //将token添加到头部
+    Authorization: token, //将token添加到头部
   };
 
   return chain
@@ -82,7 +82,7 @@ const interceptor = (chain: {
         case 401:
           throttle("", () => {
             // 跳转登录页
-            Taro.navigateTo({ url: "/pages/index" }).then(() => {
+            Taro.redirectTo({ url: "/pages/userinfo/login" }).then(() => {
               setTimeout(() => {
                 Taro.atMessage({
                   message: "认证失效，请重新登录",

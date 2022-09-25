@@ -4,17 +4,22 @@
  * @param {Egg.Application} app - egg application
  */
 module.exports = app => {
-    const { router, controller, jwt, io } = app;
-    router.get('/api/add_book', controller.book.add_book); // 添加图书信息
-    router.get('/api/get_book_type', controller.book.get_book_type); // 获取图书类型
-    router.get('/api/get_book_list', controller.book.get_book_list); // 获取图书列表
-    router.get('/api/get_only_book_detail', controller.book.get_only_book_detail); // 获取图书详情
-    router.get('/', controller.home.index);
-    router.get('/api/get_exchange_square_list', controller.exchangeSquare.get_exchange_square_list);
-    router.post('/api/add_exchange_square_detail', controller.exchangeSquare.add_exchange_square_detail);
+    const { router, controller, middleware, io } = app;
+    // 引入
+    const jwt = middleware.jwt(app.config.jwt);
+    // router.get('/', controller.home.index);
     // router.post('/api/registered', controller.user.registered); // 注册
-    router.post('/api/login', controller.user.login); // 登录并生成Token
-    // router.get('/api/captcha', controller.user.captcha); // 登录并生成Token
+    router.post('/api/login_code', controller.user.login_code); // 获取openid
+    router.post('/api/login_user', controller.user.login_user); // 登录并生成Token
+    router.post('/api/get_userInfo', controller.user.get_userInfo); // 登录并生成Token
+
+    router.get('/api/add_book', jwt, controller.book.add_book); // 添加图书信息
+    router.get('/api/get_book_type', jwt, controller.book.get_book_type); // 获取图书类型
+    router.get('/api/get_book_list', jwt, controller.book.get_book_list); // 获取图书列表
+    router.get('/api/get_only_book_detail', jwt, controller.book.get_only_book_detail); // 获取图书详情
+
+    router.get('/api/get_exchange_square_list', jwt, controller.exchangeSquare.get_exchange_square_list); // 书圈广场
+    router.post('/api/add_exchange_square_detail', jwt, controller.exchangeSquare.add_exchange_square_detail); // 填写书评
 
     // 使用egg-jwt中间件来授权，授权成功才会执行下一个中间件
     //   router.resources('routerName', 'pathMatch', controller.class);

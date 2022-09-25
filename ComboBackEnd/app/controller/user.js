@@ -10,8 +10,8 @@ class IndexController extends Controller {
         await this.ctx.service.user.registered(params);
     }
 
-    /** 登录 */
-    async login() {
+    /** 登录 获取code */
+    async login_code() {
         const { ctx, app } = this;
         const { code } = await ctx.request.body;
         // ctx.body= app.mysql.insert('users', {  name: 'Jack',  age: 18 })
@@ -28,6 +28,24 @@ class IndexController extends Controller {
             dataType: 'json',
         })
         this.ctx.body = {...data, appid: 'wx36fabba98a5d8b62' };
+    }
+
+    /** 添加用户 */
+    async login_user() {
+        const { ctx, app } = this;
+        const params = await ctx.request.body;
+        ctx.body = await this.ctx.service.user.login(params);
+    }
+
+    /** 用户信息 */
+    async get_userInfo() {
+        const { ctx, app } = this;
+        // 1. 获取请求头 authorization 属性，值为 token
+        const token = ctx.request.header.authorization;
+        // 2. 用 app.jwt.verify(token， app.config.jwt.secret)，解析出 token 的值
+        const decoded = ctx.app.jwt.verify(token, ctx.app.config.jwt.secret);
+        const corr = await app.mysql.get('userinfo', { openid: decoded.openid });
+        ctx.body = corr
     }
 
     // 登出

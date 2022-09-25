@@ -4,7 +4,9 @@ import { InterfacePath } from "./interfacePath";
 /**
  * 获取 token
  */
- export const _login = (data) => POSTRequest(InterfacePath.login,{data});
+ export const _loginCode = (data) => POSTRequest(InterfacePath.login_code,{data});
+ export const _loginUserInfo = (data) => POSTRequest(InterfacePath.login_user,{data});
+ export const Get_userInfo = (data) => POSTRequest(InterfacePath.get_userInfo,{data});
 /**
  * 图书
  * @param data 

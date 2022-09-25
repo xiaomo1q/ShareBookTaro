@@ -63,10 +63,14 @@ module.exports = appInfo => {
     config.cluster = {
         listen: {
             path: '',
-            port: 3000,
+            port: 8080,
             // hostname: '172.30.176.1',
         },
     };
+    config.jwt = {
+        secret: '123456',
+    }
+
     // // Gzip 压缩阈值
     // config.compress = {
     //   threshold: 1000
@@ -74,14 +78,24 @@ module.exports = appInfo => {
     config.mysql = {
         // 单数据库信息配置
         client: {
+            // // host
+            // host: 'localhost',
+            // // 端口号
+            // port: '3306',
+            // // 用户名
+            // user: 'root',
+            // // 密码
+            // password: '123456',
+            // // 数据库名
+            // database: 'book',
             // host
-            host: 'localhost',
+            host: 'sh-cynosdbmysql-grp-li753bps.sql.tencentcdb.com',
             // 端口号
-            port: '3306',
+            port: '21802',
             // 用户名
             user: 'root',
             // 密码
-            password: '123456',
+            password: 'Book_1234',
             // 数据库名
             database: 'book',
         },

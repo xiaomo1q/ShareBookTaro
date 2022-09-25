@@ -1,6 +1,7 @@
 .subtract-index{
   width: 100%;
   height: 100%;
+  position: relative;
   .si-head{
     font-size: 16px;
     font-family: PingFang SC-Regular;
@@ -81,6 +82,19 @@
       font-size: 12px;
       font-family: PingFang SC-Regular;
       line-height: 9px;
+    }
+  }
+  .fixed-saqure{
+    position: fixed;
+    width: 80px;
+    height: 80px;
+    bottom: 30px;
+    right: 15px;
+    :global{
+      .at-avatar{
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 }
