@@ -35,7 +35,7 @@ const HomeView: React.FC<any> = ({ loading }) => {
           <View className={`${styles['section_1']}`}></View>
         </View> */}
         <View className={`justify-between ${styles['search']}`}>
-          <View className={`flex-row ${styles['group_4']}`} onClick={() => { Taro.redirectTo({ url: "/pages/search/index" }) }}>
+          <View className={`flex-row ${styles['group_4']}`} onClick={() => { Taro.redirectTo({ url: "/pages/search/index?title=搜索" }) }}>
             <Image
               src={process.env.URL + 'icon/search.png'}
               className={`${styles['image_4']}`}

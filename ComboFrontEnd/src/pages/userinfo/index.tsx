@@ -23,10 +23,10 @@ const UserInfoIndex: React.FC<any> = ({ loading }) => {
     <View className={`flex-col ${styles['group']}`}>
       <View className={`flex-col ${styles['section_1']}`}>
         <Text className={`${styles['text']}`}>{userInfo?.nickName}</Text>
-        <Text className={`${styles['text_1']}`}>{userInfo?.desc||''}</Text>
+        <Text className={`${styles['text_1']}`}>{userInfo?.desc || ''}</Text>
         <View className={`flex-row ${styles['equal-division']}`}>
           <View className={`flex-col items-center ${styles['equal-division-item']}`}>
-            <Text className={`${styles['text_2']}`}>{userInfo?.upp_num|| 0}</Text>
+            <Text className={`${styles['text_2']}`}>{userInfo?.upp_num || 0}</Text>
             <Text className={`${styles['text_4']}`}>我的关注</Text>
           </View>
           <View className={`flex-col items-center ${styles['equal-division-item']}`}>
@@ -46,7 +46,7 @@ const UserInfoIndex: React.FC<any> = ({ loading }) => {
       </View>
       <View className={`flex-col items-center ${styles['grid-item']}`}>
         <Image src={process.env.URL + 'tubiaozhi.png'} className={`${styles['image']}`} />
-        <Text className={`${styles['text_8']}`} onClick={()=>{}}>收藏</Text>
+        <Text className={`${styles['text_8']}`} onClick={() => { Taro.redirectTo({ url: "/pages/search/index?title=收藏" }) }}>收藏</Text>
       </View>
       <View className={`flex-col items-center ${styles['grid-item']}`}>
         <Image src={process.env.URL + 'wenjian.png'} className={`${styles['image']}`} />
