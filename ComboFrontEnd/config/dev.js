@@ -1,7 +1,7 @@
 module.exports = {
     env: {
         NODE_ENV: '"development"',
-        baseUrl: '"http://127.0.0.1:8080"',
+        baseUrl: '"http://127.0.0.1:3000"',
     },
     defineConstants: {},
     mini: {},
@@ -9,7 +9,7 @@ module.exports = {
         devServer: {
             proxy: [{
                     context: ["/api"],
-                    target: "http://127.0.0.1:8080", //域名
+                    target: "http://127.0.0.1:3000", //域名
                     pathRewrite: {
                         "^/api": "/api",
                     },

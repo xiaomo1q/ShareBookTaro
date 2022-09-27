@@ -13,10 +13,12 @@ module.exports = app => {
     router.post('/api/login_user', controller.user.login_user); // 登录并生成Token
     router.post('/api/get_userInfo', controller.user.get_userInfo); // 登录并生成Token
 
-    router.get('/api/add_book', jwt, controller.book.add_book); // 添加图书信息
-    router.get('/api/get_book_type', jwt, controller.book.get_book_type); // 获取图书类型
-    router.get('/api/get_book_list', jwt, controller.book.get_book_list); // 获取图书列表
-    router.get('/api/get_only_book_detail', jwt, controller.book.get_only_book_detail); // 获取图书详情
+    // router.get('/api/add_book', jwt, controller.book.add_book); // 添加图书信息
+    router.get('/api/get_book_type', controller.book.get_book_type); // 获取图书类型
+    router.get('/api/get_book_list', controller.book.get_book_list); // 获取图书列表
+    router.get('/api/get_only_book_detail', controller.book.get_only_book_detail); // 获取图书详情
+    router.get('/api/get_favorite_book_list', controller.book.get_favorite_book_list);
+    router.get('/api/add_favorite_book', controller.book.add_favorite_book);
 
     router.get('/api/get_exchange_square_list', jwt, controller.exchangeSquare.get_exchange_square_list); // 书圈广场
     router.post('/api/add_exchange_square_detail', jwt, controller.exchangeSquare.add_exchange_square_detail); // 填写书评

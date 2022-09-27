@@ -10,5 +10,8 @@ export const InterfacePath = {
   get_book_type: API_PATH + "/get_book_type",
   add_book_list: API_PATH + "/add_book_list",
   get_book_list: API_PATH + "/get_book_list",
+  search_book_list: API_PATH + "/search_book_list",
   get_only_book_detail: API_PATH + "/get_only_book_detail",
+  get_favorite_book_list: API_PATH + "/get_favorite_book_list",
+  add_favorite_book: API_PATH + "/add_favorite_book",
 };

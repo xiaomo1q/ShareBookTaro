@@ -45,7 +45,7 @@ class IndexController extends Controller {
         // 2. 用 app.jwt.verify(token， app.config.jwt.secret)，解析出 token 的值
         const decoded = ctx.app.jwt.verify(token, ctx.app.config.jwt.secret);
         const corr = await app.mysql.get('userinfo', { openid: decoded.openid });
-        ctx.body = corr
+        ctx.body = corr;
     }
 
     // 登出

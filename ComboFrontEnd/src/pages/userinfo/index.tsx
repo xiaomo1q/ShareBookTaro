@@ -46,7 +46,7 @@ const UserInfoIndex: React.FC<any> = ({ loading }) => {
       </View>
       <View className={`flex-col items-center ${styles['grid-item']}`}>
         <Image src={process.env.URL + 'tubiaozhi.png'} className={`${styles['image']}`} />
-        <Text className={`${styles['text_8']}`}>想换的书</Text>
+        <Text className={`${styles['text_8']}`} onClick={()=>{}}>收藏</Text>
       </View>
       <View className={`flex-col items-center ${styles['grid-item']}`}>
         <Image src={process.env.URL + 'wenjian.png'} className={`${styles['image']}`} />

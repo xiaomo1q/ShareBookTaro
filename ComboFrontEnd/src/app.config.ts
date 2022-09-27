@@ -9,6 +9,7 @@ export default defineAppConfig({
     'pages/message/index',
     'pages/userinfo/index',
     'pages/userinfo/login',
+    'pages/search/index',
   ],
   // subpackages: [
   //   {

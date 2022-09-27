@@ -2,6 +2,8 @@ import { View, Image, Text } from '@tarojs/components';
 import { useRouter } from '@tarojs/taro';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Add_favorite_book } from '@/service/index'
+import { AtIcon } from 'taro-ui'
 import styles from './index.module.less'
 
 const BookDetailView: React.FC = () => {
@@ -11,6 +13,12 @@ const BookDetailView: React.FC = () => {
   useEffect(() => {
     params.isbn && dispatch({ type: "book_model/getOnlyBookDetail", payload: { isbn: params.isbn } })
   }, [])
+  /** 收藏 */
+  const favoriteClickedHandler = async () => {
+    await Add_favorite_book({ isbn: params.isbn, state: only_book_detail.favorite_state }).then(()=>{
+      dispatch({ type: "book_model/getOnlyBookDetail", payload: { isbn: params.isbn } })
+    })
+  }
   return (
     <View className={`flex-col ${styles['book-detail']}`}>
       <View className={styles['bd-box']}>
@@ -62,12 +70,17 @@ const BookDetailView: React.FC = () => {
             />
             <Text className={`${styles['text_10']}`}>发消息</Text>
           </View>
-          <View className={`flex-row ${styles['equal-division-item']} ${styles['group_10']}`}>
-            <Image
+          <View className={`flex-row ${styles['equal-division-item']} ${styles['group_10']}`}
+            onClick={favoriteClickedHandler}
+          >
+            {/* <Image
               src='https://codefun-proj-user-res-1256085488.cos.ap-guangzhou.myqcloud.com/6205f5225a7e3f0310991140/62f22336fb1d5f00118595e3//16612651388207123771.png'
               className={`${styles['image_3']}`}
-            />
-            <Text className={`${styles['text_10']}`}>收藏</Text>
+            /> */}
+            {
+              only_book_detail?.favorite_state ? <AtIcon value='heart-2' size='20' color='#ff0000'></AtIcon> : <AtIcon value='heart' size='20' color='#000'></AtIcon>
+            }
+            <Text className={`${styles['text_10']}`}>{only_book_detail?.favorite_num}</Text>
           </View>
         </View>
         <View className={`flex-col items-center ${styles['text-wrapper']}`}>
