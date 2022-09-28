@@ -1,8 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Taro from '@tarojs/taro';
 import { View, Text } from '@tarojs/components'
-import { AtForm, AtInput, AtButton, AtImagePicker } from 'taro-ui'
+import { AtForm, AtTextarea, AtButton, AtImagePicker, AtListItem } from 'taro-ui'
 import { fileToBase64 } from '@/utils/calculate'
 import styles from './index.module.less'
 
@@ -12,68 +13,96 @@ import styles from './index.module.less'
  */
 const Index = () => {
   const [formValue, setFormValue] = useState({
-    book_content: "", book_url: "", book_id: []
+    book_content: "", book_url: [], book_name: '', book_img: '',
   });
-  const [upload_img, setUpload_img] = useState([{
-    url: 'https://jimczj.gitee.io/lazyrepay/aragaki1.jpeg',
-  }]);
-
-  useEffect(() => { }, []);
+  const [upload_img, setUpload_img] = useState([]);
+  const dispatch = useDispatch()
+  const { connect_book_list } = useSelector((state: any) => state.public_storage)
+  useEffect(() => {
+    if (connect_book_list && connect_book_list.length > 0) {
+      const imgUrl: any = []
+      const text: any = []
+      const bookURL: any = []
+      connect_book_list.forEach(el => {
+        imgUrl.push({ url: 'https://file.ituring.com.cn/SmallCover/' + el.coverKey })
+        text.push(el.name)
+        bookURL.push(el.coverKey)
+      });
+      setFormValue({ ...formValue, book_img: bookURL.join('[;]'), book_url: imgUrl, book_name: text.join(';') })
+    }
+  }, [connect_book_list]);
   const handleChange = (value) => {
-    console.log(value);
+    setFormValue({ ...formValue, book_content: value })
   }
   const onSubmit = (event) => {
+    console.log(event, formValue);
+    // dispatch({ type: "public_storage/connect_book_listUpdate", payload: { connect_book_list: [] } })
   }
-  const onReset = (event) => {
 
+  const ImagePickerChangedHandler = (files) => {
+    /**book_url.join([;])   book_id.join([;])  */
+    // Taro.chooseImage({
+    //   count: 1,
+    //   sizeType: ['original', 'compressed'],
+    //   sourceType: ['album', 'camera'],
+    //   success: async (res) => {
+    //     let file = await fileToBase64(res.tempFilePaths[0])
+    //     if (file) {
+    //       console.log(file, '...');
+
+    //       // 更换图像
+    //       // let uploadRes: any = await profileStore.uptdate_profile_avatar({data: file})
+    //       // if (uploadRes) {
+    //       //       // TODO
+    //       //   }
+    //     }
+    //   }
+    // })
+    // Taro.chooseImage({
+    //   success (res) {
+    //     const tempFilePaths = res.tempFilePaths
+    //     Taro.uploadFile({
+    //       url: 'https://example.weixin.qq.com/upload', //仅为示例，非真实的接口地址
+    //       filePath: tempFilePaths[0],
+    //       name: 'file',
+    //       formData: {
+    //         'user': 'test'
+    //       },
+    //       success (res){
+    //         const data = res.data
+    //         //do something
+    //       }
+    //     })
+    //   }
+    // })
   }
-
-  const UploadImg = () => {
-    Taro.chooseImage({
-      count: 1,
-      sizeType: ['original', 'compressed'],
-      sourceType: ['album', 'camera'],
-      success: async (res) => {
-        let file = await fileToBase64(res.tempFilePaths[0])
-        if (file) {
-          console.log(file, '...');
-
-          // 更换图像
-          // let uploadRes: any = await profileStore.uptdate_profile_avatar({data: file})
-          // if (uploadRes) {
-          //       // TODO
-          //   }
-        }
-      }
-    })
-  }
-  const onChange = (files) => {
-console.log(files);
-
-    // setUpload_img(files)
-  }
-  const onFail = (mes) => {
+  const ImagePickerFailHandler = (mes) => {
     console.log(mes)
-  }
-  const onImageClick = (index, file) => {
-    console.log(index, file)
   }
   return (
     <View className={`flex-col ${styles['release-index']}`}>
-      <AtForm
-        onSubmit={onSubmit}
-        onReset={onReset}
-      >
-        <View className={`flex-row ${styles['re-footer']}`}>
-          <AtButton formType='submit'>确认发布</AtButton>
+      <AtForm onSubmit={onSubmit}  >
+        <View className={`flex-row ${styles['re-header']}`}>
+          <Text className={styles['re-h-text']} onClick={() => {
+            Taro.navigateBack({ delta: -1 });
+            dispatch({ type: "public_storage/connect_book_listUpdate", payload: { connect_book_list: [] } })
+          }}
+          >取消</Text>
+          <AtButton formType='submit'>发布</AtButton>
         </View>
-        <AtInput name='book_content' title='' type='text' placeholder='说说你对某本书的观点吧～' onChange={handleChange} />
-        <AtImagePicker
-          files={upload_img}
-          onChange={onChange}
+        <AtTextarea value={`${formValue.book_content}`}
+          count={false}
+          height={400}
+          maxLength={100000}
+          placeholder='说说你对某本书的观点吧～'
+          onChange={handleChange}
+        />
+        <AtImagePicker files={formValue.book_url}
+          onChange={ImagePickerChangedHandler}
+          onFail={ImagePickerFailHandler}
         />
       </AtForm>
-
+      <AtListItem title='关联图书' note='' arrow='right' onClick={() => Taro.navigateTo({ url: "/pages/search/index?title=关联图书" })} />
     </View>
   );
 };

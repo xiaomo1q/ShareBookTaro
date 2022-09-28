@@ -1,7 +1,7 @@
+.home-tab-connect,
 .home-tab-panel {
   margin-top: 16px;
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   .section_5 {
     width: 33%;
@@ -25,10 +25,31 @@
         white-space: nowrap;
       }
     }
-
   }
   .view_3 {
     margin-right: 10px;
     margin-top: 24px;
+  }
+}
+
+.home-tab-connect{
+  flex-wrap: nowrap;
+  flex-direction: column;
+  .section_5 {
+    width: 100%;
+    margin-bottom: 10px;
+    background: #fff;
+    justify-content: space-between;
+    .group_9{
+      width: auto;
+      .text_10 {
+        margin-left: 5px;
+      }
+    }
+  }
+  :global{
+    .at-icon{
+      width: 15%;
+    }
   }
 }

@@ -5,7 +5,7 @@ import { View, Text, Image, Swiper, SwiperItem } from '@tarojs/components';
 import { AtTabs, AtTabsPane, AtActivityIndicator } from 'taro-ui'
 import book_detail from '@/assets/detail.json'
 import { Get_book_list, Get_book_type } from "@/service/index";
-import RenderBookList from '@/components/bookList';
+import {RenderBookList} from '@/components/bookList';
 import styles from './courses.module.less';
 
 

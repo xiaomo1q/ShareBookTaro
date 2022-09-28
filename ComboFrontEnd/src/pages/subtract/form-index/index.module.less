@@ -1,6 +1,7 @@
 .release-index{
   width: 100%;
   height: 100%;
+  background:@color-f-txt;
   .release-tip{
     width: 100%;
     height: 30px;
@@ -12,24 +13,33 @@
   }
   :global{
     .at-form{
-      height: calc(100% - 150px);
+      height: calc(100% - 300px);
+    }
+    .at-textarea{
+      border: 0;
     }
   }
-  .re-footer{
-    width: 100%;
-    margin-top: 50px;
+  .re-header{
+    width: 90%;
+    margin: 5px auto;
+    justify-content: space-between;
+    align-items: center;
+    .re-h-text{
+      font-size: 14px;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      color: #333;
+    }
     :global{
-      .at-button:nth-child(1){
-        width: 40%;
+      .at-button{
+        width: 20%;
+        height: 30px;
+        line-height: 30px;
         border-radius: 36px;
-        background: @color-txt;
+        border: 0;
+        font-size: 14px;
+        background:  @color-txt;
         color: @color-f-txt;
-      }
-      .at-button:nth-child(2){
-        width: 40%;
-        border-radius: 36px;
-        border: 1px solid @color-txt;
-        color: @color-txt;
+        margin: 0;
       }
     } 
   }

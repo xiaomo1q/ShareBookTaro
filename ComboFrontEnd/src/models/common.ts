@@ -1,0 +1,25 @@
+import Taro from "@tarojs/taro";
+import { Get_book_list, Get_only_book_detail, Search_book_list ,Get_favorite_book_list} from "../service/index";
+
+/**
+ * 公共状态存储
+ */
+const publicStatus = {
+  // 这是模块名
+  namespace: "public_storage",
+  // 初始化数据
+  state: {
+    connect_book_list: [], // 关联图书
+  },
+  // 这里主要调用异步方法
+  effects: { 
+  },
+  // 同步方法， 修改state值
+  reducers: {
+    connect_book_listUpdate(state, { payload }) {
+      return { ...state, ...payload };
+    },
+  },
+};
+
+export default publicStatus;
