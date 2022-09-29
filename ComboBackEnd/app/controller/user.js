@@ -20,14 +20,17 @@ class IndexController extends Controller {
             method: 'GET',
             rejectUnauthorized: false,
             data: {
-                appid: 'wx36fabba98a5d8b62', // 你的小程序的APPID
-                secret: 'bcec0057436cc42bf51dfc54d780f7aa', // 你的小程序的secret,
+                // appid: 'wx36fabba98a5d8b62', // 你的小程序的APPID
+                appid: 'wx7913d5342f688014', // 你的小程序的APPID
+                // secret: 'bcec0057436cc42bf51dfc54d780f7aa', // 你的小程序的secret,
+                secret: 'dff9b3ec011eb3c35c2f5cf6cb3bee51', // 你的小程序的secret,
                 js_code: code, // wx.login 登录成功后的code
-                grant_type: 'authorization_code'
+                grant_type: 'authorization_code',
             },
             dataType: 'json',
         })
-        this.ctx.body = {...data, appid: 'wx36fabba98a5d8b62' };
+        console.log(data, '..........data');
+        this.ctx.body = { ...data, appid: 'wx7913d5342f688014' };
     }
 
     /** 添加用户 */

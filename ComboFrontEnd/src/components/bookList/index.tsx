@@ -11,7 +11,7 @@ import styles from './index.module.less'
  * @returns 
  */
 export const RenderBookList = ({ data }) => {
-  return (<View className={`flex-col ${styles['home-tab-panel']}`}>
+  return (<View className={`flex-row ${styles['home-tab-panel']}`}>
     {
       data && data.length > 0 ? data.map((item, index) =>
         <View className={`flex-col  ${styles['section_5']} ${styles['view']}`}

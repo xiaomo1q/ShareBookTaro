@@ -1,28 +1,31 @@
 export default defineAppConfig({
   pages: [
-    
-    'pages/subtract/form-index/index',
-    'pages/subtract/index/index',
-    'pages/subtract/only-detail/index',
-
     'pages/home/index',
     'pages/home/book-detail/index',
+    'pages/subtract/index/index',
+    'pages/subtract/only-detail/index',
+    'pages/subtract/form-index/index',
     'pages/release/index',
     'pages/message/index',
-    'pages/userinfo/index',
-    'pages/userinfo/login',
     'pages/search/index',
+    'pages/userinfo/index'
   ],
-  //   subpackages: [
-  //       {
-  //         root: "subtractPages",
-  //         pages: [
-  //           "index/index",
-  //           'only-detail/index',
-  //           'form-index/index'
-  //         ],
-  //       },
-  //     ],    
+  subpackages: [
+    // {
+    //   root: "subtractPages",
+    //   pages: [
+    //     "index/index",
+    //     'only-detail/index',
+    //     'form-index/index'
+    //   ],
+    // },
+    {
+      root: "pagesA",
+      pages: [
+        'userinfo/login',
+      ],
+    },
+  ],
   "tabBar": {
     "custom": false,
     "color": "#000000",

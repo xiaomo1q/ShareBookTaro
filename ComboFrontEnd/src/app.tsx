@@ -26,7 +26,7 @@ const store = dvaApp.getStore();
 //   require('nerv-devtools')
 // }  const token = localStorage.getItem('token');
 
-
+    /* "appid": "wx36fabba98a5d8b62", */
 const App = (props) => {
   useEffect(() => {
     Taro.checkSession({
@@ -37,7 +37,7 @@ const App = (props) => {
       fail() {
         console.log('session_key 已经失效，需要重新执行登录流程');
         Taro.redirectTo({
-          url:"/pages/userinfo/login"
+          url:"/pagesA/userinfo/login"
         })
       }
     })

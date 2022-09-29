@@ -15,6 +15,7 @@ import styles from './index.module.less';
  */
 const LoginUser = () => {
   useEffect(() => {
+    Taro.hideHomeButton()
     Taro.setNavigationBarTitle({title:'登录'})
   }, [])
   const loginClickedHandler = (e) => {
@@ -75,7 +76,7 @@ const LoginUser = () => {
   }
 
   return ( <View className={`flex-col ${styles['login-page']}`}>
-      <Swiper
+      {/* <Swiper
         className={styles['swipe']}
         indicatorColor='#999'
         indicatorActiveColor='#3D5CFF'
@@ -100,7 +101,7 @@ const LoginUser = () => {
             />
           </View>
         </SwiperItem>
-      </Swiper>
+      </Swiper> */}
       <Text className={`${styles['text']}`}>Campus Books</Text>
       <Text className={`${styles['text_1']}`}>Free Books to Get More Knowledgeg</Text>
 
