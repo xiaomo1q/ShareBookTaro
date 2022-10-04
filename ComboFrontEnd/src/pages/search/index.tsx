@@ -17,8 +17,9 @@ const SearchIndex = () => {
   const [searchValue, setValue] = useState('');
   const router: any = useRouter().params
   const dispatch = useDispatch()
-  const { favorite_book_list, search_book_list, book_list } = useSelector((state: any) => state.book_model)
+  const { favorite_book_list, search_book_list, book_list,connect_book_list } = useSelector((state: any) => state.book_model)
   useEffect(() => {
+    // Taro.hideHomeButton()
     Taro.setNavigationBarTitle({ title: router.title || '' })
     fetchBookList()
   }, []);
@@ -32,6 +33,9 @@ const SearchIndex = () => {
         break;
       case '收藏':
         dispatch({ type: "book_model/getFavoriteBookList", payload: {} })
+        break;
+      case '拥有':
+        dispatch({ type: "book_model/getConnectBookList", payload: {} })
         break;
       default:
         break;
@@ -58,6 +62,18 @@ const SearchIndex = () => {
           dispatch({ type: "book_model/getFavoriteBookList", payload: {} })
         }
         break;
+      case '拥有':
+        if (value) {
+          const searchFav: any =  connect_book_list.filter(el => {
+            if (el.name.toLowerCase().indexOf(value) !== -1) {
+              return el
+            }
+          });
+          dispatch({ type: "book_model/saveUpdate", payload: { connect_book_list: searchFav } })
+        } else {
+          dispatch({ type: "book_model/getConnectBookList", payload: {} })
+        }
+        break;
 
       default:
         break;
@@ -78,7 +94,8 @@ const SearchIndex = () => {
             data={search_book_list.length > 0 ? search_book_list : book_list}
             onChange={(val) => dispatch({ type: "public_storage/connect_book_listUpdate", payload: { connect_book_list: val } })}
           />,
-          '收藏': <RenderBookList data={favorite_book_list} />
+          '收藏': <RenderBookList data={favorite_book_list} />,
+          '拥有': <RenderBookList data={connect_book_list} />,
         }[router.title]
       }
 

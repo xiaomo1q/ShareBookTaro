@@ -29,18 +29,18 @@ const store = dvaApp.getStore();
     /* "appid": "wx36fabba98a5d8b62", */
 const App = (props) => {
   useEffect(() => {
-    Taro.checkSession({
-      success() {
-        //session_key 未过期，并且在本生命周期一直有效
-        console.log('session_key 未过期，并且在本生命周期一直有效');
-      },
-      fail() {
-        console.log('session_key 已经失效，需要重新执行登录流程');
-        Taro.redirectTo({
-          url:"/pagesA/userinfo/login"
-        })
-      }
-    })
+    // Taro.checkSession({
+    //   success() {
+    //     //session_key 未过期，并且在本生命周期一直有效
+    //     console.log('session_key 未过期，并且在本生命周期一直有效');
+    //   },
+    //   fail() {
+    //     console.log('session_key 已经失效，需要重新执行登录流程');
+        // Taro.redirectTo({
+        //   url:"/pagesA/userinfo/login"
+        // })
+    //   }
+    // })
   }, [])
   return <Provider store={store}>
     {/* <PersistGate loading={null} persistor={persistStore(store)}> */}

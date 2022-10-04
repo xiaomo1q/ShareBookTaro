@@ -18,9 +18,10 @@ export const RenderBookList = ({ data }) => {
           key={index}
           onClick={() => { Taro.redirectTo({ url: "/pages/home/book-detail/index?isbn=" + item.isbn }) }}
         >
-          <Image src={`https://file.ituring.com.cn/SmallCover/${item.coverKey}`} className={`${styles['image_20']}`} />
+          {/* <Image src={`https://file.ituring.com.cn/SmallCover/${item.coverKey}`} className={`${styles['image_20']}`} /> */}
+          <Image src={item.imgUrl} className={`${styles['image_20']}`} />
           <View className={`flex-col ${styles['group_9']}`}>
-            <Text className={`${styles['text_10']}`}>{item.name}</Text>
+            <Text className={`${styles['text_10']}`}>{item.book_name}</Text>
           </View>
         </View>
       ) : <Empty />
@@ -41,7 +42,7 @@ export const RenderConnectBookList = ({ data, onChange }) => {
     Taro.hideHomeButton()
   }, [data]);
   useEffect(() => {
-    const fil = c_book.filter(el => el.active)
+    const fil = c_book.filter((el: {active:boolean}) => el.active)
     onChange(fil)
   }, [c_book]);
   return (<View className={`flex-col ${styles['home-tab-connect']}`}>
@@ -49,13 +50,14 @@ export const RenderConnectBookList = ({ data, onChange }) => {
       c_book && c_book.length > 0 ? c_book.map((item: any, index: any) =>
         <View className={`flex-row ${styles['section_5']} ${styles['view']}`}
           key={index} onClick={() => {
-            c_book.forEach((el, ix) => { if (ix === index) { el.active = !item.active } })
+            c_book.forEach((el: {active:boolean}, ix) => { if (ix === index) { el.active = !item.active } })
             setC_book([...c_book])
           }}
         >
           <View className='flex-row'>
-            <Image src={`https://file.ituring.com.cn/SmallCover/${item.coverKey}`} className={`${styles['image_20']}`} />
-            <View className={`flex-col ${styles['group_9']}`}> <Text className={`${styles['text_10']}`}>{item.name}</Text>   </View>
+            {/* <Image src={`https://file.ituring.com.cn/SmallCover/${item.coverKey}`} className={`${styles['image_20']}`} /> */}
+            <Image src={item.imgUrl} className={`${styles['image_20']}`} />
+            <View className={`flex-col ${styles['group_9']}`}> <Text className={`${styles['text_10']}`}>{item.book_name}</Text>   </View>
           </View>
           <AtIcon value='check-circle' size='30' color={item.active ? '#3D5CFF' : '#ccc'}></AtIcon>
         </View>

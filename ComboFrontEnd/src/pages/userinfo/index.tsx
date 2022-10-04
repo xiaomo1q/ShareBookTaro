@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Taro from '@tarojs/taro';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { View, Text, Image } from '@tarojs/components';
 import { AtAvatar } from 'taro-ui'
 import { _loginCode, _loginUserInfo } from '@/service/index'
@@ -42,15 +42,15 @@ const UserInfoIndex: React.FC<any> = ({ loading }) => {
     <View className={`${styles['grid']}`}>
       <View className={`flex-col items-center ${styles['grid-item']}`}>
         <Image src={process.env.URL + 'shujia.png'} className={`${styles['image']}`} />
-        <Text className={`${styles['text_8']}`}>拥有的书</Text>
+        <Text className={`${styles['text_8']}`} onClick={() => { Taro.redirectTo({ url: "/pages/search/index?title=拥有" }) }}>我的图书</Text>
       </View>
       <View className={`flex-col items-center ${styles['grid-item']}`}>
         <Image src={process.env.URL + 'tubiaozhi.png'} className={`${styles['image']}`} />
-        <Text className={`${styles['text_8']}`} onClick={() => { Taro.redirectTo({ url: "/pages/search/index?title=收藏" }) }}>收藏</Text>
+        <Text className={`${styles['text_8']}`} onClick={() => { Taro.redirectTo({ url: "/pages/search/index?title=收藏" }) }}>我的收藏</Text>
       </View>
       <View className={`flex-col items-center ${styles['grid-item']}`}>
         <Image src={process.env.URL + 'wenjian.png'} className={`${styles['image']}`} />
-        <Text className={`${styles['text_8']}`}>成功匹配</Text>
+        <Text className={`${styles['text_8']}`}>我的捐赠</Text>
       </View>
       <View className={`flex-col items-center ${styles['grid-item']}`}>
         <Image src={process.env.URL + 'wenjianjia.png'} className={`${styles['image']}`} />
@@ -60,4 +60,5 @@ const UserInfoIndex: React.FC<any> = ({ loading }) => {
   </View>);
 }
 
-export default connect(({ loading }: { loading: { effects: Record<string, boolean> } }) => ({ loading }))(UserInfoIndex);
+// export default connect(({ loading }: { loading: { effects: Record<string, boolean> } }) => ({ loading }))(UserInfoIndex);
+export default UserInfoIndex;

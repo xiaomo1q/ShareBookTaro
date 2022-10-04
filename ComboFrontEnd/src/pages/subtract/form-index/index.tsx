@@ -24,7 +24,7 @@ const Index = () => {
       const text: any = []
       const bookURL: any = []
       connect_book_list.forEach(el => {
-        imgUrl.push({ url: 'https://file.ituring.com.cn/SmallCover/' + el.coverKey })
+        imgUrl.push({ url: el.imgUrl })
         text.push(el.name)
         bookURL.push(el.coverKey)
       });
@@ -36,7 +36,8 @@ const Index = () => {
   }
   const onSubmit = (event) => {
     console.log(event, formValue);
-    // dispatch({ type: "public_storage/connect_book_listUpdate", payload: { connect_book_list: [] } })
+    
+    dispatch({ type: "public_storage/connect_book_listUpdate", payload: { connect_book_list: [] } })
   }
 
   const ImagePickerChangedHandler = (files) => {
@@ -81,18 +82,18 @@ const Index = () => {
   }
   return (
     <View className={`flex-col ${styles['release-index']}`}>
-      <AtForm onSubmit={onSubmit}  >
+      <AtForm >
         <View className={`flex-row ${styles['re-header']}`}>
           <Text className={styles['re-h-text']} onClick={() => {
             Taro.navigateBack({ delta: -1 });
             dispatch({ type: "public_storage/connect_book_listUpdate", payload: { connect_book_list: [] } })
           }}
           >取消</Text>
-          <AtButton formType='submit'>发布</AtButton>
+          <AtButton  onClick={onSubmit} >发布</AtButton>
         </View>
         <AtTextarea value={`${formValue.book_content}`}
           count={false}
-          height={400}
+          // height={400}
           maxLength={100000}
           placeholder='说说你对某本书的观点吧～'
           onChange={handleChange}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Taro from '@tarojs/taro';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { View, Text, Image, Swiper, SwiperItem } from '@tarojs/components';
 import { AtTabs, AtTabsPane, AtActivityIndicator } from 'taro-ui'
 import book_detail from '@/assets/detail.json'
@@ -73,4 +73,5 @@ const HomeView: React.FC<any> = ({ loading }) => {
   );
 }
 
-export default connect(({ loading }: { loading: { effects: Record<string, boolean> } }) => ({ loading }))(HomeView);
+// export default connect(({ loading }: { loading: { effects: Record<string, boolean> } }) => ({ loading }))(HomeView);
+export default HomeView;

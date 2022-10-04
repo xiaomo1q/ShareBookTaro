@@ -1,5 +1,4 @@
 import Taro from "@tarojs/taro";
-import { Get_book_list, Get_only_book_detail, Search_book_list ,Get_favorite_book_list} from "../service/index";
 
 /**
  * 公共状态存储

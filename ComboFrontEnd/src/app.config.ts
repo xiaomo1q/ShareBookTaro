@@ -23,6 +23,7 @@ export default defineAppConfig({
       root: "pagesA",
       pages: [
         'userinfo/login',
+        'bookuserinfo/index',
       ],
     },
   ],

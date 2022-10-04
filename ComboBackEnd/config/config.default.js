@@ -17,27 +17,27 @@ module.exports = appInfo => {
 
     // use for cookie sign key, should change to your own and keep security
     config.keys = `${appInfo.name}_f2dwsq2e32`;
-    // // 导入
-    // config.multipart = {
-    //     fileSize: '400mb', // 文件大小
-    //     mode: "stream", // file
-    //     whitelist: [
-    //         ".xls",
-    //         ".xlsx",
-    //         ".png",
-    //         ".jpg",
-    //         ".svg",
-    //         ".pdf",
-    //         ".word",
-    //         ".txt",
-    //         '.mp3', '.mp4', '.avi',
-    //     ], // 文件类型白名单;报400错;一般就是你没写这句话;允许接收解析该类型文件;
-    //     // 默认内置白名单
-    //     // images 支持 '.jpg', '.jpeg','.png', '.gif', '.bmp', '.wbmp', '.webp','.tif','.psd',
-    //     // text '.svg','.js', '.jsx', '.json','.css', '.less','.html', '.htm','.xml',
-    //     // tar '.zip','.gz', '.tgz', '.gzip',
-    //     // video '.mp3','.mp4','.avi',
-    // };
+    // 导入
+    config.multipart = {
+        fileSize: '400mb', // 文件大小
+        mode: "stream", // file
+        whitelist: [
+            // ".xls",
+            // ".xlsx",
+            ".png",
+            ".jpg",
+            // ".svg",
+            // ".pdf",
+            // ".word",
+            // ".txt",
+            // '.mp3', '.mp4', '.avi',
+        ], // 文件类型白名单;报400错;一般就是你没写这句话;允许接收解析该类型文件;
+        // 默认内置白名单
+        // images 支持 '.jpg', '.jpeg','.png', '.gif', '.bmp', '.wbmp', '.webp','.tif','.psd',
+        // text '.svg','.js', '.jsx', '.json','.css', '.less','.html', '.htm','.xml',
+        // tar '.zip','.gz', '.tgz', '.gzip',
+        // video '.mp3','.mp4','.avi',
+    };
 
     // 中间件配置'errorHandler',
     // config.middleware = ["tokenHandler"];
@@ -63,7 +63,7 @@ module.exports = appInfo => {
     config.cluster = {
         listen: {
             path: '',
-            port: 3000,
+            port: 8000,
             // hostname: '172.30.176.1',
         },
     };

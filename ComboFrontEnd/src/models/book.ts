@@ -1,5 +1,6 @@
 import Taro from "@tarojs/taro";
-import { Get_book_list, Get_only_book_detail, Search_book_list ,Get_favorite_book_list} from "../service/index";
+import { Get_book_list, Get_only_book_detail, Search_book_list ,
+  Get_favorite_book_list,Get_connect_book_list} from "../service/index";
 
 const BookStatus = {
   // 这是模块名
@@ -9,7 +10,8 @@ const BookStatus = {
     book_list: [],
     only_book_detail: {},
     favorite_book_list:[],
-    search_book_list:[]
+    search_book_list:[],
+    connect_book_list:[]
   },
   // 这里主要调用异步方法
   effects: {
@@ -54,6 +56,17 @@ const BookStatus = {
       const res = yield call(Get_favorite_book_list, payload);
       try {
         yield put({ type: "saveUpdate", payload: { favorite_book_list: res } })
+      } catch (error) {
+        Taro.atMessage({
+          'message': error,
+          'type': 'error',
+        })
+      }
+    },
+    *getConnectBookList({ payload }, { call, put }) {
+      const res = yield call(Get_connect_book_list, payload);
+      try {
+        yield put({ type: "saveUpdate", payload: { connect_book_list: res } })
       } catch (error) {
         Taro.atMessage({
           'message': error,
