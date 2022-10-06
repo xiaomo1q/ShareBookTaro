@@ -6,7 +6,6 @@ class BookController extends Controller {
     /** 添加图书 */
     async add_only_book() {
         const params = this.ctx.request.body;
-        // const decoded = await ctx.service.tool.jwtToken();
         this.ctx.body = await this.ctx.service.book.add_only_book(params);
     }
 

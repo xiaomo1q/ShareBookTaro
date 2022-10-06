@@ -2,7 +2,7 @@
   "name": "myApp",
   "version": "1.0.0",
   "private": true,
-  "description": "", 
+  "description": "",
   "templateInfo": {
     "name": "default",
     "typescript": true,
@@ -45,11 +45,13 @@
     "dva": "^2.4.1",
     "dva-core": "^2.0.4",
     "dva-loading": "^3.0.22",
+    "moment": "^2.29.4",
     "postcss-px-scale": "^1.1.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-redux": "^8.0.2",
     "redux-persist": "^6.0.0",
+    "socket.io-client": "^2.1.1",
     "taro-plugin-style-resource": "^0.1.7",
     "taro-popover": "0.0.1",
     "taro-ui": "^3.0.0-alpha.1"

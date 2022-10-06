@@ -7,23 +7,30 @@ import { Add_messages } from '@/service/index';
 import styles from './index.module.less';
 
 /**
- * 登录
+ * 书主详情
  * @returns 
  */
 const LoginUser = () => {
   const { params } = useRouter()
   const dispatch = useDispatch()
-  const { bookuserInfo } = useSelector((state: any) => state.global_user)
+  const { bookuserInfo, userInfo } = useSelector((state: any) => state.global_user)
   useEffect(() => {
-    Taro.hideHomeButton()
-    Taro.setNavigationBarTitle({ title: '' })
+    if (process.env.TARO_ENV === 'weapp') { Taro.hideHomeButton(); Taro.setNavigationBarTitle({ title: '' }) }
     params.id && dispatch({ type: 'global_user/GetBookuserInfo', payload: { id: params.id } })
+    dispatch({ type: "global_user/getUserInfo" })
   }, [])
 
   const addMessagesClickedHandler = async () => {
-    await Add_messages({ id: bookuserInfo.openid, name: bookuserInfo.nickName, avatarUrl: bookuserInfo?.avatarUrl }).then(res=>{
-      console.log(res);
-      
+    const form = {
+      form_avatarUrl:userInfo.avatarUrl,
+      form_name: userInfo.nickName,
+      form_id: userInfo.openid
+    }
+    const to = {
+      id: bookuserInfo.openid, name: bookuserInfo.nickName, to_avatarUrl: bookuserInfo?.avatarUrl 
+    }
+    await Add_messages({ ...to,...form }).then(res => {
+      Taro.redirectTo({ url: '/pages/message/msg-detail/index?id=' + res.m_id })
     })
   }
 
@@ -58,7 +65,8 @@ const LoginUser = () => {
                   <View> <Text className={`${styles['font_3']}`}>关注</Text></View>
                 </View>
               </View>
-              <View className={`flex-row ${styles['space-x-11']} ${styles['group_7']}`}>
+              {
+                userInfo.openid === bookuserInfo.openid ? <></>:<View className={`flex-row ${styles['space-x-11']} ${styles['group_7']}`}>
                 <View className={`flex-row ${styles['section_5']}`}>
                   <Image className={`${styles['image_15']}`} src={process.env.URL + 'icon/xinxi.png'} />
                   <Text className={`${styles['font_1']} ${styles['text_3']}`} onClick={addMessagesClickedHandler}>私信</Text>
@@ -68,6 +76,8 @@ const LoginUser = () => {
                   <Text className={`${styles['font_1']} ${styles['text_3']}`}>关注</Text>
                 </View>
               </View>
+              }
+              
             </View>
           </View>
         </View>

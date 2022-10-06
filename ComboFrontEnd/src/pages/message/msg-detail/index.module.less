@@ -1,0 +1,115 @@
+.MSG-Detail {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+
+  .MSGD-Head {
+    width: 100%;
+    height: 40px;
+    background: #fff;
+    margin-bottom: 10px;
+
+    :global {
+      .at-button {
+        border: 0;
+        height: 40px;
+        line-height: 40px;
+        padding: 0;
+        border-radius: 0;
+        border-bottom: 0px solid #C5D9E8;
+      }
+    }
+  }
+
+  .MSGD-main {
+    width: calc(100% - 30px);
+    height: calc(100vh - 160px);
+    margin: auto;
+
+    .msg-box-left,
+    .msg-box-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      margin-bottom: 10px;
+      :global {
+        .at-avatar {
+          width: 36px;
+          height: 36px;
+          margin-bottom: 5px;
+        }
+      }
+
+      ._des {
+        max-width: 200px;
+        min-width: 30px;
+        height: auto;
+        background: #7088FF;
+        box-shadow: 0px 50px 36px -19px rgba(112, 136, 255, 0.3);
+        border-radius: 10px 0px 10px 10px;
+        color: @color-f-txt;
+        padding: 5px;
+        font-size: 14px;
+        margin-right: 15px;
+        text-align: center;
+      }
+    }
+
+    .msg-box-left {
+      align-items: flex-start;
+      ._des {
+        max-width: 200px;
+        min-width: 30px;
+        height: auto;
+        background: #FFFFFF;
+        box-shadow: 0px 50px 36px -19px rgba(112, 136, 255, 0.3);
+        border-radius: 0px 10px 10px 10px;
+        color: @color-txt;
+        padding: 5px;
+        font-size: 14px;
+        margin-left: 15px;
+        text-align: center;
+      }
+    }
+  }
+
+  .MSGD-footer {
+    width: 100%;
+    height: 60px;
+    background: #fff;
+
+    :global {
+      .at-search-bar {
+        .at-search-bar__input-cnt {
+          height: 30px;
+        }
+
+        .at-search-bar__placeholder-wrap {
+          justify-content: flex-start;
+
+          .at-icon-search {
+            display: none;
+          }
+        }
+
+        .at-search-bar__input {
+          height: 30px !important;
+          padding: 0 20px;
+        }
+
+        .weui-input {
+          height: 30px;
+        }
+
+      }
+
+      .at-search-bar::after {
+        border-bottom-width: 0;
+      }
+
+      .at-search-bar__action {
+        background: #7088FF;
+      }
+    }
+  }
+}

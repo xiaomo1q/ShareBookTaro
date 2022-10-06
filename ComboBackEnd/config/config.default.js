@@ -113,6 +113,32 @@ module.exports = appInfo => {
     const userConfig = {
         // myAppName: 'egg',
     };
+    config.io = {
+        init: {}, // passed to engine.io
+        namespace: {
+            "/": {
+                // 预处理器中间件, 我们这里配置了一个auth, 进行权限判断, 它对应的文件是/app/io/middleware/connection.js, 这里可以配置多个文件, 用逗号隔开
+                connectionMiddleware: ["connection"], // 在连接或者断开连接时起作用的中间件 权限校验之类的操作connection
+                packetMiddleware: [], // 通常用于对消息做预处理，又或者是对加密消息的解密等操作
+            },
+            // '/chat': {
+            //   connectionMiddleware: [ 'connection' ],
+            //   packetMiddleware: [],
+            // },
+        },
+        // generateId: req => { // 自定义 socket.id 生成函数
+        //   return Math.round(Math.random(10000) * 10000, 4)
+        //   // const data = qs.parse(req.url.split('?')[1]);
+        //   // return data.userId; // custom id must be unique
+        // },
+        // 配置redis, 非必须, 不需要的可以不配置这块, egg-socket.io内置了socket-io-redis， 在cluster模式下, 使用redis可以较为简单的实现clients/rooms等信息共享
+        // redis: {
+        // host: '192.168.31.162',
+        // prot: 6379,
+        // auth_pass: 123456,
+        // db: 0,
+        // },
+    };
 
     return {
         ...config,

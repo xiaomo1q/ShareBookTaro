@@ -39,7 +39,7 @@ export const RenderConnectBookList = ({ data, onChange }) => {
   useEffect(() => {
     data.forEach(el => el.active = false)
     setC_book(data)
-    Taro.hideHomeButton()
+    if (process.env.TARO_ENV === 'weapp') Taro.hideHomeButton()
   }, [data]);
   useEffect(() => {
     const fil = c_book.filter((el: {active:boolean}) => el.active)

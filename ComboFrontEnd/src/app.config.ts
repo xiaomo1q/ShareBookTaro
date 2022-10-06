@@ -7,6 +7,7 @@ export default defineAppConfig({
     'pages/subtract/form-index/index',
     'pages/release/index',
     'pages/message/index',
+    'pages/message/msg-detail/index',
     'pages/search/index',
     'pages/userinfo/index'
   ],
@@ -31,7 +32,8 @@ export default defineAppConfig({
     "custom": false,
     "color": "#000000",
     "selectedColor": "#FECB58",
-    "backgroundColor": "#f8f8f8",
+    "backgroundColor": "#FAFBFF",
+    "borderStyle": "white",
     "list": [{
       "pagePath": "pages/home/index",
       "text": "",

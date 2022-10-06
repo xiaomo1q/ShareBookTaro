@@ -4,6 +4,10 @@
 const API_PATH = "/api";
 
 export const InterfacePath = {
+
+  registered: API_PATH + "/registered",
+  loginH5: API_PATH + "/loginH5",
+
   login_code: API_PATH + "/login_code",
   login_user: API_PATH + "/login_user",
   get_userInfo: API_PATH + "/get_userInfo",
@@ -23,5 +27,6 @@ export const InterfacePath = {
   get_bookuser_userInfo: API_PATH + "/get_bookuser_userInfo",
 
   add_messages: API_PATH + "/add_messages",
+  msg_list: API_PATH + "/msg_list",
 
 };

@@ -5,6 +5,7 @@ const Service = require('egg').Service;
 class BookService extends Service {
   /** 添加图书 */
   async add_only_book(params) {
+    const { ctx, app } = this;
     const decoded = await ctx.service.tool.jwtToken();
     const corr = await app.mysql.get("db_book_list", { isbn: params.isbn });
     if (!corr) {

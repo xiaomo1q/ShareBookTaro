@@ -35,15 +35,19 @@ const Index = () => {
       const list = Array.from(res, (i: { title: string }) => i.title)
       list.push('其他')
       setBookType(list)
-      setFormValue({...formValue,book_type:list&&list[0]})
+      setFormValue({ ...formValue, book_type: list && list[0] })
     })
   }
 
 
   return (
     <View className={`flex-col ${styles['release-index']}`}>
-      <View className={styles['release-tip']}>上传发布图书信息</View>
-      <AtForm >
+      {/* <View className={styles['release-tip']}>上传发布图书信息</View> */}
+      <AtForm>
+        <View className={`flex-row ${styles['re-footer']}`}>
+          <AtButton onClick={onSubmit}>确认发布</AtButton>
+          <AtButton onClick={() => setFormValue({ isbn: '', book_name: '', book_type: '', book_desc: '', book_author: '' })}>重置</AtButton>
+        </View>
         <AtInput required name='isbn' title='ISBN' type='text' value={formValue.isbn} placeholder='请输入ISBN' onChange={() => { }} onBlur={(value) => handleChange('isbn', value)} />
         <AtInput required name='name' title='书籍名称' type='text' value={formValue.book_name} placeholder='请输入图书名称' onChange={() => { }} onBlur={(value) => handleChange('book_name', value)} />
         <AtInput name='author' title='书籍作者' type='text' value={formValue.book_author} placeholder='请输入图书作者' onChange={(value) => handleChange('book_author', value)} />
@@ -58,10 +62,6 @@ const Index = () => {
           onBlur={(e) => handleChange('book_desc', e.detail.value)}
           placeholder='书籍简介'
         />
-        <View className={`flex-row ${styles['re-footer']}`}>
-          <AtButton onClick={onSubmit}>确认发布</AtButton>
-          <AtButton onClick={() => setFormValue({ isbn: '', book_name: '', book_type: '', book_desc: '', book_author: '' })}>重置</AtButton>
-        </View>
       </AtForm>
     </View>
   );

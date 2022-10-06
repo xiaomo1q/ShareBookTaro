@@ -4,7 +4,7 @@ import { View, Text, Image, Swiper, SwiperItem } from '@tarojs/components';
 import { AtForm, AtInput, AtButton } from 'taro-ui'
 import { Button } from '@antmjs/vantui'
 import WXBizDataCrypt from '@/utils/WXBizDataCrypt'
-import { _loginCode, _loginUserInfo } from '@/service/index'
+import { _loginCode, _loginUserInfo, _registered, _loginH5 } from '@/service/index'
 import styles from './index.module.less';
 
 /**
@@ -17,7 +17,7 @@ const LoginUser = () => {
     name: '', passward: '', re_pas: ""
   });
   useEffect(() => {
-    Taro.hideHomeButton()
+    if (process.env.TARO_ENV === 'weapp') Taro.hideHomeButton();
     Taro.setNavigationBarTitle({ title: '登录' })
   }, [])
   const loginClickedHandler = (e) => {
@@ -81,21 +81,54 @@ const LoginUser = () => {
     setFormValue({ ...formValue })
   }
   const onSubmit = async () => {
-    // await Add_only_book(formValue).then(res => {
-    //   Taro.showToast({
-    //     title: res.msg,
-    //     icon: 'none',
-    //     duration: 2000
-    //   })
-    //   setFormValue({ isbn: '', book_name: '', book_type: '', book_desc: '', book_author: '' })
-    // })
+    await _loginH5(formValue).then(res => {
+      if (res.msg) {
+        Taro.showToast({
+          title: res.msg,
+          icon: 'none',
+          duration: 2000
+        })
+      }
+      if (res.code === 0) {
+        // 保存用户信息微信登录
+        localStorage.setItem('TOKEN', res.token)
+        Taro.switchTab({
+          url: '/pages/home/index',
+        })
+        setFormValue({ name: '', passward: '', re_pas: "" })
+      }
+    })
   }
   /** 注册 */
-  const registerClickedHandler = ()=>{
-
+  const registerClickedHandler = async () => {
+    if (formValue.re_pas === formValue.passward) {
+      await _registered(formValue).then(res => {
+        if (res.msg) {
+          Taro.showToast({
+            title: res.msg,
+            icon: 'none',
+            duration: 2000
+          })
+        }
+        if (res.code === 0) {
+          // 保存用户信息微信登录
+          localStorage.setItem('TOKEN', res.token)
+          Taro.switchTab({
+            url: '/pages/home/index',
+          })
+          setFormValue({ name: '', passward: '', re_pas: "" })
+        }
+      })
+    } else {
+      Taro.showToast({
+        title: '两次密码不一致',
+        icon: 'none',
+        duration: 2000
+      })
+    }
   }
   return (<View className={`flex-col ${styles['login-page']}`}>
-    <Swiper
+    {/* <Swiper
       className={styles['swipe']}
       indicatorColor='#999'
       indicatorActiveColor='#3D5CFF'
@@ -120,18 +153,18 @@ const LoginUser = () => {
           />
         </View>
       </SwiperItem>
-    </Swiper>
+    </Swiper> */}
     <Text className={`${styles['text']}`}>校图</Text>
     <Text className={`${styles['text_1']}`}>共享图书，共享知识</Text>
     <AtForm >
-      <AtInput required name='name' title='账号' type='text' value={formValue.name} placeholder='请输入账号' onChange={() => { }} onBlur={(value) => handleChange('isbn', value)} />
+      <AtInput required name='name' title='账号' type='text' value={formValue.name} placeholder='请输入账号' onChange={() => { }} onBlur={(value) => handleChange('name', value)} />
       <AtInput required name='passward' title='密码' type='password' value={formValue.passward} placeholder='请输入密码' onChange={() => { }} onBlur={(value) => handleChange('passward', value)} />
       {
         register ? <>
-         <AtInput required name='re_pas' title='确认密码' type='password' value={formValue.re_pas} placeholder='请输入密码' onChange={() => { }} onBlur={(value) => handleChange('re_pas', value)} />
-         <View className={`flex-row ${styles['re-footer']}`}>
-          <AtButton onClick={registerClickedHandler}>注册并登录</AtButton>
-        </View>
+          <AtInput required name='re_pas' title='确认密码' type='password' value={formValue.re_pas} placeholder='请输入密码' onChange={() => { }} onBlur={(value) => handleChange('re_pas', value)} />
+          <View className={`flex-row ${styles['re-footer']}`}>
+            <AtButton onClick={registerClickedHandler}>注册并登录</AtButton>
+          </View>
         </> : <View className={`flex-row ${styles['re-footer']}`}>
           <AtButton onClick={onSubmit}>登录</AtButton>
           <AtButton onClick={() => setRegister(true)}>注册</AtButton>

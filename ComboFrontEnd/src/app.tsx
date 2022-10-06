@@ -1,6 +1,6 @@
 /* eslint-disable import/first */
 import React, { Component, useEffect } from "react";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 // import { persistStore } from 'redux-persist';
 // import { PersistGate } from 'redux-persist/integration/react';
 import dva from "@/utils/dva";
@@ -26,25 +26,38 @@ const store = dvaApp.getStore();
 //   require('nerv-devtools')
 // }  const token = localStorage.getItem('token');
 
-    /* "appid": "wx36fabba98a5d8b62", */
+/* "appid": "wx36fabba98a5d8b62", */
 const App = (props) => {
   useEffect(() => {
-    // Taro.checkSession({
-    //   success() {
-    //     //session_key 未过期，并且在本生命周期一直有效
-    //     console.log('session_key 未过期，并且在本生命周期一直有效');
-    //   },
-    //   fail() {
-    //     console.log('session_key 已经失效，需要重新执行登录流程');
-        // Taro.redirectTo({
-        //   url:"/pagesA/userinfo/login"
-        // })
-    //   }
-    // })
+    const ENV = process.env.TARO_ENV;
+    let token;
+    // const { method, data, url } = requestParams
+    if (ENV === "h5") {
+      token = localStorage.getItem("TOKEN"); //拿到本地缓存中存的token
+      if (token) { } else {
+        Taro.redirectTo({
+          url: "/pagesA/userinfo/login"
+        })
+      }
+    } else {
+      Taro.checkSession({
+        success() {
+          //session_key 未过期，并且在本生命周期一直有效
+          console.log('session_key 未过期，并且在本生命周期一直有效');
+        },
+        fail() {
+          console.log('session_key 已经失效，需要重新执行登录流程')
+          Taro.redirectTo({
+            url: "/pagesA/userinfo/login"
+          })
+        }
+      })
+    }
+
   }, [])
   return <Provider store={store}>
     {/* <PersistGate loading={null} persistor={persistStore(store)}> */}
-      {props.children}
+    {props.children}
     {/* </PersistGate> */}
   </Provider>;
 }

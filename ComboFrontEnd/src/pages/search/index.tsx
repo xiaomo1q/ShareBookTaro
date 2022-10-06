@@ -19,7 +19,7 @@ const SearchIndex = () => {
   const dispatch = useDispatch()
   const { favorite_book_list, search_book_list, book_list,connect_book_list } = useSelector((state: any) => state.book_model)
   useEffect(() => {
-    // Taro.hideHomeButton()
+    if (process.env.TARO_ENV === 'weapp') Taro.hideHomeButton()
     Taro.setNavigationBarTitle({ title: router.title || '' })
     fetchBookList()
   }, []);

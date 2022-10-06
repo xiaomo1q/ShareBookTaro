@@ -4,6 +4,9 @@ import { InterfacePath } from "./interfacePath";
 /**
  * 获取 token
  */
+ export const _registered = (data) => GETRequest(InterfacePath.registered,{data});
+ export const _loginH5 = (data) => GETRequest(InterfacePath.loginH5,{data});
+
  export const _loginCode = (data) => POSTRequest(InterfacePath.login_code,{data});
  export const _loginUserInfo = (data) => POSTRequest(InterfacePath.login_user,{data});
  export const Get_userInfo = (data) => POSTRequest(InterfacePath.get_userInfo,{data});
@@ -32,4 +35,5 @@ export const Get_bookuser_userInfo = (data) => GETRequest(InterfacePath.get_book
 
 // 聊天
 export const Add_messages = (data) => POSTRequest(InterfacePath.add_messages,{data});
+export const MSG_list = () => GETRequest(InterfacePath.msg_list);
 

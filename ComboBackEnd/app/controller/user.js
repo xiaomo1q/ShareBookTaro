@@ -6,8 +6,13 @@ const svgCaptcha = require('svg-captcha');
 class IndexController extends Controller {
     /** 注册 */
     async registered() {
-        const params = await this.ctx.request.body;
-        await this.ctx.service.user.registered(params);
+        const params = await this.ctx.request.query;
+        this.ctx.body = await this.ctx.service.user.registered(params);
+    }
+    /** 登录 h5 */
+    async loginH5() {
+        const params = await this.ctx.request.query;
+        this.ctx.body = await this.ctx.service.user.loginH5(params);
     }
 
     /** 登录 获取code */
