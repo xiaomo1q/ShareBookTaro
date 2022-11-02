@@ -39,11 +39,6 @@ module.exports = appInfo => {
         // video '.mp3','.mp4','.avi',
     };
 
-    // 中间件配置'errorHandler',
-    // config.middleware = ["tokenHandler"];
-    // config.tokenHandler = {
-    //     ignore: ["/api/registered", "/api/login", "/api/download", '/api/captcha', '/api/downExcel', '/api/video'], // 忽略注册和登陆的接口
-    // };
     config.security = {
         csrf: {
             enable: false,
