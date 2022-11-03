@@ -1,11 +1,3 @@
-/*
- * @Author: xiaomo1q 55676359+xiaomo1q@users.noreply.github.com
- * @Date: 2022-10-08 10:33:31
- * @LastEditors: xiaomo1q 55676359+xiaomo1q@users.noreply.github.com
- * @LastEditTime: 2022-10-10 14:04:54
- * @FilePath: \ComboBackEnd\app\service\tool.js
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
 'use strict';
 
 const Service = require('egg').Service;
@@ -65,7 +57,7 @@ class ToolService extends Service {
             _that.error(err);
         }
         ctx.body = {
-            url: 'http://192.168.31.162:3000/public/img/' + filename,
+            url: 'http://81.68.169.67:3030:3000/public/img/' + filename,
             type: stream.mime,
             fileName: filename,
         };
