@@ -30,33 +30,38 @@ const Home: React.FC<any> = (props) => {
 
   const [columns, setColumns] = useState<any>([
     {
-      title: 'id',
-      dataIndex: '_id',
-      key: '_id',
+      title: 'isbn',
+      dataIndex: 'isbn',
+      key: 'isbn',
       width: 150,
     },
     {
-      title: '姓名',
-      dataIndex: 'name',
-      key: 'name',
+      title: '书名',
+      dataIndex: 'book_name',
+      key: 'book_name',
     },
     {
-      title: '年龄',
-      dataIndex: 'age',
-      key: 'age',
+      title: '作者',
+      dataIndex: 'book_author',
+      key: 'book_author',
+    },
+    {
+      title: '分类',
+      dataIndex: 'book_type',
+      key: 'book_type',
     },
     {
       title: '时间',
-      dataIndex: 'date',
-      key: 'date',
+      dataIndex: 'create_time',
+      key: 'create_time',
       render: (text: any, row: any, ix: any) => (
-        <p>{row.date ? moment(row.date).format('YYYY-MM-DD') : ''}</p>
+        <p>{row.create_time ? moment(row.create_time).format('YYYY-MM-DD') : ''}</p>
       ),
     },
     {
-      title: '城市',
-      dataIndex: 'city',
-      key: 'city',
+      title: '出版社',
+      dataIndex: 'press',
+      key: 'press',
     },
     {
       title: '操作',
@@ -84,19 +89,14 @@ const Home: React.FC<any> = (props) => {
 
   // 获取
   const fetchTable = async (pageCount: number, pageIndex: number) => {
-    await get_book_list({ pageCount: pageCount, pageIndex: pageIndex })
-      .then((res) => {
-        if (res.code === '0') {
-          setData(res.data);
-          setPagination({
-            total: res.total,
-            pageCount: res.pageCount,
-            pageIndex: res.pageIndex,
-          });
-        } else {
-          setData([{ status: 0 }]);
-        }
-      })
+    await get_book_list({ pageCount, pageIndex }).then((res) => {
+      setData(res.list);
+      setPagination({
+        total: res.total,
+        pageCount: res.pageCount,
+        pageIndex: res.pageIndex,
+      });
+    })
       .catch((err) => {
         console.log(err, '............');
         setData([{ status: 0 }]);
@@ -132,26 +132,26 @@ const Home: React.FC<any> = (props) => {
   // 提交
   const onFinish = (values: any) => {
     if (formName === 'add') {
-      PostClassList(values[formName]).then((re) => {
-        if (re.code === 0) {
-          message.success(re.msg);
-          fetchTable(pagination.pageCount, pagination.pageIndex);
-        } else {
-          message.error(re.msg);
-        }
-        setIsModalVisible(false);
-      });
+      // get_book_list(values[formName]).then((re) => {
+      //   if (re.code === 0) {
+      //     message.success(re.msg);
+      //     fetchTable(pagination.pageCount, pagination.pageIndex);
+      //   } else {
+      //     message.error(re.msg);
+      //   }
+      //   setIsModalVisible(false);
+      // });
     } else {
       values[formName].id = isFormID;
-      PUTClassList(values[formName]).then((res: any) => {
-        fetchTable(pagination.pageCount, pagination.pageIndex);
-        setIsModalVisible(false);
-      });
+      // get_book_list(values[formName]).then((res: any) => {
+      //   fetchTable(pagination.pageCount, pagination.pageIndex);
+      //   setIsModalVisible(false);
+      // });
     }
   };
 
   // 查询
-  const onSearch = (value: string) => {};
+  const onSearch = (value: string) => { };
 
   //导入 excel
   const propsUpload: any = {
@@ -171,9 +171,9 @@ const Home: React.FC<any> = (props) => {
       formData.append('file', info.file.originFileObj);
 
       if (info.file.status === 'done') {
-        ImportClassList(formData).then((res) => {
-          console.log(res);
-        });
+        // ImportClassList(formData).then((res) => {
+        //   console.log(res);
+        // });
         message.success(`${info.file.name} file uploaded successfully`);
         fetchTable(pagination.pageCount, pagination.pageIndex);
       } else if (info.file.status === 'error') {
@@ -206,9 +206,9 @@ const Home: React.FC<any> = (props) => {
       formData.append('file', info.file.originFileObj);
 
       if (info.file.status === 'done') {
-        uploadImg(formData).then((res) => {
-          console.log(res);
-        });
+        // uploadImg(formData).then((res) => {
+        //   console.log(res);
+        // });
         message.success(`${info.file.name} file uploaded successfully`);
       } else if (info.file.status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
@@ -242,6 +242,7 @@ const Home: React.FC<any> = (props) => {
     a.click();
     document.body.removeChild(a);
   };
+  console.log(data);
 
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
@@ -261,7 +262,7 @@ const Home: React.FC<any> = (props) => {
         {/* <Button onClick={downloadClickedHandler}>导出</Button> */}
       </Space>
       <Modal
-        title="formName"
+        title="编辑"
         visible={isModalVisible}
         footer={null}
         forceRender={true}

@@ -37,12 +37,12 @@ class IndexController extends Controller {
   }
   /** 根据分类图书列表 */
   async get_book_list() {
-    const { pageCount, pageIndex, title } = this.ctx.request.query;
+    const { pageCount, pageIndex, title } = this.ctx.request.body;
     const query = title ? { book_type: title } : {}; // 查询条件
     const result = await this.app.mysql.select('db_book_list', {
       where: query,
-      limit: Number(pageIndex), // 返回数据量
-      offset: (pageIndex - 1) * pageCount, // 数据偏移量
+      limit: Number(pageCount), // 返回数据量
+      offset: (pageCount - 1) * pageIndex, // 数据偏移量
     });
     const totalCount = await this.app.mysql.count('db_book_list', query);
     this.ctx.body = {
