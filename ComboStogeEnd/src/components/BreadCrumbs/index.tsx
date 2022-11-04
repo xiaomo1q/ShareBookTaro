@@ -12,12 +12,12 @@ export interface BreadCrumbsProps {
   className?: string;
 }
 
-const BreadCrumbs: React.FC<BreadCrumbsProps> = props => {
+const BreadCrumbs: React.FC<BreadCrumbsProps> = (props) => {
   const { list = [], ...attr } = props;
 
   return (
     <Breadcrumb {...attr}>
-      {list.map(item => {
+      {list.map((item) => {
         return (
           <Breadcrumb.Item key={item.path}>
             <ALink to={item.path}>{item.title}</ALink>

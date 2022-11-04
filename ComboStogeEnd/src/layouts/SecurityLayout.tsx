@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { connect, } from 'dva';
+import { connect } from 'dva';
 import { ConnectProps, Loading, history } from 'umi';
 import { UserModelState, CurrentUser } from '@/models/user';
 import { getToken } from '@/utils/localToken';
@@ -10,13 +10,13 @@ export interface SecurityLayoutProps extends ConnectProps {
 /**
  * 全局布局 此页 登录检验
  */
-const SecurityLayout: React.FC<SecurityLayoutProps> = props => {
+const SecurityLayout: React.FC<SecurityLayoutProps> = (props) => {
   const { loading, currentUser, dispatch, location, children } = props;
   const { pathname, search } = location;
   const [isLogin, setIsLogin] = useState<boolean>(false);
   useEffect(() => {
-    fetchToken()
-  })
+    fetchToken();
+  });
 
   const fetchToken = async () => {
     const headerToken = await getToken();
@@ -25,9 +25,8 @@ const SecurityLayout: React.FC<SecurityLayoutProps> = props => {
     } else {
       history.replace('/user');
     }
-    console.warn = function () { }
-  }
-
+    console.warn = function () {};
+  };
 
   return <>{children}</>;
 };

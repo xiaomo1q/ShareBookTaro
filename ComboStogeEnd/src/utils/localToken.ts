@@ -1,5 +1,5 @@
 /**
- * 类似于localStorage 
+ * 类似于localStorage
  * 优雅降级策略，若浏览器不支持 IndexedDB 或 WebSQL，则使用 localStorage。
  * 存储时间快, 容量大,可以存储非字符串类型
  */

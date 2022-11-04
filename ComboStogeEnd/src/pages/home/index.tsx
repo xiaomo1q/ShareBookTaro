@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Tag, Space } from 'antd';
-import { testD } from './data'
+import { testD } from './data';
 
 const Home: React.FC<any> = (props) => {
-  const [columns, setColumns] = useState<any>([])
-  const [data, setData] = useState<Interface.ColumnTable[]>()
-
+  const [columns, setColumns] = useState<any>([]);
+  const [data, setData] = useState<Interface.ColumnTable[]>();
 
   useEffect(() => {
     const column: any[string] = {
@@ -16,32 +15,35 @@ const Home: React.FC<any> = (props) => {
       createUserName: '添加人',
       createTime: '添加时间',
       updateUserName: '更新人',
-      updateTime: '更新时间'
-    }
-    let col: any = []
+      updateTime: '更新时间',
+    };
+    let col: any = [];
     for (var k in column) {
       if (Object.prototype.hasOwnProperty.call(column, k)) {
         for (const key in testD[0]) {
           if (Object.prototype.hasOwnProperty.call(testD[0], key)) {
             if (k === key) {
-              let title = column[k]
+              let title = column[k];
               col.push({
                 title: title,
                 dataIndex: k,
                 key: k,
-                width: k.length > 5 ? 200 : 100
-              })
+                width: k.length > 5 ? 200 : 100,
+              });
             }
           }
         }
       }
     }
-    const res = arrayToTree(testD, 0)
-    setData(res)
-    setColumns(col)
-  }, [])
+    const res = arrayToTree(testD, 0);
+    setData(res);
+    setColumns(col);
+  }, []);
 
-  const arrayToTree = (arr: { id: number; name: string; pid: number; }[], parentId: number) => {
+  const arrayToTree = (
+    arr: { id: number; name: string; pid: number }[],
+    parentId: number,
+  ) => {
     //  arr 是返回的数据  parendId 父id
     let temp: any[] = [];
     let treeArr: any[] = arr;
@@ -56,14 +58,13 @@ const Home: React.FC<any> = (props) => {
     });
 
     return temp;
-  }
+  };
 
   return (
     <>
-      <Table columns={columns} dataSource={data} size={'small'} rowKey='id' />
+      <Table columns={columns} dataSource={data} size={'small'} rowKey="id" />
     </>
   );
 };
-
 
 export default Home;

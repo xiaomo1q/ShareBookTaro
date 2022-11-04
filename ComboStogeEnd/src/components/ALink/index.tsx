@@ -11,7 +11,7 @@ export interface ALinkProps {
   className?: string;
 }
 
-const ALink: React.FC<ALinkProps> = props => {
+const ALink: React.FC<ALinkProps> = (props) => {
   const { children, to, ...attr } = props;
 
   return isExternal(to) ? (

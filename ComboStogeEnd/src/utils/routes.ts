@@ -1,5 +1,5 @@
 import settings from '../config/settings';
-import { getToken } from '../utils/localToken'
+import { getToken } from '../utils/localToken';
 /**
  * 判断是否是外链
  * @param {string} path
@@ -264,7 +264,7 @@ export const umiRoutes = (
   parentPath: string = '/',
   headStart: string = '/',
 ): RoutesDataItem[] => {
-  return routesData.map(item => {
+  return routesData.map((item) => {
     const { redirect, routes, ...other } = item;
     const itemRoutes = routes || [];
     const newItem: RoutesDataItem = { ...other };
@@ -331,7 +331,7 @@ export const hasPermission = (
   }
 
   if (route.roles) {
-    return route.roles.some(role => roles.includes(role));
+    return route.roles.some((role) => roles.includes(role));
     //return roles.some(role => route.roles?.includes(role));
   }
 
@@ -380,4 +380,4 @@ export const recursionFun = (tree: RoutesDataItem[], path: string) => {
       return temp;
     }
   }
-}
+};

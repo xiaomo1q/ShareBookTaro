@@ -23,7 +23,7 @@ const IconFontCN = createFromIconfontCN({
   scriptUrl: settings.iconfontUrl,
 });
 
-const IconFont: React.FC<IconFontProps> = props => {
+const IconFont: React.FC<IconFontProps> = (props) => {
   return <IconFontCN {...props} />;
 };
 

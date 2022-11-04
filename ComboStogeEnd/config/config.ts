@@ -14,9 +14,9 @@ export default defineConfig({
   // history: {
   //   type: 'hash',
   // },
-  title: "umi-admin",
+  title: 'umi-admin',
   cssLoader: {
-    localsConvention: 'camelCase'
+    localsConvention: 'camelCase',
   },
   ignoreMomentLocale: true,
   dva: {
@@ -53,9 +53,9 @@ export default defineConfig({
     proxy: {
       '/api': {
         // 'target': 'http://81.68.169.67:3000',
-        'target': 'http://127.0.0.1:3030',
-        'changeOrigin': true,
-        'pathRewrite': { '^/api': '/api' },
+        target: 'http://127.0.0.1:3030',
+        changeOrigin: true,
+        pathRewrite: { '^/api': '/api' },
       },
     },
   },

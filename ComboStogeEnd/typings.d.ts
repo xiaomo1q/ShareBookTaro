@@ -10,11 +10,11 @@ declare module '*.svg' {
 }
 
 declare module 'socket.io-client' {
-  const content: any
-  export = content
+  const content: any;
+  export = content;
 }
-declare module 'docx'
-declare module 'file-saver'
+declare module 'docx';
+declare module 'file-saver';
 // declare module 'react-highlight-words'
 
 // api接口域名

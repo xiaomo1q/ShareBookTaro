@@ -6,7 +6,7 @@
  * 服务器地址(开发)
  */
 
-const BASE_HOST_URL = "";
+const BASE_HOST_URL = '';
 
 /**
  * 服务器路径

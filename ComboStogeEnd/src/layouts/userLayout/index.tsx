@@ -7,9 +7,9 @@ import { getRouteItem, RoutesDataItem } from '@/utils/routes';
 import styles from './index.less';
 
 import { getToken } from '@/utils/localToken';
-interface UserLayoutPorps extends ConnectProps { }
+interface UserLayoutPorps extends ConnectProps {}
 
-const UserLayout: React.FC<UserLayoutPorps> = props => {
+const UserLayout: React.FC<UserLayoutPorps> = (props) => {
   const { location, route, children } = props;
 
   const { pathname } = location;

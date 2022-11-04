@@ -1,4 +1,9 @@
-import { RoutesDataItem, umiRoutes, getNotFoundRoute, getPermissionMenuData } from '../utils/routes';
+import {
+  RoutesDataItem,
+  umiRoutes,
+  getNotFoundRoute,
+  getPermissionMenuData,
+} from '../utils/routes';
 
 /**
  * User Layout 路由页面
