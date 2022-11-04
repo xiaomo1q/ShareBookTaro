@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Form, DatePicker, Input, InputNumber, Space, message, Upload, Spin } from 'antd';
 import moment from 'moment'
-import { GetClassList, PostClassList, DeleteClassList, PUTClassList, downloadFile } from '@/services/index'
-import { ImportClassList, uploadImg } from '@/services/index'
+import { get_book_list } from '@/services/book'
 import { history } from 'umi';
 const { Search } = Input;
 const Home: React.FC<any> = (props) => {
@@ -62,7 +61,7 @@ const Home: React.FC<any> = (props) => {
 
     // 获取
     const fetchTable = async (pageCount: number, pageIndex: number) => {
-        await GetClassList({ pageCount: pageCount, pageIndex: pageIndex }).then(res => {
+        await get_book_list({ pageCount: pageCount, pageIndex: pageIndex }).then(res => {
             if (res.code === '0') {
                 setData(res.data)
                 setPagination({
@@ -85,9 +84,9 @@ const Home: React.FC<any> = (props) => {
 
     // 删除
     const delRowClickedHandler = (row: { name: string }) => {
-        DeleteClassList({ name: row.name }).then(res => {
-            fetchTable(pagination.pageCount, pagination.pageIndex)
-        })
+        // DeleteClassList({ name: row.name }).then(res => {
+        //     fetchTable(pagination.pageCount, pagination.pageIndex)
+        // })
     }
 
     // 编辑
@@ -209,14 +208,14 @@ const Home: React.FC<any> = (props) => {
         <Space direction="vertical" style={{ width: "100%" }}>
             <Space>
                 <Search placeholder="input search text" onSearch={onSearch} enterButton />
-                <Button type="primary" onClick={showModal}> 添加 </Button>
-                <Upload {...propsUpload}>
+                {/* <Button type="primary" onClick={showModal}> 添加 </Button> */}
+                {/* <Upload {...propsUpload}>
                     <Button >导入excel</Button>
                 </Upload>
                 <Upload {...propsImg}>
                     <Button >文件存储</Button>
-                </Upload>
-                <Button onClick={downloadClickedHandler}>导出</Button>
+                </Upload> */}
+                {/* <Button onClick={downloadClickedHandler}>导出</Button> */}
             </Space>
             <Modal title="formName" visible={isModalVisible} footer={null} forceRender={true} onCancel={() => setIsModalVisible(false)}>
                 <Form {...layout} name="add" form={editForm} onFinish={onFinish} >
@@ -238,7 +237,8 @@ const Home: React.FC<any> = (props) => {
             </Modal>
             <Space />
             {
-                data[0] ? data[0].status === 0 ? <h1>出错啦出错啦，请找网络人员</h1> : <Table columns={columns} dataSource={data} size={'small'} rowKey='_id'
+                data[0] ? data[0].status === 0 ? <h1>出错啦出错啦，请找网络人员</h1> : 
+                <Table columns={columns} dataSource={data} size={'small'} rowKey='_id'
                     pagination={{
                         total: pagination.total,
                         current: pagination.pageIndex,

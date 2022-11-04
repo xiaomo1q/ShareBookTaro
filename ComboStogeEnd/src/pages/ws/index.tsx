@@ -10,7 +10,7 @@ import BraftEditor from 'braft-editor'
 import 'braft-editor/dist/index.css'
 
 const { Search } = Input;
-const socket = io('ws://192.168.50.54:3000', { transports: ['websocket'] })
+const socket = io('ws://127.0.0.1:3030', { transports: ['websocket'] })
 const Wss: React.FC<any> = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [name, setName] = useState(localStorage.getItem('name'));
@@ -173,7 +173,7 @@ const Wss: React.FC<any> = (props) => {
                         {
                             data.map((it: any, ix: React.Key | null | undefined) =>
                                 <div className={it.name == name ? 'item right' : 'item left'} key={ix}>
-                                    <img className="header-img" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                                    <img className="header-img" src="https://images-1300238189.cos.ap-shanghai.myqcloud.com/icon/saqure.png" />
                                     <div className='.p'>
                                         <p className="name">{JSON.parse(it.name)}</p>
                                         <div className="message" dangerouslySetInnerHTML={{ __html: it.value }}></div>

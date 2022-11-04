@@ -64,7 +64,7 @@ const Login: React.FC<LoginProps> = props => {
             <Form name="basic" onFinish={handleSubmit} initialValues={{}} form={loginForm}>
                 <Form.Item
                     label=""
-                    name={[name, "username"]}
+                    name={[name, "name"]}
                     rules={[{ required: true, message: '请输入用户名', },]}
                 >
                     <Input placeholder={'用户名: admin or test or user'} prefix={<UserOutlined />} />
@@ -132,9 +132,9 @@ const Login: React.FC<LoginProps> = props => {
                         {name === 'login' ? '登录' : ' 注册'}
                     </Button>
                 </Form.Item>
-                <div className={styles['text-align-right']} onClick={registerClickedHandler}>
+                {/* <div className={styles['text-align-right']} onClick={registerClickedHandler}>
                     {name === 'login' ? ' 还没有账户？现在注册！' : '现在就去登录！'}
-                </div>
+                </div> */}
                 {loginStatus === 'error' && !submitLoading && (
                     <Alert
                         message={'用户名或密码错误！'}

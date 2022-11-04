@@ -11,7 +11,7 @@ const BASE_HOST_URL = "";
 /**
  * 服务器路径
  */
-const API_PATH = '/api';
+const API_PATH = '/api/admin';
 
 /**
  * 登录

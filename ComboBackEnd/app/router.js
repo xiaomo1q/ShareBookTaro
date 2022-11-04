@@ -5,7 +5,7 @@
  */
 module.exports = app => {
     const { router, controller, middleware, io } = app;
-    // 引入
+    // 引入 使用egg-jwt中间件来授权，授权成功才会执行下一个中间件
     const jwt = middleware.jwt(app.config.jwt);
     router.get('/api/registered', controller.user.registered); // 注册
     router.get('/api/loginH5', controller.user.loginH5); // loginH5
@@ -33,9 +33,14 @@ module.exports = app => {
     router.post('/api/add_messages', jwt, controller.messages.add_messages); // 创建房间
     router.get('/api/msg_list', jwt, controller.messages.msg_list); // 群聊列表
 
-    // 使用egg-jwt中间件来授权，授权成功才会执行下一个中间件
+    /**
+     * 平台
+     */
+    router.get('/api/admin/login', controller.adminUser.login); // 登录
+    router.get('/api/admin/captcha', controller.adminUser.captcha); // 验证码
+    router.post('/api/admin/get_book_type', jwt, controller.adminUser.get_book_type); // 分类
+    router.post('/api/admin/get_book_list', controller.adminUser.get_book_list); // 列表
     //   router.resources('routerName', 'pathMatch', controller.class);
-    // router.get('/api/logout', jwt, controller.user.logout); // 登出并清除token
     // router.resources('list', '/api/list', jwt, controller.class);	// 需要验证Token的路由
     // router.put('/api/list', jwt, controller.class.update);	// update
     // router.delete('/api/list', jwt, controller.class.destroy);	// del

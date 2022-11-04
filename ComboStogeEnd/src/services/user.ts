@@ -7,7 +7,7 @@ import { LoginParamsType } from '@/pages/data';
 // const URL = 'http://192.168.31.164:3000'
 //登录
 export async function accountLogin(params: LoginParamsType): Promise<any> {
-    return POSTRequest(LOGIN, params);
+    return GETRequest(LOGIN, params);
 }
 
 /** 验证码 */

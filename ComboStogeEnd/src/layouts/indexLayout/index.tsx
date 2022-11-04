@@ -45,6 +45,7 @@ const IndexLayout: React.FC<any> = props => {
         fetchRoute('/' + newArr[0], pathname)
         const obj = recursionFun(IndexLayoutRoutes, pathname);   // 返回根据 id 查找到的数据对象
         obj ? null : history.push('*')
+        if (!roles) {history.replace('/user');}
     }, [])
 
 

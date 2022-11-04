@@ -52,7 +52,8 @@ export default defineConfig({
   devServer: {
     proxy: {
       '/api': {
-        'target': 'http://81.68.169.67:3000',
+        // 'target': 'http://81.68.169.67:3000',
+        'target': 'http://127.0.0.1:3030',
         'changeOrigin': true,
         'pathRewrite': { '^/api': '/api' },
       },

@@ -28,21 +28,20 @@ const RightTop: React.FC<RightTopProps> = ({
     const handleClick = (item: any) => { onMenuClickHandler && onMenuClickHandler(item) }
     // 登出
     const logoutClickedHandler = async () => {
-        accountLogout().then(res => {
-            if (res === 'out') {
-                removeToken();
-                history.replace('/');
-            }
-        })
-
+        // accountLogout().then(res => {
+        //     if (res === 'out') {
+        //     }
+        // })
+        removeToken();
+        history.replace('/');
     }
     /** 下拉菜单 */
     const menu = (
         <Menu>
-            <Menu.Item key="0">
+            {/* <Menu.Item key="0">
                 <ALink to="/roles/all">个人中心</ALink>
             </Menu.Item>
-            <Menu.Divider />
+            <Menu.Divider /> */}
             <Menu.Item key="3" onClick={logoutClickedHandler}>退出登录</Menu.Item>
         </Menu>
     );
@@ -63,9 +62,9 @@ const RightTop: React.FC<RightTopProps> = ({
                 }
             </Menu>
 
-            <div className={styles['right-logout']}>
+            <div className={styles['right-logout']}> 
                 <Dropdown overlay={menu} trigger={['click']}>
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                    <Avatar src="https://images-1300238189.cos.ap-shanghai.myqcloud.com/icon/saqure.png" />
                 </Dropdown>
             </div>
         </div>
