@@ -17,7 +17,7 @@ const SearchIndex = () => {
   const [searchValue, setValue] = useState('');
   const router: any = useRouter().params
   const dispatch = useDispatch()
-  const { favorite_book_list, search_book_list, book_list,connect_book_list } = useSelector((state: any) => state.book_model)
+  const { favorite_book_list, search_book_list, book_list, connect_book_list } = useSelector((state: any) => state.book_model)
   useEffect(() => {
     if (process.env.TARO_ENV === 'weapp') Taro.hideHomeButton()
     Taro.setNavigationBarTitle({ title: router.title || '' })
@@ -25,7 +25,7 @@ const SearchIndex = () => {
   }, []);
 
   const fetchBookList = () => {
-    switch (router.title) {
+    switch (decodeURI(router.title)) {
       case '搜索':
         break;
       case '关联图书':
@@ -64,7 +64,7 @@ const SearchIndex = () => {
         break;
       case '拥有':
         if (value) {
-          const searchFav: any =  connect_book_list.filter(el => {
+          const searchFav: any = connect_book_list.filter(el => {
             if (el.name.toLowerCase().indexOf(value) !== -1) {
               return el
             }
@@ -96,7 +96,7 @@ const SearchIndex = () => {
           />,
           '收藏': <RenderBookList data={favorite_book_list} />,
           '拥有': <RenderBookList data={connect_book_list} />,
-        }[router.title]
+        }[decodeURI(router.title)]
       }
 
     </View>

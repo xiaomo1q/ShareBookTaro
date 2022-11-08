@@ -13,10 +13,10 @@ const publicStatus = {
   },
   // 这里主要调用异步方法
   effects: { 
-    *Get_exchange_square_list({ payload: { type } }, { call, put }) {
+    *get_exchange_square_list({ payload: { type } }, { call, put }) {
       const res = yield call(Get_exchange_square_list, type);
       try {
-        yield put({ type: "getListUpdate", payload: { get_list: res.data } })
+        yield put({ type: "getListUpdate", payload: { get_list: res } })
       } catch (error) {
         Taro.atMessage({
           'message': error,

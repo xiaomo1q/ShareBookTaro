@@ -3,9 +3,35 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Taro from '@tarojs/taro';
 import { View, Text } from '@tarojs/components'
-import { AtForm, AtTextarea, AtButton, AtImagePicker, AtListItem } from 'taro-ui'
+import { AtForm, AtTextarea, AtButton, AtImagePicker, AtListItem, AtFloatLayout, AtSearchBar } from 'taro-ui'
+import { RenderConnectBookList } from '@/components/bookList';
 import { fileToBase64 } from '@/utils/calculate'
 import styles from './index.module.less'
+
+
+const RenderFloatCon = ({ onChanged }) => {
+  const dispatch = useDispatch()
+  const [searchValue, setValue] = useState('');
+  const { search_book_list, book_list } = useSelector((state: any) => state.book_model)
+  const searchChangedHandler = (value) => {
+    setValue(value)
+    dispatch({ type: "book_model/searchBookList", payload: { title: value } })
+  }
+  return <>
+    <AtSearchBar
+      placeholder='请输入查询的书名'
+      value={searchValue}
+      onChange={searchChangedHandler}
+    />
+    <RenderConnectBookList
+      data={search_book_list.length > 0 ? search_book_list : book_list}
+      onChange={(val) => {
+        console.log(val);
+        onChanged(val)
+      }}
+    />
+  </>
+}
 
 /**
  * 发布图书
@@ -16,6 +42,7 @@ const Index = () => {
     book_content: "", book_url: [], book_name: '', book_img: '',
   });
   const [upload_img, setUpload_img] = useState([]);
+  const [isOpenedFloat, setIsOpenedFloat] = useState(true);
   const dispatch = useDispatch()
   const { connect_book_list } = useSelector((state: any) => state.public_storage)
   useEffect(() => {
@@ -31,13 +58,17 @@ const Index = () => {
       setFormValue({ ...formValue, book_img: bookURL.join('[;]'), book_url: imgUrl, book_name: text.join(';') })
     }
   }, [connect_book_list]);
+  useEffect(() => {
+    dispatch({ type: "book_model/getBookList", payload: { type: { title: 'ALL' } } })
+  }, [])
+
+
   const handleChange = (value) => {
     setFormValue({ ...formValue, book_content: value })
   }
   const onSubmit = (event) => {
-    console.log(event, formValue);
-    
-    dispatch({ type: "public_storage/connect_book_listUpdate", payload: { connect_book_list: [] } })
+    console.log(formValue);
+    // dispatch({ type: "public_storage/connect_book_listUpdate", payload: { connect_book_list: [] } })
   }
 
   const ImagePickerChangedHandler = (files) => {
@@ -85,11 +116,11 @@ const Index = () => {
       <AtForm >
         <View className={`flex-row ${styles['re-header']}`}>
           <Text className={styles['re-h-text']} onClick={() => {
-            Taro.navigateBack({ delta: -1 });
+            Taro.redirectTo({ url: '/pages/subtract/index/index' });
             dispatch({ type: "public_storage/connect_book_listUpdate", payload: { connect_book_list: [] } })
           }}
           >取消</Text>
-          <AtButton  onClick={onSubmit} >发布</AtButton>
+          <AtButton onClick={onSubmit} >发布</AtButton>
         </View>
         <AtTextarea value={`${formValue.book_content}`}
           count={false}
@@ -103,7 +134,14 @@ const Index = () => {
           onFail={ImagePickerFailHandler}
         />
       </AtForm>
-      <AtListItem title='关联图书' note='' arrow='right' onClick={() => Taro.navigateTo({ url: "/pages/search/index?title=关联图书" })} />
+      {/* 弹窗  onClick={() => Taro.navigateTo({ url: "/pages/search/index?title=关联图书" })}*/}
+      <AtListItem title='关联图书' note='' arrow='right' onClick={() => setIsOpenedFloat(true)} />
+      <AtFloatLayout isOpened={isOpenedFloat} title='关联图书' onClose={() => setIsOpenedFloat(false)}>
+        <RenderFloatCon onChanged={(val) => {
+          dispatch({ type: "public_storage/connect_book_listUpdate", payload: { connect_book_list: val } })
+        }}
+        />
+      </AtFloatLayout>
     </View>
   );
 };

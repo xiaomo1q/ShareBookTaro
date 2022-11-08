@@ -24,7 +24,7 @@ const MSGDetailIndex = () => {
 
   //  ws://127.0.0.1:8000
   // process.env.TARO_ENV = localStorage.getItem("TOKEN")
-  const socket = wsio('ws://81.68.169.67:3030', {
+  const socket = wsio('ws://127.0.0.1:3030', {
     query: { m_id: params.id },
     reconnection: false, //关闭自动重连
     transports: ['websocket']

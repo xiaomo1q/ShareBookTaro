@@ -26,8 +26,10 @@ module.exports = app => {
     router.get('/api/get_favorite_book_list', jwt, controller.book.get_favorite_book_list); // 收藏列表
     router.get('/api/add_favorite_book', jwt, controller.book.add_favorite_book); // 收藏
 
-    router.get('/api/get_exchange_square_list', jwt, controller.exchangeSquare.get_exchange_square_list); // 书圈广场
-    router.post('/api/add_exchange_square_detail', jwt, controller.exchangeSquare.add_exchange_square_detail); // 填写书评
+    router.get('/api/get_exchange_square_list', controller.exchangeSquare.get_exchange_square_list); // 书圈广场
+    router.get('/api/get_exchange_square_detail', controller.exchangeSquare.get_exchange_square_detail); // 书圈广场详情
+    router.get('/api/add_exchange_square_detail', controller.exchangeSquare.add_exchange_square_detail); // 填写书评
+    router.get('/api/add_only_square_review', controller.exchangeSquare.add_only_square_review); // 填写书评
 
     // 聊天
     router.post('/api/add_messages', jwt, controller.messages.add_messages); // 创建房间
