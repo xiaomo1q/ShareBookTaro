@@ -28,7 +28,10 @@ export const Add_favorite_book = (data) => GETRequest(InterfacePath.add_favorite
 
 /** 书评 */
 export const Get_exchange_square_list = () => GETRequest(InterfacePath.get_exchange_square_list);
-export const Add_exchange_square_detail = (data) => POSTRequest(InterfacePath.add_exchange_square_detail, { data });
+export const Get_exchange_square_detail = (data) => POSTRequest('/api/get_exchange_square_detail', { data });
+export const Add_exchange_square_detail = (data) => POSTRequest('/api/add_exchange_square_detail', { data });
+export const File_img_upload = (data) => POSTRequest('/api/file/img/upload/', { data });
+export const File_img_delete = (data) => POSTRequest('/api/file/img/delete/', { data });
 
 /** 书主个人信息 */
 export const Get_bookuser_userInfo = (data) => GETRequest(InterfacePath.get_bookuser_userInfo,{data});

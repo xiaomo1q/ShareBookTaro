@@ -13,15 +13,18 @@
   }
   :global{
     .at-form{
-      height: calc(100% - 300px);
+      height: auto;
+    }
+    .at-textarea__textarea{
+      height: auto;
     }
     .at-textarea{
       border: 0;
     }
   }
   .re-header{
-    width: 90%;
-    margin: 5px auto;
+    width: calc(100% - 50px);
+    margin: 20px auto;
     justify-content: space-between;
     align-items: center;
     .re-h-text{
@@ -42,5 +45,28 @@
         margin: 0;
       }
     } 
+  }
+  .re-flex{
+    width: calc(100% - 50px);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    .re-image{
+      width: 60px;
+      height: 60px;
+      margin: 5px;
+    }
+  }
+  .re-image-box{
+    position: relative;
+    overflow: hidden;
+    .re-del{
+      position: absolute;
+      right: 3px;
+      top: 3px;
+      width: 20px;
+      height: 20px;
+    }
   }
 }

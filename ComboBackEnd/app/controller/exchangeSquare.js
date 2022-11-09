@@ -1,5 +1,7 @@
 'use strict';
 
+const await = require('await-stream-ready/lib/await');
+
 const Controller = require('egg').Controller;
 
 class ExchangeSquareController extends Controller {
@@ -42,7 +44,7 @@ class ExchangeSquareController extends Controller {
   async add_only_square_review() {
     const { ctx, app } = this;
     // const decoded = await ctx.service.tool.jwtToken();
-    const { _id, num } = await ctx.request.query;
+    const { _id, num } = await ctx.request.body;
     const params = {
       avatar: 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132',
       user_name: '努努力',
@@ -55,6 +57,14 @@ class ExchangeSquareController extends Controller {
     const uuid = await ctx.service.tool.uuid();
     await app.mysql.insert('comment_user', { id: uuid, ...params });
     ctx.body = { code: 0 };
+  }
+  /** 上传图片 */
+  async file_img_upload() {
+    this.ctx.body = await this.ctx.service.tool.getUploadFile();
+  }
+  async file_img_delete() {
+    const { ids } = this.ctx.request.body;
+    this.ctx.body = await this.ctx.service.tool.deleteImage(ids);
   }
 }
 

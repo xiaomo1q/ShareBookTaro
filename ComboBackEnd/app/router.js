@@ -28,8 +28,10 @@ module.exports = app => {
 
     router.get('/api/get_exchange_square_list', controller.exchangeSquare.get_exchange_square_list); // 书圈广场
     router.get('/api/get_exchange_square_detail', controller.exchangeSquare.get_exchange_square_detail); // 书圈广场详情
-    router.get('/api/add_exchange_square_detail', controller.exchangeSquare.add_exchange_square_detail); // 填写书评
-    router.get('/api/add_only_square_review', controller.exchangeSquare.add_only_square_review); // 填写书评
+    router.post('/api/add_exchange_square_detail', controller.exchangeSquare.add_exchange_square_detail); // 填写书评
+    router.post('/api/add_only_square_review', controller.exchangeSquare.add_only_square_review); // 填写书评
+    router.post('/api/file/img/upload/', controller.exchangeSquare.file_img_upload); // 上传图片
+    router.post('/api/file/img/delete/', controller.exchangeSquare.file_img_delete); // 上传图片
 
     // 聊天
     router.post('/api/add_messages', jwt, controller.messages.add_messages); // 创建房间
