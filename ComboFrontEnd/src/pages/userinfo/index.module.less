@@ -116,7 +116,24 @@
       }
     }
   }
- 
+  .re-footer{
+    width: 100%;
+    margin-top: 50px;
+    :global{
+      .at-button:nth-child(1){
+        width: 40%;
+        border-radius: 36px;
+        background: @color-txt;
+        color: @color-f-txt;
+      }
+      .at-button:nth-child(2){
+        width: 40%;
+        border-radius: 36px;
+        border: 1px solid @color-txt;
+        color: @color-txt;
+      }
+    } 
+  }
   .text {
     margin-top: 30px;
     align-self: center;
@@ -147,5 +164,11 @@
     font-size: 16px;
     margin: auto;
     margin-top: 40px;
+  }
+  :global{
+    .at-form::after{
+      border-top-width: 0;
+      border-bottom-width:0;
+    }
   }
 }

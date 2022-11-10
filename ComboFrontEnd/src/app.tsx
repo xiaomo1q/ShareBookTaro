@@ -36,7 +36,7 @@ const App = (props) => {
       token = localStorage.getItem("TOKEN"); //拿到本地缓存中存的token
       if (token) { } else {
         Taro.redirectTo({
-          url: "/pagesA/userinfo/login"
+          url: "/pages/userinfo/login"
         })
       }
     } else {
@@ -48,7 +48,7 @@ const App = (props) => {
         fail() {
           console.log('session_key 已经失效，需要重新执行登录流程')
           Taro.redirectTo({
-            url: "/pagesA/userinfo/login"
+            url: "/pages/userinfo/login"
           })
         }
       })

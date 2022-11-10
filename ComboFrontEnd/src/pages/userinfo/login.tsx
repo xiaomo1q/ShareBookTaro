@@ -128,7 +128,7 @@ const LoginUser = () => {
     }
   }
   return (<View className={`flex-col ${styles['login-page']}`}>
-    {/* <Swiper
+    <Swiper
       className={styles['swipe']}
       indicatorColor='#999'
       indicatorActiveColor='#3D5CFF'
@@ -153,7 +153,7 @@ const LoginUser = () => {
           />
         </View>
       </SwiperItem>
-    </Swiper> */}
+    </Swiper>
     <Text className={`${styles['text']}`}>校图</Text>
     <Text className={`${styles['text_1']}`}>共享图书，共享知识</Text>
     <AtForm >

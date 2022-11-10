@@ -82,7 +82,7 @@ const interceptor = (chain: {
         case 401:
           throttle("", () => {
             // 跳转登录页
-            Taro.redirectTo({ url: "pages/pagesA/userinfo/login" }).then(() => {
+            Taro.redirectTo({ url: "/pages/userinfo/login" }).then(() => {
               setTimeout(() => {
                 Taro.atMessage({
                   message: "认证失效，请重新登录",

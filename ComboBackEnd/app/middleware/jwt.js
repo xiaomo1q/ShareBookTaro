@@ -7,6 +7,7 @@ module.exports = (options) => {
     return async function(ctx, next) {
         //判断接口路径是否在白名单（在 “router 中使用中间件”中不需要验证这一步）
         const isInWhiteList = whiteList.some(item => item == ctx.request.url)
+        console.log(isInWhiteList,'....');
         if (!isInWhiteList) {
             // 拿到前端传过来的 token
             const token = ctx.request.header.authorization

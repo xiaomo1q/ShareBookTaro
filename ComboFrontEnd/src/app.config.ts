@@ -9,7 +9,8 @@ export default defineAppConfig({
     'pages/message/index',
     'pages/message/msg-detail/index',
     'pages/search/index',
-    'pages/userinfo/index'
+    'pages/userinfo/index',
+    'pages/userinfo/login',
   ],
   subpackages: [
     // {
@@ -23,7 +24,6 @@ export default defineAppConfig({
     {
       root: "pagesA",
       pages: [
-        'userinfo/login',
         'bookuserinfo/index',
       ],
     },

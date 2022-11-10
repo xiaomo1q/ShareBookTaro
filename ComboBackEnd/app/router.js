@@ -18,7 +18,6 @@ module.exports = app => {
     router.get('/api/get_connect_book_list', jwt, controller.book.get_connect_book_list); // 拥有书主
     router.get('/api/get_bookuser_userInfo', jwt, controller.user.get_bookuser_userInfo); // 书主个人信息
 
-
     router.get('/api/get_book_type', controller.book.get_book_type); // 获取图书类型
     router.get('/api/get_book_list', controller.book.get_book_list); // 获取图书列表
     router.get('/api/get_only_book_detail', jwt, controller.book.get_only_book_detail); // 获取图书详情

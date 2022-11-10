@@ -19,8 +19,11 @@ class ToolService extends Service {
         // 1. 获取请求头 authorization 属性，值为 token
         const token = ctx.request.header.authorization;
         // 2. 用 app.jwt.verify(token， app.config.jwt.secret)，解析出 token 的值
-        const decoded = ctx.app.jwt.verify(token, ctx.app.config.jwt.secret);
-        return decoded;
+        try {
+            return ctx.app.jwt.verify(token, ctx.app.config.jwt.secret)
+        } catch (error) {
+            return ctx.throw(401, '无效Token')
+        }   
     }
     // 生成唯一uuid值
     async uuid() {
