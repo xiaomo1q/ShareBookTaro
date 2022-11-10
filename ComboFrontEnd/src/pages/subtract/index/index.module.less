@@ -9,19 +9,20 @@
   }
   .si-list{
     .list-item {
-      padding: 15px;
+      padding: 0 15px;
       background-color: #ffffff;
       margin-bottom: 15px;
     }
-    .space-x-14:not(:first-child) {
-      margin-left: 14px;
+    .space-x-14 {
+      margin-top: 14px;
     }
     .image {
-      width: 50px;
-      height: 50px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50px;
+      margin-right: 10px;
     }
-    .space-y-10:not(:first-child) {
-      margin-top: 10px;
+    .space-y-10 {
     }
     .group_1 {
       align-self: center;
@@ -39,6 +40,10 @@
       font-family: PingFang SC-Regular;
       line-height: 11px;
     }
+    .text_3{
+      font-size: 12px;
+      color: #333333;
+    }
     .text_4 {
       align-self: flex-start;
       color: #000000;
@@ -46,8 +51,13 @@
       font-family: PingFang SC-Regular;
       line-height: 15px;
     }
-    .space-x-4 :not(:first-child) {
-      margin-left: 4px;
+    .space-x-4{
+     .space-x-4-image{
+      width: 100%;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 10px auto;
+     }
     }
     .text_6 {
       flex: 1 1 auto;
@@ -64,11 +74,18 @@
     .image_2 {
       flex-shrink: 0;
       border-radius: 10px;
-      width: 100px;
-      height: 50px;
+      width: 60px;
+      height: 60px;
+      margin-right: 10px;
     }
-    .space-x-59-reverse :not(:last-child) {
-      margin-right: 59px;
+    .space-x-59-reverse{
+      height: 30px;
+      align-items: center;
+      border-top: 0.5px solid #e2e1e1;
+      .space-x-num{
+       flex: 1;
+       justify-content: center;
+      }
     }
     .image_4 {
       flex-shrink: 0;
@@ -88,12 +105,13 @@
     position: fixed;
     width: 80px;
     height: 80px;
-    bottom: 30px;
+    bottom: 60px;
     right: 15px;
     :global{
       .at-avatar{
         width: 100%;
         height: 100%;
+        background: #fff;
       }
     }
   }

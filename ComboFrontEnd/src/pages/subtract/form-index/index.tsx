@@ -3,11 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Taro from '@tarojs/taro';
 import { View, Image } from '@tarojs/components'
-import { AtForm, AtTextarea, AtButton, AtImagePicker, AtListItem, AtFloatLayout, AtSearchBar, AtIcon, AtDivider } from 'taro-ui'
+import { AtForm, AtTextarea, AtButton, AtImagePicker, AtListItem, AtFloatLayout, AtSearchBar, AtIcon, AtDivider, AtInput } from 'taro-ui'
 import { RenderConnectBookList } from '@/components/bookList';
-import { fileToBase64 } from '@/utils/calculate'
+import { fileToBase64, ObjArrDeduplication } from '@/utils/calculate'
 import styles from './index.module.less'
-import { File_img_delete } from '@/service/index';
+import { Add_exchange_square_detail, File_img_delete } from '@/service/index';
 
 
 const RenderFloatCon = () => {
@@ -37,9 +37,8 @@ const RenderFloatCon = () => {
  */
 const Index = () => {
   const [formValue, setFormValue] = useState<any>({
-    book_content: "", book_url: [], book_name: [],
+    book_title: "", book_des: "", book_url: [], connect_list: [],
   });
-  const [upload_img, setUpload_img] = useState([]);
   const [isOpenedFloat, setIsOpenedFloat] = useState(false);
   const dispatch = useDispatch()
   const { connect_book_list } = useSelector((state: any) => state.public_storage)
@@ -51,36 +50,34 @@ const Index = () => {
         text.push(el.book_name)
         bookURL.push({ type: 0, url: el.imgUrl })
       });
-      formValue.book_name = [...formValue.book_name, ...text]
-      formValue.book_url = [...formValue.book_url, ...bookURL]
-      setFormValue({ ...formValue})
+      formValue.connect_list = [...new Set([...formValue.connect_list, ...text])]
+      formValue.book_url = ObjArrDeduplication([...formValue.book_url, ...bookURL], 'url')
+
+      setFormValue({ ...formValue })
     } else {
-      setFormValue({ ...formValue, book_url: [], book_name: [] })
+      setFormValue({ ...formValue, book_url: [], connect_list: [] })
     }
   }, [connect_book_list]);
   useEffect(() => {
     dispatch({ type: "book_model/getBookList", payload: { type: { title: 'ALL' } } })
   }, [])
 
-
-  const handleChange = (value) => {
-    setFormValue({ ...formValue, book_content: value })
-  }
-  const onSubmit = (event) => {
-    console.log(formValue);
-    // const params = {
-    //   avatar: 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132',
-    //   user_name: '小米',
-    //   user_id: 'oHfOA6l93trN6YkpCEhAkKnPGmKo',
-    //   book_title: '《哈利波特》书评',
-    //   book_des: 'xxxxxxxxxxxxxxxxxxxxx',
-    //   book_url: null,
-    //   connect_list: '哈利波特Ⅰ[;]哈利波特Ⅱ',
-    //   like_num: 0,
-    //   update_time: null,
-    //   comment_num: 0,
-    // };
-    // dispatch({ type: "public_storage/connect_book_listUpdate", payload: { connect_book_list: [] } })
+  const onSubmit = async (event) => {
+    const book_url:any= []
+    formValue.book_url.forEach(el => {
+      book_url.push(el.type === 0 ? el.url : `${process.env.baseUrl}${el.url}`)
+    });
+    const params = {
+      ...formValue,
+      book_url: book_url.join(';'),
+      connect_list: formValue.connect_list.join(';'),
+    };
+    await Add_exchange_square_detail(params).then(res=>{
+      if(res.code === 0){
+        Taro.redirectTo({ url: '/pages/subtract/index/index' });
+        dispatch({ type: "public_storage/connect_book_listUpdate", payload: { connect_book_list: [] } })
+      }
+    })
   }
 
   const ImagePickerChangedHandler = (files) => {
@@ -89,8 +86,7 @@ const Index = () => {
         count: 1, // 默认9
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有，在H5浏览器端支持使用 `user` 和 `environment`分别指定为前后摄像头
-        success: function (res) {
-          console.log(res, '............');
+        success: (res) => {
           // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
           if (res.errMsg === "chooseImage:ok") {
             //获取环境
@@ -129,7 +125,6 @@ const Index = () => {
     if (el.type === 1) { await File_img_delete({ ids: el.url }) }
 
   }
-  console.log(formValue, '..formValue');
 
   return (
     <View className={`flex-col ${styles['release-index']}`}>
@@ -139,20 +134,24 @@ const Index = () => {
             dispatch({ type: "public_storage/connect_book_listUpdate", payload: { connect_book_list: [] } })
           }}
           >取消</Text> */}
-        <AtIcon value='close' size='24' color='#333' onClick={() => {
+        <AtIcon value='close' size='15' color='#333' onClick={() => {
           Taro.redirectTo({ url: '/pages/subtract/index/index' });
           dispatch({ type: "public_storage/connect_book_listUpdate", payload: { connect_book_list: [] } })
         }}
         />
         <AtButton onClick={onSubmit} >发布</AtButton>
       </View>
-      <View className='at-article__info'>  {formValue?.book_name.join(' ; ')}  </View>
-      <AtTextarea value={`${formValue.book_content}`}
+      <View className='at-article__info'>  {formValue?.connect_list.join(' ; ')}  </View>
+      <AtInput name='book_title' value={`${formValue.book_title}`}
+        placeholder='请输入标题'
+        onChange={(val, event: any) => setFormValue({ ...formValue, book_title: event.detail.value })}
+      />
+      <AtTextarea value={`${formValue.book_des}`}
         count={false}
         // height={400}
         maxLength={100000}
         placeholder='说说你对某本书的观点吧～'
-        onChange={handleChange}
+        onChange={(val, event: any) => setFormValue({ ...formValue, book_des: event.detail.value })}
       />
       {/* <AtImagePicker files={formValue.book_url}
         onChange={()=>{}}
@@ -163,9 +162,12 @@ const Index = () => {
         {
           formValue.book_url.length > 0 && formValue.book_url.map((el, ix) => <View key={ix} className={`${styles['re-image-box']}`}>
             <Image src={el.type === 0 ? el.url : `${process.env.baseUrl}${el.url}`} className={`${styles['re-image']}`} />
-            <Image src={require('../../../assets/image/delete.svg')} className={`${styles['re-del']}`}
-              onClick={() => delImageClickedHandler(el, ix)}
-            />
+            {
+              el.type === 0 ? null : <Image src={require('../../../assets/image/delete.svg')} className={`${styles['re-del']}`}
+                onClick={() => delImageClickedHandler(el, ix)}
+              />
+            }
+
           </View>)
         }
         {

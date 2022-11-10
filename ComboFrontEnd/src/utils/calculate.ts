@@ -1,5 +1,11 @@
 import Taro from "@tarojs/taro";
 
+/** 对象数组去重 */
+export const ObjArrDeduplication  = (arr, uniId)=>{
+  const res = new Map();
+  return arr.filter((item) => !res.has(item[uniId]) && res.set(item[uniId], 1));
+}
+
 // 更改日期格式
 export const Formatter = (value) => {
   const date = new Date(value);

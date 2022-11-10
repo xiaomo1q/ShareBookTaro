@@ -22,22 +22,23 @@ class ExchangeSquareController extends Controller {
   /** 新增书圈信息 */
   async add_exchange_square_detail() {
     const { ctx, app } = this;
-    // const decoded = await ctx.service.tool.jwtToken();
-    // const params = await ctx.request.body;
-    const params = {
-      avatar: 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132',
-      user_name: '小米',
-      user_id: 'oHfOA6l93trN6YkpCEhAkKnPGmKo',
-      book_title: '《哈利波特》书评',
-      book_des: 'xxxxxxxxxxxxxxxxxxxxx',
-      book_url: null,
-      connect_list: '哈利波特Ⅰ[;]哈利波特Ⅱ',
-      like_num: '100',
-      update_time: null,
-      comment_num: 0,
-    };
+    const decoded = await ctx.service.tool.jwtToken();
+    const corr = await app.mysql.get('userinfo', { openid: decoded.openid });
+    const params = await ctx.request.body;
+    // const params = {
+    //   book_title: '《哈利波特》书评',
+    //   book_des: 'xxxxxxxxxxxxxxxxxxxxx',
+    //   book_url: null,
+    //   connect_list: '哈利波特Ⅰ[;]哈利波特Ⅱ',
+    // };
+    const obj = {
+      ...params, avatar: corr.avatarUrl,
+      user_name: corr.nickName,
+      user_id: corr.openid,
+      like_num: 0, update_time: new Date(), comment_num: 0
+    }
     const uuid = await ctx.service.tool.uuid();
-    const user = await ctx.service.exchangeSquare.add_exchange_square_detail({ id: uuid, ...params });
+    const user = await ctx.service.exchangeSquare.add_exchange_square_detail({ id: uuid, ...obj });
     ctx.body = user;
   }
   /** 新增only书圈评论 @id 当前书评的id  */
