@@ -9,6 +9,7 @@ const path = require('path');
 const awaitWriteStream = require('await-stream-ready').write;
 // 管道读入一个虫洞。
 const sendToWormhole = require('stream-wormhole');
+// const dayjs = require('dayjs');
 /**
  * 公共组件
  */
@@ -38,59 +39,48 @@ class ToolService extends Service {
         return guid;
     }
 
-    /**
-  * 获取文件上传目录
-  */
-    async getUploadFile() {
-        const { ctx } = this;
-        const stream = await ctx.getFileStream(); // egg中获取上传文件的方法
-        const filename = stream.filename;
-        const target = path.join('app/public/img', filename);
-        const _that = this;
-        if (!fs.exitsSync('img')) { // 如果路径不存在，则创建
-            fs.mkdir('img');
-        }
-        const writeStream = fs.createWriteStream(target); // 创建文件流
-        try {
-            await awaitWriteStream(stream.pipe(writeStream)); // 异步写入文件
-        } catch (err) {
-            await sendToWormhole(stream); // 如果失败，关闭文件流
-            // 其他操作
-            // return ...
-            _that.error(err);
-        }
-        ctx.body = {
-            url: 'http://81.68.169.67:3030:3000/public/img/' + filename,
-            type: stream.mime,
-            fileName: filename,
-        };
+  /**
+    * 获取文件上传目录
+    */
+  async getUploadFile() {
+    const { ctx } = this;
+    const stream = await ctx.getFileStream();
+    // 基础的目录
+    const uploadBasePath = 'app/public/img';
+    // 生成唯一文件名
+    const filename = `${Date.now()}${Number.parseInt(
+      Math.random() * 1000
+    )}${path.extname(stream.filename).toLocaleLowerCase()}`;
+    // 生成文件夹
+    // const dirname = dayjs(Date.now()).format('YYYY/MM/DD');
+    // mkdirsSync(path.join(uploadBasePath, dirname));
+    // 生成写入路径
+    const target = path.join(uploadBasePath, filename);
+    // 写入流
+    const writeStream = fs.createWriteStream(target);
+    try {
+      // 异步把文件流 写入
+      await awaitWriteStream(stream.pipe(writeStream));
+    } catch (err) {
+      // 如果出现错误，关闭管道
+      await sendToWormhole(stream);
+      ctx.throw(500, err);
     }
-    async deleteFolderRecursive(url) {
-        const files = [];
-        //判断给定的路径是否存在
-        if (fs.existsSync(url)) {
 
-            //返回文件和子目录的数组
-            files = fs.readdirSync(url);
-
-            files.forEach( (file, index)=> {
-                // const curPath = url + "/" + file;
-                const curPath = path.join(url, file);
-                //fs.statSync同步读取文件夹文件，如果是文件夹，在重复触发函数
-                if (fs.statSync(curPath).isDirectory()) { // recurse
-                    deleteFolderRecursive(curPath);
-
-                    // 是文件delete file
-                } else {
-                    fs.unlinkSync(curPath);
-                }
-            });
-            //清除文件夹
-            fs.rmdirSync(url);
-        } else {
-            console.log("给定的路径不存在，请给出正确的路径");
-        }
-    };
+    const url = path.join('/public/img', filename).replace(/\\|\//g, '/');
+    // await this.app.model.Image.create({ url, name: url, path: url });
+    const row = { host: `http://${ctx.request.ip}:3030`, url };
+    // ctx.apiSuccess(row);
+    return row;
+  }
+  async deleteImage(url) {
+    const filepath = path.join('app', url);
+    // 删除文件
+    fs.unlink(filepath, err => {
+      if (err) { console.log(err); }
+    });
+    return { code: 0, msg: '删除成功' };
+  }
 }
 
 module.exports = ToolService;

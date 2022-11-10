@@ -20,7 +20,7 @@ module.exports = appInfo => {
     // 导入
     config.multipart = {
         fileSize: '400mb', // 文件大小
-        mode: "stream", // file
+        mode: "stream", // file,stream
         whitelist: [
             // ".xls",
             // ".xlsx",
