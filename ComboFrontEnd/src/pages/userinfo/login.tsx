@@ -128,7 +128,7 @@ const LoginUser = () => {
     }
   }
   return (<View className={`flex-col ${styles['login-page']}`}>
-    <Swiper
+    {/* <Swiper
       className={styles['swipe']}
       indicatorColor='#999'
       indicatorActiveColor='#3D5CFF'
@@ -153,9 +153,13 @@ const LoginUser = () => {
           />
         </View>
       </SwiperItem>
-    </Swiper>
-    <Text className={`${styles['text']}`}>校图</Text>
+    </Swiper> */}
+   <View  className={`${styles['head-title']}`}>
+   <Text className={`${styles['text']}`}>
+   <Image src={process.env.URL + 'book-logo.png'} className={`${styles['image']}`} />
+   </Text>
     <Text className={`${styles['text_1']}`}>共享图书，共享知识</Text>
+   </View>
     <AtForm >
       <AtInput required name='name' title='账号' type='text' value={formValue.name} placeholder='请输入账号' onChange={() => { }} onBlur={(value) => handleChange('name', value)} />
       <AtInput required name='passward' title='密码' type='password' value={formValue.passward} placeholder='请输入密码' onChange={() => { }} onBlur={(value) => handleChange('passward', value)} />

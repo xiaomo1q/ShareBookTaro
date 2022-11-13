@@ -1,5 +1,5 @@
 import Taro from "@tarojs/taro";
-import { Get_exchange_square_list} from "../service/index";
+import { Get_exchange_square_detail, Get_exchange_square_list} from "../service/index";
 
 /**
  * 书圈
@@ -10,6 +10,7 @@ const publicStatus = {
   // 初始化数据
   state: {
     get_list: [], // 书评列表
+    only_detail: {} // 书评详情
   },
   // 这里主要调用异步方法
   effects: { 
@@ -17,6 +18,17 @@ const publicStatus = {
       const res = yield call(Get_exchange_square_list, type);
       try {
         yield put({ type: "getListUpdate", payload: { get_list: res } })
+      } catch (error) {
+        Taro.atMessage({
+          'message': error,
+          'type': 'error',
+        })
+      }
+    },
+    *get_exchange_square_detail({ payload }, { call, put }) {
+      const res = yield call(Get_exchange_square_detail, payload);
+      try {
+        yield put({ type: "getListUpdate", payload: { only_detail: res } })
       } catch (error) {
         Taro.atMessage({
           'message': error,

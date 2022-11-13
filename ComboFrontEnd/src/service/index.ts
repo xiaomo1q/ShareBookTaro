@@ -28,7 +28,7 @@ export const Add_favorite_book = (data) => GETRequest(InterfacePath.add_favorite
 
 /** 书评 */
 export const Get_exchange_square_list = () => GETRequest(InterfacePath.get_exchange_square_list);
-export const Get_exchange_square_detail = (data) => POSTRequest('/api/get_exchange_square_detail', { data });
+export const Get_exchange_square_detail = (data) => GETRequest('/api/get_exchange_square_detail', { data });
 export const Add_exchange_square_detail = (data) => POSTRequest('/api/add_exchange_square_detail', { data });
 export const Add_only_square_review = (data) => POSTRequest('/api/add_only_square_review', { data });
 export const File_img_upload = (data) => POSTRequest('/api/file/img/upload/', { data });

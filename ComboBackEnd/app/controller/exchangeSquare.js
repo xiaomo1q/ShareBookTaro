@@ -44,20 +44,24 @@ class ExchangeSquareController extends Controller {
   /** 新增only书圈评论 @id 当前书评的id  */
   async add_only_square_review() {
     const { ctx, app } = this;
-    // const decoded = await ctx.service.tool.jwtToken();
-    const { _id, num } = await ctx.request.body;
-    const params = {
-      avatar: 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132',
-      user_name: '努努力',
-      user_id: 'oy_ED6JJGGXgEun0KqBxZIrYmsJk',
-      text: 'bbbbbb',
-      update_time: new Date(),
-      es_id: _id,
-    };
-    await app.mysql.update('exchange_square', { comment_num: Number(num) + 1 }, { where: { id: _id } });
-    const uuid = await ctx.service.tool.uuid();
-    await app.mysql.insert('comment_user', { id: uuid, ...params });
-    ctx.body = { code: 0 };
+    const { _id, num, text } = await ctx.request.body;
+    // try {
+      const decoded = await ctx.service.tool.jwtToken();
+      const corr = await app.mysql.get('userinfo', { openid: decoded.openid });
+      const params = { text, es_id: _id };
+      const obj = {
+        ...params, avatar: corr.avatarUrl,
+        user_name: corr.nickName,
+        user_id: corr.openid,
+        update_time: new Date()
+      }
+      await app.mysql.update('exchange_square', { comment_num: Number(num) + 1 }, { where: { id: _id } });
+      const uuid = await ctx.service.tool.uuid();
+      await app.mysql.insert('comment_user', { id: uuid, ...obj });
+      ctx.body = { code: 0 };
+    // } catch (error) {
+    //   ctx.body = { code: 1, error };
+    // }
   }
   /** 上传图片 */
   async file_img_upload() {

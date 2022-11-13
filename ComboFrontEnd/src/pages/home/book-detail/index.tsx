@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Add_favorite_book } from '@/service/index'
 import { AtIcon, AtAvatar } from 'taro-ui'
 import styles from './index.module.less'
+import NavCustomBar from '@/components/navCustomBar';
 
 const BookDetailView: React.FC = () => {
   const { params } = useRouter()
@@ -21,6 +22,7 @@ const BookDetailView: React.FC = () => {
   }
   return (
     <View className={`flex-col ${styles['book-detail']}`}>
+      <NavCustomBar needBackIcon title='图书详情' url='/pages/home/index' />
       <View className={styles['bd-box']}>
         <View className={`flex-row ${styles['bd-header']}`}>
           {/* <Image src={`https://file.ituring.com.cn/SmallCover/${only_book_detail?.coverKey}`} className={`${styles['image']}`} /> */}
@@ -69,7 +71,7 @@ const BookDetailView: React.FC = () => {
               >
                 <View className='at-col at-col-2'><AtAvatar image={itm.avatarUrl} circle />  </View>
                 <View className='at-col at-col-7'>
-                  <Image src={process.env.URL + { '0': 'icon/boy.png', '1': 'icon/gril.png', }[itm.gender]} className={styles['img-sex']} />
+                  <Image src={process.env.URL + { '0': 'icon/boy.png', '1': 'icon/girl.png', }[itm.gender]} className={styles['img-sex']} />
                 </View>
                 <View className='at-col at-col-3 at-article__p'>{itm.nickName}</View>
               </View>

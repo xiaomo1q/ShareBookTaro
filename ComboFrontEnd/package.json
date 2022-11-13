@@ -28,6 +28,10 @@
     "dev:jd": "npm run build:jd -- --watch",
     "dev:quickapp": "npm run build:quickapp -- --watch"
   },
+  "browser": {
+    "fs": false,
+    "child_process": false
+  },
   "browserslist": [
     "last 3 versions",
     "Android >= 4.1",

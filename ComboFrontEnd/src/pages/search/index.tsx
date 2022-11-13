@@ -4,8 +4,9 @@ import Taro, { useRouter } from '@tarojs/taro'
 import { useDispatch, useSelector } from 'react-redux';
 import { View, Text } from '@tarojs/components'
 import { AtSearchBar } from 'taro-ui'
+import NavCustomBar from '@/components/navCustomBar';
 import { RenderBookList, RenderConnectBookList } from '@/components/bookList';
-import styles from './index.less'
+import styles from './index.module.less'
 
 /**
  * 搜索
@@ -82,6 +83,7 @@ const SearchIndex = () => {
   }
   return (
     <View className={styles['search-index']}>
+      <NavCustomBar needBackIcon title={decodeURI(router.title)} url={decodeURI(router.title) === '搜索' ? '/pages/home/index' : '/pages/userinfo/index'} />
       <AtSearchBar
         placeholder='请输入查询的书名'
         value={searchValue}

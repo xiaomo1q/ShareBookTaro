@@ -6,20 +6,27 @@ class BookService extends Service {
   /** 添加图书 */
   async add_only_book(params) {
     const { ctx, app } = this;
-    const decoded = await ctx.service.tool.jwtToken();
-    const corr = await app.mysql.get("db_book_list", { isbn: params.isbn });
-    if (!corr) {
-      await app.mysql.insert("db_book_list", { params });
+    try {
+      const decoded = await ctx.service.tool.jwtToken();
+      const corr = await app.mysql.get("db_book_list", { isbn: params.isbn });
+      if (!corr) {
+        await app.mysql.insert("db_book_list", params);
+      }
+      await app.mysql.insert("user_connect_book", {
+        update_date: new Date(),
+        isbn: params.isbn,
+        openid: decoded.openid,
+      });
+      return {
+        code: 0,
+        msg: "添加成功",
+      };
+    } catch (error) {
+      return {
+        code: 1,
+        error
+      };
     }
-    await app.mysql.insert("user_connect_book", {
-      update_date: new Date(),
-      isbn: params.isbn,
-      openid: decoded.openid,
-    });
-    return {
-      code: 0,
-      msg: "添加成功",
-    };
   }
   /** 根据分类图书列表 */
   async get_book_list(title) {

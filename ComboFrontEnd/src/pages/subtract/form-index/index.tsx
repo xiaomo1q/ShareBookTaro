@@ -8,6 +8,7 @@ import { RenderConnectBookList } from '@/components/bookList';
 import { fileToBase64, ObjArrDeduplication } from '@/utils/calculate'
 import styles from './index.module.less'
 import { Add_exchange_square_detail, File_img_delete } from '@/service/index';
+import NavCustomBar from '@/components/navCustomBar';
 
 
 const RenderFloatCon = () => {
@@ -128,6 +129,7 @@ const Index = () => {
 
   return (
     <View className={`flex-col ${styles['release-index']}`}>
+      {/* <NavCustomBar needBackIcon title=''  url='/pages/subtract/index/index' /> */}
       <View className={`flex-row ${styles['re-header']}`}>
         {/* <Text className={styles['re-h-text']} onClick={() => {
             Taro.redirectTo({ url: '/pages/subtract/index/index' });

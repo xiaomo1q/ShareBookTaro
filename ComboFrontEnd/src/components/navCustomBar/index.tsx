@@ -2,7 +2,7 @@ import Taro from "@tarojs/taro";
 import React, { useEffect, useState } from 'react'
 import { View, Text } from '@tarojs/components'
 import { AtIcon } from 'taro-ui'
-import styles from  './index.module.less'
+import styles from './index.module.less'
 
 
 type Navigate = {
@@ -61,15 +61,13 @@ const NavCustomBar: React.FC<Navigate> = (props) => {
 
   }, [])
 
-  return (
-    <View className={styles['nav_custom_bar']} style={{ height: navBarHeight }}>
-      <View className={styles['nav-container']}>
-        <AtIcon className={styles[`nav_custom_bar_back ${needBackIcon ? '' : 'hidden'}`]} value='chevron-left' size={22} color={color} onClick={guide} />
-        <View className={styles['title']} style={{ justifyContent: props.location ? props.location : 'center' }}>
-          <Text style={{ color }} className={styles['nav_custom_bar_title']}>{title}</Text>
-        </View>
+  return process.env.TARO_ENV === 'h5' ? <View className={styles['nav_custom_bar']} style={{ height: navBarHeight }}>
+    <View className={styles['nav-container']}>
+      <AtIcon className={styles[`nav_custom_bar_back ${needBackIcon ? '' : 'hidden'}`]} value='chevron-left' size={22} color={color} onClick={guide} />
+      <View className={styles['title']} style={{ justifyContent: props.location ? props.location : 'center' }}>
+        <Text style={{ color }} className={styles['nav_custom_bar_title']}>{title}</Text>
       </View>
     </View>
-  )
+  </View> : null
 }
 export default NavCustomBar;
