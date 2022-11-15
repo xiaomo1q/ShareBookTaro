@@ -7,7 +7,7 @@ class DefaultController extends Controller {
     const { ctx, app } = this;
     const nsp = app.io.of('/');
     const { m_id } = yield ctx.request.query;
-    console.log('.......*******%%%%%%%%');
+    console.log(ctx.request.URLquery, '.......*******%%%%%%%%');
     if (ctx.args[0]) {
       const message = ctx.args[0] || {};
       yield app.mysql.insert('messages', message);

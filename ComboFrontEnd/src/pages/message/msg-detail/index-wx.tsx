@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Taro, { useRouter } from '@tarojs/taro';
 import { useDispatch, useSelector } from 'react-redux';
 import { View, Text } from '@tarojs/components'
-
+// import wsio from 'socket.io-client'
 import { AtAvatar, AtButton, AtFloatLayout, AtForm, AtSearchBar } from "taro-ui"
 import NavCustomBar from '@/components/navCustomBar';
 import moment from 'moment'
@@ -21,29 +21,54 @@ const MSGDetailIndex = () => {
   const dispatch = useDispatch()
   const { userInfo } = useSelector((state: any) => state.global_user)
   const [data, setData] = useState<any>([]);
-
-  const wsio = process.env.TARO_ENV === 'h5' ? require('socket.io-client') : require('wxapp-socket-io')
+  let socketOpen = false;
+  let socketMsgQueue = [
+    { nickname: 'Merryaa', message: '来了阿伟', flag: false }
+  ];
   //  ws://127.0.0.1:8000
-  // process.env.TARO_ENV = localStorage.getItem("TOKEN")
-  const socket = wsio('ws://127.0.0.1:3030', {
-    query: { m_id: params.id },
-    reconnection: false, //关闭自动重连
-    transports: ['websocket']
-  })
+  const token = process.env.TARO_ENV === 'h5' ? localStorage.getItem("TOKEN") : Taro.getStorageSync("TOKEN")
+  // const socket = wsio('ws://127.0.0.1:3030', {
+  //   query: { m_id: params.id },
+  //   reconnection: false, //关闭自动重连
+  //   transports: ['websocket']
+  // })
   useEffect(() => {
-    process.env.TARO_ENV === 'weapp' && Taro.hideHomeButton()
     getWebSocket()
+    // process.env.TARO_ENV === 'h5' ? null : Taro.hideHomeButton()
     dispatch({ type: "global_user/getUserInfo" })
   }, []);
   const getWebSocket = () => {
 
-    socket.on("connect", () => {
-      socket.emit('chat')
-      socket.on("chat", (res: any) => {
-        console.log(res);
-        setData(res)
-      });
-    });
+    // socket.on("connect", () => {
+    //   socket.emit('chat')
+    //   socket.on("chat", (res: any) => {
+    //     console.log(res);
+    //     setData(res)
+    //   });
+    // });
+    Taro.connectSocket({
+      url: `ws://127.0.0.1:3030/chat?token=${token}&m_id=${params.id}`,
+      success: function () {
+        console.log('connect success')
+      }
+    }).then(task => {
+      console.log(task);
+      
+      task.onOpen(function () {
+        console.log('onOpen')
+        task.send({ data: 'xxx' })
+      })
+      task.onMessage(function (msg) {
+        console.log('onMessage: ', msg)
+        task.close()
+      })
+      task.onError(function (w) {
+        console.log('onError',w)
+      })
+      task.onClose(function (e) {
+        console.log('onClose: ', e)
+      })
+    })
   }
   // 回到底部
   const scrollBottom = () => {
@@ -52,17 +77,17 @@ const MSGDetailIndex = () => {
   }
   // 发送
   const onSearch = (value: any) => {
-    socket.emit('chat', {
-      openid: userInfo.openid,
-      gm_id: params.id,
-      m_postMessage: searchVal,
-      avatarUrl: userInfo.avatarUrl,
-      nickName: userInfo.nickName
-    })
-    socket.on("chat", (res: any) => {
-      setData(res)
-      setSearchVal('')
-    });
+    // socket.emit('chat', {
+    //   openid: userInfo.openid,
+    //   gm_id: params.id,
+    //   m_postMessage: searchVal,
+    //   avatarUrl: userInfo.avatarUrl,
+    //   nickName: userInfo.nickName
+    // })
+    // socket.on("chat", (res: any) => {
+    //   setData(res)
+    //   setSearchVal('')
+    // });
   };
   console.log(data, '.nickName');
 

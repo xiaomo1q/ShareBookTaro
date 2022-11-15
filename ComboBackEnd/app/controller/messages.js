@@ -5,13 +5,15 @@ const Controller = require('egg').Controller;
 class HouseController extends Controller {
     async add_messages() {
         const { ctx, app } = this;
-        let params = ctx.request.body;
+        const params = ctx.request.body;
         const decoded = await ctx.service.tool.jwtToken();
         const uuid = await ctx.service.tool.uuid();
         const result = await app.mysql.get('groups_msg_touser', { gm_toUserid: params.id, gm_fromUserid: decoded.openid })
         const _result = await app.mysql.get('groups_msg_touser', { gm_toUserid: decoded.openid, gm_fromUserid: params.id })
-        if (result || _result) {
-            ctx.body = { code: 0, msg: '聊天中',m_id: result.userGroupID }
+        if (result) {
+            ctx.body = { code: 0, msg: '聊天中', m_id: result.userGroupID }
+        } else if (_result) {
+            ctx.body = { code: 0, msg: '聊天中', m_id: _result.userGroupID }
         } else if (params.id === decoded.openid) {
             ctx.body = { code: -1, msg: '自己不可以和自己对话哦' }
         } else {
