@@ -9,11 +9,14 @@ import NavCustomBar from '@/components/navCustomBar';
 import moment from 'moment'
 import styles from './index.module.less'
 
+const wsio = process.env.TARO_ENV === 'h5' ? require('socket.io-client') : require('wxapp-socket-io');
+
+
 /**
  * 群聊信息
  * @returns 
  */
-// let socket;
+let socket;
 const MSGDetailIndex = () => {
   const [floatOpen, setFloatOpen] = useState(false)
   const [searchVal, setSearchVal] = useState('')
@@ -22,23 +25,26 @@ const MSGDetailIndex = () => {
   const { userInfo } = useSelector((state: any) => state.global_user)
   const [data, setData] = useState<any>([]);
 
-  const wsio = process.env.TARO_ENV === 'h5' ? require('socket.io-client') : require('wxapp-socket-io')
   //  ws://127.0.0.1:8000
   // process.env.TARO_ENV = localStorage.getItem("TOKEN")
-  const socket = wsio('ws://127.0.0.1:3030', {
-    query: { m_id: params.id },
-    reconnection: false, //关闭自动重连
-    transports: ['websocket']
-  })
+  // const socket = wsio('ws://127.0.0.1:3030', {
+  //   query: { m_id: params.id },
+  //   reconnection: false, //关闭自动重连
+  //   transports: ['websocket']
+  // })
   useEffect(() => {
     process.env.TARO_ENV === 'weapp' && Taro.hideHomeButton()
     getWebSocket()
     dispatch({ type: "global_user/getUserInfo" })
   }, []);
   const getWebSocket = () => {
-
+    socket = wsio('ws://127.0.0.1:3030', {
+      // query: { m_id: id, n: 0 },
+      reconnection: true, //关闭自动重连
+      transports: ['websocket']
+    });
     socket.on("connect", () => {
-      socket.emit('chat')
+      socket.emit('chat',{ m_id: params.id })
       socket.on("chat", (res: any) => {
         console.log(res);
         setData(res)
@@ -52,7 +58,9 @@ const MSGDetailIndex = () => {
   }
   // 发送
   const onSearch = (value: any) => {
-    socket.emit('chat', {
+    console.log('...........query');
+
+    socket.emit('chat', { m_id: params.id },{
       openid: userInfo.openid,
       gm_id: params.id,
       m_postMessage: searchVal,
@@ -64,7 +72,6 @@ const MSGDetailIndex = () => {
       setSearchVal('')
     });
   };
-  console.log(data, '.nickName');
 
   return (
     <View className={styles['MSG-Detail']}>
