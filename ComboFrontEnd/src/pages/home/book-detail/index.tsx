@@ -12,8 +12,11 @@ const BookDetailView: React.FC = () => {
   const dispatch = useDispatch()
   const { only_book_detail } = useSelector((state: any) => state.book_model)
   useEffect(() => {
-    params.isbn && dispatch({ type: "book_model/getOnlyBookDetail", payload: { isbn: params.isbn } })
-  }, [])
+    console.log( params.isbn );
+    !!params.isbn && dispatch({ type: "book_model/getOnlyBookDetail", payload: { isbn: params.isbn } })
+  }, [ params ])
+
+
   /** 收藏 */
   const favoriteClickedHandler = async () => {
     await Add_favorite_book({ isbn: params.isbn, state: only_book_detail.favorite_state }).then(() => {

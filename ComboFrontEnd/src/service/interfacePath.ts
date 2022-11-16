@@ -15,10 +15,12 @@ export const InterfacePath = {
   get_book_type: API_PATH + "/get_book_type",
   add_only_book: API_PATH + "/add_only_book",
   get_connect_book_list: API_PATH + "/get_connect_book_list",
+  del_connect_book_list: API_PATH + "/del_connect_book_list",
   get_book_list: API_PATH + "/get_book_list",
   search_book_list: API_PATH + "/search_book_list",
   get_only_book_detail: API_PATH + "/get_only_book_detail",
   get_favorite_book_list: API_PATH + "/get_favorite_book_list",
+  del_favorite_book_list: API_PATH + "/del_favorite_book_list",
   add_favorite_book: API_PATH + "/add_favorite_book",
 
   get_exchange_square_list: API_PATH + "/get_exchange_square_list",

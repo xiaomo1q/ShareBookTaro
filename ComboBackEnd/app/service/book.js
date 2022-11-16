@@ -48,6 +48,7 @@ class BookService extends Service {
   /** 获取单本图书信息 */
   async get_only_book_detail(isbn) {
     const { ctx, app } = this;
+
     const decoded = await ctx.service.tool.jwtToken();
     if (isbn) {
       const result = await app.mysql.get("db_book_list", { isbn });
@@ -60,7 +61,7 @@ class BookService extends Service {
       result.favorite_num = favorite.length;
       result.favorite_state = false;
       favorite.forEach((el) => {
-        if (el.openid) {
+        if (el.openid === decoded.openid) {
           result.favorite_state = el.openid === decoded.openid;
         }
       });

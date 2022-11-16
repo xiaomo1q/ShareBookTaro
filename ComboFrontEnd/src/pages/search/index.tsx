@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { View, Text } from '@tarojs/components'
 import { AtSearchBar } from 'taro-ui'
 import NavCustomBar from '@/components/navCustomBar';
-import { RenderBookList, RenderConnectBookList } from '@/components/bookList';
+import { Del_connect_book_list, Del_favorite_book_list } from '@/service/index';
+import { RenderBookList, RenderConnectBookList, RenderDelBookList } from '@/components/bookList';
 import styles from './index.module.less'
 
 /**
@@ -35,7 +36,7 @@ const SearchIndex = () => {
       case '收藏':
         dispatch({ type: "book_model/getFavoriteBookList", payload: {} })
         break;
-      case '拥有':
+      case '我的图书':
         dispatch({ type: "book_model/getConnectBookList", payload: {} })
         break;
       default:
@@ -63,7 +64,7 @@ const SearchIndex = () => {
           dispatch({ type: "book_model/getFavoriteBookList", payload: {} })
         }
         break;
-      case '拥有':
+      case '我的图书':
         if (value) {
           const searchFav: any = connect_book_list.filter(el => {
             if (el.name.toLowerCase().indexOf(value) !== -1) {
@@ -92,12 +93,32 @@ const SearchIndex = () => {
       {
         {
           '搜索': <RenderBookList data={search_book_list} />,
-          '关联图书': <RenderConnectBookList
-            data={search_book_list.length > 0 ? search_book_list : book_list}
-            onChange={(val) => dispatch({ type: "public_storage/connect_book_listUpdate", payload: { connect_book_list: val } })}
+          // '关联图书': <RenderConnectBookList
+          //   data={search_book_list.length > 0 ? search_book_list : book_list}
+          //   onChange={(val) => dispatch({ type: "public_storage/connect_book_listUpdate", payload: { connect_book_list: val } })}
+          // />,
+          '收藏': <RenderDelBookList data={favorite_book_list} type='0' onChange={async (isbn) => {
+            await Del_favorite_book_list({isbn}).then(res => { 
+              Taro.showToast({
+                title: res.msg,
+                mask: true,
+                duration: 2000
+              })
+              fetchBookList()
+             })
+          }}
           />,
-          '收藏': <RenderBookList data={favorite_book_list} />,
-          '拥有': <RenderBookList data={connect_book_list} />,
+          '我的图书': <RenderDelBookList data={connect_book_list} type='1' onChange={async (isbn) => {
+            await Del_connect_book_list({isbn}).then(res => { 
+              Taro.showToast({
+                title: res.msg,
+                mask: true,
+                duration: 2000
+              })
+              fetchBookList()
+            })
+          }}
+          />,
         }[decodeURI(router.title)]
       }
 

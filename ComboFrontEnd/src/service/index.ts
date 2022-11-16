@@ -1,4 +1,4 @@
-import { POSTRequest, GETRequest, PUTRequest } from "../utils/net-requests";
+import { POSTRequest, GETRequest, DELETERequest } from "../utils/net-requests";
 import { InterfacePath } from "./interfacePath";
 
 /**
@@ -22,8 +22,10 @@ export const Get_only_book_detail = (data) => GETRequest(InterfacePath.get_only_
 // 添加图书
 export const Add_only_book = (data) => POSTRequest(InterfacePath.add_only_book, { data });
 export const Get_connect_book_list = (data) => GETRequest(InterfacePath.get_connect_book_list, { data });
+export const Del_connect_book_list = (data) => DELETERequest(InterfacePath.del_connect_book_list, { data });
 // 收藏
 export const Get_favorite_book_list = () => GETRequest(InterfacePath.get_favorite_book_list);
+export const Del_favorite_book_list = (data) => DELETERequest(InterfacePath.del_favorite_book_list,{ data });
 export const Add_favorite_book = (data) => GETRequest(InterfacePath.add_favorite_book, { data });
 
 /** 书评 */

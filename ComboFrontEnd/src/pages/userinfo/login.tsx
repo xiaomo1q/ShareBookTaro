@@ -155,9 +155,9 @@ const LoginUser = () => {
       </SwiperItem>
     </Swiper> */}
    <View  className={`${styles['head-title']}`}>
-   <Text className={`${styles['text']}`}>
+   <View className={`${styles['text']}`}>
    <Image src={process.env.URL + 'book-logo.png'} className={`${styles['image']}`} />
-   </Text>
+   </View>
     <Text className={`${styles['text_1']}`}>共享图书，共享知识</Text>
    </View>
     <AtForm >

@@ -22,6 +22,19 @@ class BookController extends Controller {
             ctx.body = error;
         }
     }
+    async del_connect_book_list() {
+        const { ctx, app } = this;
+        const { isbn } = this.ctx.request.body;
+        try {
+            const decoded = await ctx.service.tool.jwtToken();
+            const corr =  await app.mysql.delete('user_connect_book',{
+                openid: decoded.openid, isbn
+            });
+            ctx.body = {code: 0, msg: '删除成功'};
+        } catch (error) {
+            ctx.body = {code: 1, msg: '删除失败'};
+        }
+    }
 
     /** 获取图书分类  */
     async get_book_type() {
@@ -75,7 +88,20 @@ class BookController extends Controller {
             ctx.body = error;
         }
     }
-
+    /** del用户收藏的图书 */
+    async del_favorite_book_list() {
+        const { ctx, app } = this;
+        const { isbn } = this.ctx.request.body;
+        try {
+            const decoded = await ctx.service.tool.jwtToken();
+            const corr =  await app.mysql.delete('favorite',{
+                openid: decoded.openid, isbn
+            });
+            ctx.body = {code: 0, msg: '删除成功'};
+        } catch (error) {
+            ctx.body = {code: 1, msg: '删除失败'};
+        }
+    }
     /** 收藏此图书 */
     async add_favorite_book() {
         const { ctx, app } = this;

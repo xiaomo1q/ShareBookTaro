@@ -16,6 +16,7 @@ module.exports = app => {
 
     router.post('/api/add_only_book', jwt, controller.book.add_only_book); // 添加图书信息
     router.get('/api/get_connect_book_list', jwt, controller.book.get_connect_book_list); // 拥有书主
+    router.delete('/api/del_connect_book_list', jwt, controller.book.del_connect_book_list); // 拥有书主
     router.get('/api/get_bookuser_userInfo', jwt, controller.user.get_bookuser_userInfo); // 书主个人信息
 
     router.get('/api/get_book_type', controller.book.get_book_type); // 获取图书类型
@@ -23,6 +24,7 @@ module.exports = app => {
     router.get('/api/get_only_book_detail', jwt, controller.book.get_only_book_detail); // 获取图书详情
     router.get('/api/search_book_list', controller.book.search_book_list); // 搜索
     router.get('/api/get_favorite_book_list', jwt, controller.book.get_favorite_book_list); // 收藏列表
+    router.delete('/api/del_favorite_book_list', jwt, controller.book.del_favorite_book_list); // 收藏列表
     router.get('/api/add_favorite_book', jwt, controller.book.add_favorite_book); // 收藏
 
     router.get('/api/get_exchange_square_list', controller.exchangeSquare.get_exchange_square_list); // 书圈广场
