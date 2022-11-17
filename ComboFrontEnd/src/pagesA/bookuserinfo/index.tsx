@@ -54,13 +54,13 @@ const LoginUser = () => {
             </View>
             <View className={`flex-row justify-between ${styles['he-btn']}`}>
               <View className={`flex-row ${styles['group_5']}`}>
-                <View className={`${styles['group_6']}`}>
+                <View className={`${styles['group_6']}`}  onClick={()=>{Taro.redirectTo({url:'/pagesA/fansFollower/index?title=粉丝&id='+bookuserInfo.openid})}}>
                   <Text className={`${styles['font_2']}`}>{userInfo?.fans.length || 0}</Text>
                   <View>
                     <Text className={`${styles['font_3']}`}>粉丝</Text>
                   </View>
                 </View>
-                <View className={`${styles['group_6']}`}>
+                <View className={`${styles['group_6']}`}  onClick={()=>{Taro.redirectTo({url:'/pagesA/fansFollower/index?title=关注&id='+bookuserInfo.openid})}}>
                   <Text className={`${styles['font_2']}`}>{userInfo?.follower.length || 0}</Text>
                   <View> <Text className={`${styles['font_3']}`}>关注</Text></View>
                 </View>

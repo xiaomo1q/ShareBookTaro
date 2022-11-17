@@ -41,7 +41,7 @@ const throttle = (str, opeFun) => {
     timer = setTimeout(() => {
       if (opeFun) opeFun();
       else {
-        Taro.atMessage({ message: str, type: "info" });
+        Taro.showToast({ title: str, icon: "none" });
       }
       timer = null;
     }, 1000);
@@ -84,9 +84,9 @@ const interceptor = (chain: {
             // 跳转登录页
             Taro.redirectTo({ url: "/pages/userinfo/login" }).then(() => {
               setTimeout(() => {
-                Taro.atMessage({
-                  message: "认证失效，请重新登录",
-                  type: "error",
+                Taro.showToast({
+                  title: "认证失效，请重新登录",
+                  icon: "error",
                 });
               }, 200);
             });

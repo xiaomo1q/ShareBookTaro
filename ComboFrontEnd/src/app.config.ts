@@ -25,6 +25,7 @@ export default defineAppConfig({
       root: "pagesA",
       pages: [
         'bookuserinfo/index',
+        'fansFollower/index',
       ],
     },
   ],

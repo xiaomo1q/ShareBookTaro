@@ -32,7 +32,7 @@ class IndexService extends Service {
     // 登录
     async loginH5(params) {
         const { ctx, app } = this;
-        const corr = await app.mysql.get('userinfo', { nickName: params.name });
+        const corr = await app.mysql.get('userinfo', { openid: params.name });
         // 如果不存在：就是该用户的第一次登录，后台数据库新添加一个用户信息
         // 如果存在：就不是该用户的第一次登录，以前登陆过，就更新后台数据库中该用户的第一次登录时间
         // 返回用户信息
@@ -45,7 +45,7 @@ class IndexService extends Service {
                 // token 存储至数据库中
                 await app.mysql.update('userinfo', { update_date: new Date(), token: Token }, {
                     where: {
-                        nickName: params.name,
+                        openid: params.name,
                     }
                 })
                 return { code: 0, token: Token };

@@ -2,6 +2,7 @@ module.exports = {
     env: {
         NODE_ENV: '"development"',
         baseUrl: '"http://127.0.0.1:3030"',
+        // baseUrl: '"http://www.piscesxiaopan.com"',
     },
     defineConstants: {},
     mini: {
@@ -28,21 +29,13 @@ module.exports = {
             proxy: [{
                     context: ["/api"],
                     target: "http://127.0.0.1:3030", //域名
+                    // target: "http://www.piscesxiaopan.com", //域名
                     pathRewrite: {
                         "^/api": "/api",
                     },
                     changeOrigin: true,
                     secure: false,
                 },
-                // {
-                //     context: ["/api"],
-                //     target: "https://api.ituring.com.cn", //域名
-                //     pathRewrite: {
-                //         "^/api": "/api",
-                //     },
-                //     changeOrigin: true,
-                //     secure: false,
-                // },
             ]
         },
     },

@@ -50,10 +50,15 @@ class IndexController extends Controller {
     async get_userInfo() {
         const { ctx, app } = this;
         const decoded = await ctx.service.tool.jwtToken();
-        const corr = await app.mysql.get('userinfo', { openid: decoded.openid });
-        corr.fans = await ctx.service.user.fans_followers('fans', decoded.openid);
-        corr.follower = await ctx.service.user.fans_followers('follower', decoded.openid);
-        ctx.body = corr;
+        try {
+            const corr = await app.mysql.get('userinfo', { openid: decoded.openid }) || {};
+            corr.fans = await ctx.service.user.fans_followers('fans', decoded.openid);
+            corr.follower = await ctx.service.user.fans_followers('follower', decoded.openid);
+            ctx.body = corr;
+        } catch (error) {
+            throw error;
+        }
+
     }
 
     /** 书主用户信息 */
@@ -61,15 +66,22 @@ class IndexController extends Controller {
         const { ctx, app } = this;
         const { id } = await ctx.request.query;
         const decoded = await ctx.service.tool.jwtToken();
-        const user = await app.mysql.get('userinfo', { openid: id });
-        user.is_bookuser = false;
-        if (id === decoded.openid) { user.is_bookuser = true };
-        user.book_list = await app.mysql
-            .query(`SELECT * FROM db_book_list bl WHERE EXISTS(SELECT * FROM user_connect_book fv, userinfo us
+        // mysql事务
+        const conn = await app.mysql.beginTransaction();
+        try {
+            const user = await conn.get('userinfo', { openid: id });
+            user.is_bookuser = false;
+            if (id === decoded.openid) { user.is_bookuser = true };
+            user.book_list = await conn.query(`SELECT * FROM db_book_list bl WHERE EXISTS(SELECT * FROM user_connect_book fv, userinfo us
           WHERE fv.openid = us.openid AND us.openid = ${JSON.stringify(id)} and fv.isbn = bl.isbn)`);
-        user.fans = await ctx.service.user.fans_followers('fans', id);
-        user.follower = await ctx.service.user.fans_followers('follower', id);
-        ctx.body = user;
+            user.fans = await ctx.service.user.fans_followers('fans', id);
+            user.follower = await ctx.service.user.fans_followers('follower', id);
+            ctx.body = user;
+            await conn.commit();
+        } catch (error) {
+            await conn.rollback(); // rollback call won't throw err
+            throw error;
+        }
     }
     /** 粉丝or 关注者 */
     async fans_followers() {

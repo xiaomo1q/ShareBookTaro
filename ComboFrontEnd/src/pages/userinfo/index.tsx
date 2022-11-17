@@ -25,12 +25,12 @@ const UserInfoIndex: React.FC<any> = ({ loading }) => {
         <Text className={`${styles['text']}`}>{userInfo?.nickName}</Text>
         <Text className={`${styles['text_1']}`}>{userInfo?.desc || ''}</Text>
         <View className={`flex-row ${styles['equal-division']}`}>
-          <View className={`flex-col items-center ${styles['equal-division-item']}`}>
-            <Text className={`${styles['text_2']}`}>{userInfo?.follower.length || 0}</Text>
+          <View className={`flex-col items-center ${styles['equal-division-item']}`} onClick={()=>{Taro.redirectTo({url:'/pagesA/fansFollower/index?title=我的关注'})}}>
+            <Text className={`${styles['text_2']}`}>{userInfo?.follower?.length || 0}</Text>
             <Text className={`${styles['text_4']}`}>我的关注</Text>
           </View>
-          <View className={`flex-col items-center ${styles['equal-division-item']}`}>
-            <Text className={`${styles['text_2']}`}>{userInfo?.fans.length || 0}</Text>
+          <View className={`flex-col items-center ${styles['equal-division-item']}`} onClick={()=>{Taro.redirectTo({url:'/pagesA/fansFollower/index?title=我的粉丝'})}}>
+            <Text className={`${styles['text_2']}`}>{userInfo?.fans?.length || 0}</Text>
             <Text className={`${styles['text_4']}`}>我的粉丝</Text>
           </View>
         </View>

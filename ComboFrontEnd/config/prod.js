@@ -1,7 +1,7 @@
 module.exports = {
   env: {
     NODE_ENV: '"production"',
-    baseUrl: '"http://xxxx:8000"',
+    baseUrl: '"http://www.piscesxiaopan.com"',
   },
   defineConstants: {
   },
