@@ -1,6 +1,7 @@
 'use strict';
 /** 控制器 */
 const Controller = require('egg').Controller;
+const await = require('await-stream-ready/lib/await');
 const svgCaptcha = require('svg-captcha');
 
 class IndexController extends Controller {
@@ -50,6 +51,8 @@ class IndexController extends Controller {
         const { ctx, app } = this;
         const decoded = await ctx.service.tool.jwtToken();
         const corr = await app.mysql.get('userinfo', { openid: decoded.openid });
+        corr.fans = await ctx.service.user.fans_followers('fans', decoded.openid);
+        corr.follower = await ctx.service.user.fans_followers('follower', decoded.openid);
         ctx.body = corr;
     }
 
@@ -64,9 +67,16 @@ class IndexController extends Controller {
         user.book_list = await app.mysql
             .query(`SELECT * FROM db_book_list bl WHERE EXISTS(SELECT * FROM user_connect_book fv, userinfo us
           WHERE fv.openid = us.openid AND us.openid = ${JSON.stringify(id)} and fv.isbn = bl.isbn)`);
+        user.fans = await ctx.service.user.fans_followers('fans', id);
+        user.follower = await ctx.service.user.fans_followers('follower', id);
         ctx.body = user;
     }
-
+    /** 粉丝or 关注者 */
+    async fans_followers() {
+        const { ctx } = this;
+        const { type, id } = await ctx.request.query;
+        ctx.body = await ctx.service.user.fans_followers(type, id);
+    }
 }
 
 module.exports = IndexController;

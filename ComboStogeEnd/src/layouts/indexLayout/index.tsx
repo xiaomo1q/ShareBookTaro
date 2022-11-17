@@ -41,14 +41,23 @@ const IndexLayout: React.FC<any> = (props) => {
   const newArr = pathname.split('/').filter((i: string) => i && i.trim());
 
   useEffect(() => {
-    setSelectedKeys('/' + newArr[0]);
-    setSidlerSelectedKeys(pathname);
-    fetchRoute('/' + newArr[0], pathname);
-    const obj = recursionFun(IndexLayoutRoutes, pathname); // 返回根据 id 查找到的数据对象
-    obj ? null : history.push('*');
+    if (!!newArr[0]) {
+      setSelectedKeys('/' + newArr[0]);
+      setSidlerSelectedKeys(pathname);
+      fetchRoute('/' + newArr[0], pathname);
+      const obj = recursionFun(IndexLayoutRoutes, pathname); // 返回根据 id 查找到的数据对象
+      obj ? null : history.push('*');
+    } else {
+      setSelectedKeys('/' + 'home');
+      setSidlerSelectedKeys('/home/table');
+      fetchRoute('/' + 'home', '/home/table');
+      const obj = recursionFun(IndexLayoutRoutes, '/home/table'); // 返回根据 id 查找到的数据对象
+      obj ? null : history.push('*');
+    }
     if (!roles) {
       history.replace('/user');
     }
+
   }, []);
 
   const fetchRoute = async (newArr: string, paName: any[string]) => {

@@ -298,7 +298,7 @@ const Home: React.FC<any> = (props) => {
             columns={columns}
             dataSource={data}
             size={'small'}
-            rowKey="_id"
+            rowKey="isbn"
             pagination={{
               total: pagination.total,
               current: pagination.pageIndex,

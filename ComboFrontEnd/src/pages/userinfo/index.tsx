@@ -26,11 +26,11 @@ const UserInfoIndex: React.FC<any> = ({ loading }) => {
         <Text className={`${styles['text_1']}`}>{userInfo?.desc || ''}</Text>
         <View className={`flex-row ${styles['equal-division']}`}>
           <View className={`flex-col items-center ${styles['equal-division-item']}`}>
-            <Text className={`${styles['text_2']}`}>{userInfo?.upp_num || 0}</Text>
+            <Text className={`${styles['text_2']}`}>{userInfo?.follower.length || 0}</Text>
             <Text className={`${styles['text_4']}`}>我的关注</Text>
           </View>
           <View className={`flex-col items-center ${styles['equal-division-item']}`}>
-            <Text className={`${styles['text_2']}`}>{userInfo?.fans_num || 0}</Text>
+            <Text className={`${styles['text_2']}`}>{userInfo?.fans.length || 0}</Text>
             <Text className={`${styles['text_4']}`}>我的粉丝</Text>
           </View>
         </View>

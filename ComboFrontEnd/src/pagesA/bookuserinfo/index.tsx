@@ -55,13 +55,13 @@ const LoginUser = () => {
             <View className={`flex-row justify-between ${styles['he-btn']}`}>
               <View className={`flex-row ${styles['group_5']}`}>
                 <View className={`${styles['group_6']}`}>
-                  <Text className={`${styles['font_2']}`}>0</Text>
+                  <Text className={`${styles['font_2']}`}>{userInfo?.fans.length || 0}</Text>
                   <View>
                     <Text className={`${styles['font_3']}`}>粉丝</Text>
                   </View>
                 </View>
                 <View className={`${styles['group_6']}`}>
-                  <Text className={`${styles['font_2']}`}>100</Text>
+                  <Text className={`${styles['font_2']}`}>{userInfo?.follower.length || 0}</Text>
                   <View> <Text className={`${styles['font_3']}`}>关注</Text></View>
                 </View>
               </View>

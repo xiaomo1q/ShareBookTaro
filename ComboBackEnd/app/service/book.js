@@ -8,18 +8,18 @@ class BookService extends Service {
     const { ctx, app } = this;
     try {
       const decoded = await ctx.service.tool.jwtToken();
-      const corr = await app.mysql.get("db_book_list", { isbn: params.isbn });
+      const corr = await app.mysql.get('db_book_list', { isbn: params.isbn });
       if (!corr) {
-        await app.mysql.insert("db_book_list", params);
+        await app.mysql.insert('db_book_list', params);
       }
-      await app.mysql.insert("user_connect_book", {
+      await app.mysql.insert('user_connect_book', {
         update_date: new Date(),
         isbn: params.isbn,
         openid: decoded.openid,
       });
       return {
         code: 0,
-        msg: "添加成功",
+        msg: '添加成功',
       };
     } catch (error) {
       return {
@@ -32,17 +32,17 @@ class BookService extends Service {
   async get_book_list(title) {
     const { ctx, app } = this;
     if (title) {
-      if (title === "ALL") {
-        const result = await app.mysql.query("SELECT * FROM db_book_list");
+      if (title === 'ALL') {
+        const result = await app.mysql.query('SELECT * FROM db_book_list');
         return { code: 0, data: result };
       } else {
-        const result = await app.mysql.select("db_book_list", {
+        const result = await app.mysql.select('db_book_list', {
           where: { book_type: title }, // 查询条件
         });
         return { code: 0, data: result };
       }
     } else {
-      return { code: 1, data: "类型必填" };
+      return { code: 1, data: '类型必填' };
     }
   }
   /** 获取单本图书信息 */
@@ -50,29 +50,37 @@ class BookService extends Service {
     const { ctx, app } = this;
 
     const decoded = await ctx.service.tool.jwtToken();
+    // mysql事务
+    const conn = await app.mysql.beginTransaction();
     if (isbn) {
-      const result = await app.mysql.get("db_book_list", { isbn });
-      // 收藏
-      const favorite = await app.mysql.query(`SELECT * FROM userinfo us
-        WHERE EXISTS(SELECT * FROM favorite fv, db_book_list bl
-        WHERE fv.isbn = bl.isbn and bl.isbn =${JSON.stringify(
-        isbn
-      )} and fv.openid = us.openid)`);
-      result.favorite_num = favorite.length;
-      result.favorite_state = false;
-      favorite.forEach((el) => {
-        if (el.openid === decoded.openid) {
-          result.favorite_state = el.openid === decoded.openid;
-        }
-      });
-      //  所关联书主
-      const ucb_list = await app.mysql.query(`SELECT * FROM userinfo us
-      WHERE EXISTS(SELECT * FROM user_connect_book ucb, db_book_list bl
-      WHERE ucb.isbn = bl.isbn and bl.isbn =${JSON.stringify(isbn)} and ucb.openid = us.openid)`);
-      result.ucb_list = ucb_list;
-      return { code: 0, data: result };
+      try {
+        const result = await conn.get('db_book_list', { isbn });
+        // 收藏
+        const favorite = await conn.query(`SELECT * FROM userinfo us
+    WHERE EXISTS(SELECT * FROM favorite fv, db_book_list bl
+    WHERE fv.isbn = bl.isbn and bl.isbn =${JSON.stringify(
+          isbn
+        )} and fv.openid = us.openid)`);
+        result.favorite_num = favorite.length;
+        result.favorite_state = false;
+        favorite.forEach((el) => {
+          if (el.openid === decoded.openid) {
+            result.favorite_state = el.openid === decoded.openid;
+          }
+        });
+        //  所关联书主
+        const ucb_list = await conn.query(`SELECT * FROM userinfo us
+  WHERE EXISTS(SELECT * FROM user_connect_book ucb, db_book_list bl
+  WHERE ucb.isbn = bl.isbn and bl.isbn =${JSON.stringify(isbn)} and ucb.openid = us.openid)`);
+        result.ucb_list = ucb_list;
+        await conn.commit();
+        return { code: 0, data: result };
+      } catch (error) {
+        await conn.rollback(); // rollback call won't throw err
+        throw error;
+      }
     } else {
-      return { code: 1, data: "isbn必填" };
+      return { code: 1, data: 'isbn必填' };
     }
   }
 }
