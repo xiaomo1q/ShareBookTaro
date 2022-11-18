@@ -2698,13 +2698,6 @@
   "resolved" "https://registry.npmjs.org/binary-extensions/-/binary-extensions-2.2.0.tgz"
   "version" "2.2.0"
 
-"bindings@^1.5.0":
-  "integrity" "sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ=="
-  "resolved" "https://registry.npmmirror.com/bindings/-/bindings-1.5.0.tgz"
-  "version" "1.5.0"
-  dependencies:
-    "file-uri-to-path" "1.0.0"
-
 "blob@0.0.5":
   "integrity" "sha512-gaqbzQPqOoamawKg0LGVd7SzLgXS+JH61oWprSLH+P+abTczqJbhTR8CmJ2u9/bUYNmHTGJx/UEmn6doAvvuig=="
   "resolved" "https://registry.npmjs.org/blob/-/blob-0.0.5.tgz"
@@ -2952,7 +2945,7 @@
     "unique-filename" "^1.1.1"
     "y18n" "^4.0.0"
 
-"cacache@^15.0.5":
+"cacache@^15.0.4":
   "integrity" "sha512-VVdYzXEn+cnbXpFgWs5hTT7OScegHVmLhJIR8Ufqk3iFD6A6j5iSX1KuBTfNEv4tdJWE2PzA6IVFtcLC7fN9wQ=="
   "resolved" "https://registry.npmjs.org/cacache/-/cacache-15.3.0.tgz"
   "version" "15.3.0"
@@ -2993,7 +2986,7 @@
 
 "cache-loader@^4.1.0":
   "integrity" "sha512-ftOayxve0PwKzBF/GLsZNC9fJBXl8lkZE3TOsjkboHfVHVkL39iUEs1FO07A33mizmci5Dudt38UZrrYXDtbhw=="
-  "resolved" "https://registry.npmjs.org/cache-loader/-/cache-loader-4.1.0.tgz"
+  "resolved" "https://registry.npmmirror.com/cache-loader/-/cache-loader-4.1.0.tgz"
   "version" "4.1.0"
   dependencies:
     "buffer-json" "^2.0.0"
@@ -5020,19 +5013,6 @@
   "resolved" "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   "version" "1.0.0"
 
-"fsevents@^1.2.7":
-  "integrity" "sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw=="
-  "resolved" "https://registry.npmmirror.com/fsevents/-/fsevents-1.2.13.tgz"
-  "version" "1.2.13"
-  dependencies:
-    "bindings" "^1.5.0"
-    "nan" "^2.12.1"
-
-"fsevents@~2.3.2":
-  "integrity" "sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA=="
-  "resolved" "https://registry.npmmirror.com/fsevents/-/fsevents-2.3.2.tgz"
-  "version" "2.3.2"
-
 "function-bind@^1.1.1":
   "integrity" "sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A=="
   "resolved" "https://registry.npmjs.org/function-bind/-/function-bind-1.1.1.tgz"
@@ -6109,7 +6089,7 @@
   "resolved" "https://registry.npmjs.org/javascript-stringify/-/javascript-stringify-1.6.0.tgz"
   "version" "1.6.0"
 
-"jest-worker@^26.2.1":
+"jest-worker@^26.0.0":
   "integrity" "sha512-KWYVV1c4i+jbMpaBC+U++4Va0cp8OisU185o73T1vo99hqi7w8tSJfUXYswwqqrjzwxa6KpRK54WhPvwf5w6PQ=="
   "resolved" "https://registry.npmjs.org/jest-worker/-/jest-worker-26.6.2.tgz"
   "version" "26.6.2"
@@ -7001,11 +6981,6 @@
   "resolved" "https://registry.npmjs.org/mute-stream/-/mute-stream-0.0.8.tgz"
   "version" "0.0.8"
 
-"nan@^2.12.1":
-  "integrity" "sha512-2ZTgtl0nJsO0KQCjEpxcIr5D+Yv90plTitZt9JBfQvVJDS5seMl3FOvsh3+9CoYWXf/1l5OaZzzF6nDm4cagaQ=="
-  "resolved" "https://registry.npmmirror.com/nan/-/nan-2.17.0.tgz"
-  "version" "2.17.0"
-
 "nanoid@^3.1.23", "nanoid@^3.3.4":
   "integrity" "sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw=="
   "resolved" "https://registry.npmjs.org/nanoid/-/nanoid-3.3.4.tgz"
@@ -7420,7 +7395,7 @@
   dependencies:
     "p-try" "^2.0.0"
 
-"p-limit@^3.0.2":
+"p-limit@^3.0.1":
   "integrity" "sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ=="
   "resolved" "https://registry.npmjs.org/p-limit/-/p-limit-3.1.0.tgz"
   "version" "3.1.0"
@@ -9628,10 +9603,10 @@
     "css-mediaquery" "^0.1.2"
     "postcss-value-parser" "^3.3.0"
 
-"taro-plugin-compiler-optimization@^1.0.1":
-  "integrity" "sha512-FQmVGVga0Dn/jxCyMhJ3u6q7RRQIxAZZ17y2FDo749cVjiJQ8o0zjnMEl9tyBdj6JYJWwmFg4dZ/7zI3XFXBAw=="
-  "resolved" "https://registry.npmjs.org/taro-plugin-compiler-optimization/-/taro-plugin-compiler-optimization-1.0.1.tgz"
-  "version" "1.0.1"
+"taro-plugin-compiler-optimization@^1.0.4":
+  "integrity" "sha512-7aAOSWLpkPlJkCM6NPjcZEqoLXdquNy16CEEKIzAAD03OJ742rHhVzbZ0NIdMABMV7xC+gzRFq9eoZ64gm9o2g=="
+  "resolved" "https://registry.npmmirror.com/taro-plugin-compiler-optimization/-/taro-plugin-compiler-optimization-1.0.4.tgz"
+  "version" "1.0.4"
 
 "taro-plugin-style-resource@^0.1.7":
   "integrity" "sha512-8LVXHAfOBYtbF0bHyAqJSaTwpOWZs1TGUh0IWB37ZlhAGNMef8j7Rq2qykwm8dGkzbu4r1RAZRwTMuZSNZFdgA=="
@@ -9671,21 +9646,21 @@
     "worker-farm" "^1.7.0"
 
 "terser-webpack-plugin@^3.0.5":
-  "integrity" "sha512-cjdZte66fYkZ65rQ2oJfrdCAkkhJA7YLYk5eGOcGCSGlq0ieZupRdjedSQXYknMPo2IveQL+tPdrxUkERENCFA=="
-  "resolved" "https://registry.npmjs.org/terser-webpack-plugin/-/terser-webpack-plugin-3.1.0.tgz"
-  "version" "3.1.0"
+  "integrity" "sha512-pyHUyfQUZB3ciYL81GgXzDh8Qb3fGED77xDjZVSFYSN1cQnWgC51OMPKj7vBWVZx0GGuYhpa9+Vz2KxkzXWhBA=="
+  "resolved" "https://registry.npmmirror.com/terser-webpack-plugin/-/terser-webpack-plugin-3.0.5.tgz"
+  "version" "3.0.5"
   dependencies:
-    "cacache" "^15.0.5"
+    "cacache" "^15.0.4"
     "find-cache-dir" "^3.3.1"
-    "jest-worker" "^26.2.1"
-    "p-limit" "^3.0.2"
+    "jest-worker" "^26.0.0"
+    "p-limit" "^3.0.1"
     "schema-utils" "^2.6.6"
     "serialize-javascript" "^4.0.0"
     "source-map" "^0.6.1"
-    "terser" "^4.8.0"
+    "terser" "^4.6.13"
     "webpack-sources" "^1.4.3"
 
-"terser@^4.1.2", "terser@^4.8.0":
+"terser@^4.1.2", "terser@^4.6.13":
   "integrity" "sha512-EAPipTNeWsb/3wLPeup1tVPaXfIaU68xMnVdPafIL1TV05OhASArYyIfFvnvJCNrR2NIOvDVNNTFRa+Re2MWyw=="
   "resolved" "https://registry.npmjs.org/terser/-/terser-4.8.0.tgz"
   "version" "4.8.0"
@@ -9701,7 +9676,7 @@
 
 "thread-loader@^3.0.4":
   "integrity" "sha512-ByaL2TPb+m6yArpqQUZvP+5S1mZtXsEP7nWKKlAUTm7fCml8kB5s1uI3+eHRP2bk5mVYfRSBI7FFf+tWEyLZwA=="
-  "resolved" "https://registry.npmjs.org/thread-loader/-/thread-loader-3.0.4.tgz"
+  "resolved" "https://registry.npmmirror.com/thread-loader/-/thread-loader-3.0.4.tgz"
   "version" "3.0.4"
   dependencies:
     "json-parse-better-errors" "^1.0.2"

@@ -16,7 +16,7 @@ export const RenderBookList = ({ data }) => {
       data && data.length > 0 ? data.map((item, index) =>
         <View className={`flex-col  ${styles['section_5']} ${styles['view']}`}
           key={index}
-          onClick={() => { Taro.redirectTo({ url: "/pages/home/book-detail/index?isbn=" + item.isbn }) }}
+          onClick={() => { Taro.redirectTo({ url: "/pagesA/home/book-detail/index?isbn=" + item.isbn }) }}
         >
           {/* <Image src={`https://file.ituring.com.cn/SmallCover/${item.coverKey}`} className={`${styles['image_20']}`} />  */}
           <Image src={!!item.imgUrl ? item.imgUrl : 'https://images-1300238189.cos.ap-shanghai.myqcloud.com/noImg.png'} className={`${styles['image_20']}`} />

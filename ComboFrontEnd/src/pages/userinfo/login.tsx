@@ -3,7 +3,7 @@ import Taro from '@tarojs/taro';
 import { View, Text, Image, Swiper, SwiperItem } from '@tarojs/components';
 import { AtForm, AtInput, AtButton } from 'taro-ui'
 import { Button } from '@antmjs/vantui'
-import WXBizDataCrypt from '@/utils/WXBizDataCrypt'
+// import WXBizDataCrypt from '@/utils/WXBizDataCrypt'
 import { _loginCode, _loginUserInfo, _registered, _loginH5 } from '@/service/index'
 import styles from './index.module.less';
 
@@ -27,35 +27,23 @@ const LoginUser = () => {
           _loginCode({ code: res.code }).then((result) => {
             Taro.getUserInfo({
               success: (req) => {
-                const pc = new WXBizDataCrypt(result.appid, result.session_key)
-                const data: any = pc.decryptData(e.detail.encryptedData, e.detail.iv)
                 try {
-                  if (data) {
-                    _loginUserInfo({
-                      openid: result.openid,
-                      session_key: result.session_key,
-                      countryCode: data.countryCode,
-                      phoneNumber: data.phoneNumber,
-                      purePhoneNumber: data.purePhoneNumber,
-                      ...req.userInfo
-                    }).then(_res => {
-                      if (_res.code === 0) {
-                        // 保存用户信息微信登录
-                        Taro.setStorageSync('userInfo', req.userInfo)
-                        Taro.setStorageSync('TOKEN', _res.token)
-                        Taro.switchTab({
-                          url: '/pages/home/index',
-                        })
-                      }
-                    })
-                  } else {
-                    Taro.showToast({
-                      title: '登录失败，请稍后重试',
-                      icon: 'error',
-                      mask: true,
-                      duration: 2000
-                    })
-                  }
+                  _loginUserInfo({
+                    encryptedData: e.detail.encryptedData,
+                    iv: e.detail.iv,
+                    openid: result.openid,
+                    session_key: result.session_key,
+                    ...req.userInfo
+                  }).then(_res => {
+                    if (_res.code === 0) {
+                      // 保存用户信息微信登录
+                      Taro.setStorageSync('userInfo', req.userInfo)
+                      Taro.setStorageSync('TOKEN', _res.token)
+                      Taro.switchTab({
+                        url: '/pages/home/index',
+                      })
+                    }
+                  })
                 } catch (error) {
 
                 }
@@ -154,12 +142,12 @@ const LoginUser = () => {
         </View>
       </SwiperItem>
     </Swiper> */}
-   <View  className={`${styles['head-title']}`}>
-   <View className={`${styles['text']}`}>
-   <Image src={process.env.URL + 'book-logo.png'} className={`${styles['image']}`} />
-   </View>
-    <Text className={`${styles['text_1']}`}>共享图书，共享知识</Text>
-   </View>
+    <View className={`${styles['head-title']}`}>
+      <View className={`${styles['text']}`}>
+        <Image src={process.env.URL + 'book-logo.png'} className={`${styles['image']}`} />
+      </View>
+      <Text className={`${styles['text_1']}`}>共享图书，共享知识</Text>
+    </View>
     <AtForm >
       <AtInput required name='name' title='账号' type='text' value={formValue.name} placeholder='请输入账号' onChange={() => { }} onBlur={(value) => handleChange('name', value)} />
       <AtInput required name='passward' title='密码' type='password' value={formValue.passward} placeholder='请输入密码' onChange={() => { }} onBlur={(value) => handleChange('passward', value)} />

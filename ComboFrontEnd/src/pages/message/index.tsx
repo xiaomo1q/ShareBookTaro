@@ -34,7 +34,7 @@ const MSGListIndex = () => {
               note=''
               extraText={moment(itm.create_time).format('MM-DD HH:mm')}
               key={inx}
-              onClick={() => Taro.navigateTo({ url: '/pages/message/msg-detail/index?id=' + itm.userGroupID })}
+              onClick={() => Taro.navigateTo({ url: '/pagesA/message/msg-detail/index?id=' + itm.userGroupID })}
             />)
         }
       </AtList>

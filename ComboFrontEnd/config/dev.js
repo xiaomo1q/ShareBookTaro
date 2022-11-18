@@ -1,29 +1,16 @@
+import path from 'path'
+
+// eslint-disable-next-line import/no-commonjs
 module.exports = {
     env: {
         NODE_ENV: '"development"',
         baseUrl: '"http://127.0.0.1:3030"',
         // baseUrl: '"http://www.piscesxiaopan.com"',
     },
+    plugins: [
+        path.resolve(__dirname, './minifyMainPackage.js'),
+    ],
     defineConstants: {},
-    mini: {
-        webpackChain: (chain, webpack) => {
-            chain.merge({
-                plugin: {
-                    install: {
-                        plugin: require('terser-webpack-plugin'),
-                        args: [{
-                            terserOptions: {
-                                compress: true, // 默认使用terser压缩
-                                // mangle: false,
-                                keep_classnames: true, // 不改变class名称
-                                keep_fnames: true // 不改变函数名称
-                            }
-                        }]
-                    }
-                }
-            })
-        }
-    },
     h5: {
         devServer: {
             proxy: [{

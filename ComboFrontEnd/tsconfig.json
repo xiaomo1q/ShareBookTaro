@@ -28,6 +28,6 @@
       "@/assets/*": ["./src/assets/*"]
     }
   },
-  "include": ["./src", "global.d.ts"],
+  "include": ["./src", "global.d.ts", "../ComboBackEnd/app/service/WXBizDataCrypt.js"],
   "compileOnSave": false
 }

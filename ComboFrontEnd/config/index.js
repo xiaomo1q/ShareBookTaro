@@ -25,7 +25,7 @@ const config = {
     sourceRoot: 'src',
     outputRoot: 'dist',
     plugins: [
-        ["taro-plugin-style-resource", lessPluginOptions]
+        ["taro-plugin-style-resource", lessPluginOptions],
     ],
     defineConstants: {},
     // 压缩 JS 代码
@@ -55,7 +55,6 @@ const config = {
         '@/assets': path.resolve(__dirname, '..', 'src/assets'),
     },
     mini: {
-        plugins: ['taro-plugin-compiler-optimization'],
         optimizeMainPackage: {
             enable: true
         },
@@ -89,23 +88,6 @@ const config = {
                     generateScopedName: '[name]__[local]___[hash:base64:5]'
                 }
             }
-        },
-        webpackChain: (chain, webpack) => {
-            chain.merge({
-                plugin: {
-                    install: {
-                        plugin: require('terser-webpack-plugin'),
-                        args: [{
-                            terserOptions: {
-                                compress: true, // 默认使用terser压缩
-                                // mangle: false,
-                                keep_classnames: true, // 不改变class名称
-                                keep_fnames: true // 不改变函数名称
-                            }
-                        }]
-                    }
-                }
-            })
         }
     },
     h5: {

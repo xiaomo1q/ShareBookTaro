@@ -5,7 +5,60 @@ module.exports = {
   },
   defineConstants: {
   },
-  mini: {},
+  mini: {
+    plugins: ['taro-plugin-compiler-optimization'],
+    optimizeMainPackage: {
+      enable: true
+    },
+    // esnextModules: [/@antmjs[\\/]vantui/, 'taro-ui'],
+    // esnextModules: ['taro-ui'],
+    postcss: {
+      pxtransform: {
+        enable: true,
+        config: {
+          selectorBlackList: [/van-/]
+        }
+      },
+      "postcss-px-scale": {
+        "enable": true,
+        "config": {
+          "scale": 0.5, //缩放为1/2
+          "units": "rpx",
+          "includes": ["taro-ui"]
+        }
+      },
+      url: {
+        enable: true,
+        config: {
+          limit: 1024 // 设定转换尺寸上限
+        }
+      },
+      cssModules: {
+        enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
+        config: {
+          namingPattern: 'module', // 转换模式，取值为 global/module
+          generateScopedName: '[name]__[local]___[hash:base64:5]'
+        }
+      }
+    },
+    // webpackChain: (chain, webpack) => {
+    //     chain.merge({
+    //         plugin: {
+    //             install: {
+    //                 plugin: require('terser-webpack-plugin'),
+    //                 args: [{
+    //                     terserOptions: {
+    //                         compress: true, // 默认使用terser压缩
+    //                         // mangle: false,
+    //                         keep_classnames: true, // 不改变class名称
+    //                         keep_fnames: true // 不改变函数名称
+    //                     }
+    //                 }]
+    //             }
+    //         }
+    //     })
+    // }
+  },
   weapp: {
     module: {
       postcss: {

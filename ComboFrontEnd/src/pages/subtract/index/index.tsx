@@ -23,7 +23,7 @@ const SubtractIndex = () => {
       <View className={`flex-col ${styles['si-list']}`}>
         {get_list && get_list.length > 0 && get_list.map((item, i) => (
           <View className={`flex-col ${styles['space-y-9']} ${styles['list-item']}`} key={i}
-            onClick={() => { Taro.redirectTo({ url: '/pages/subtract/only-detail/index?_id='+ item.id}) }}
+            onClick={() => { Taro.redirectTo({ url: '/pagesA/subtract/only-detail/index?_id='+ item.id}) }}
           >
             <View className={`flex-row ${styles['space-x-14']}`}>
               <Image src={item?.avatar} className={`${styles['image']}`} />
@@ -56,7 +56,7 @@ const SubtractIndex = () => {
           </View>
         ))}
       </View>
-      <View className={`${styles['fixed-saqure']}`} onClick={() => { Taro.redirectTo({ url: '/pages/subtract/form-index/index' }) }}>
+      <View className={`${styles['fixed-saqure']}`} onClick={() => { Taro.redirectTo({ url: '/pagesA/subtract/form-index/index' }) }}>
         <AtAvatar circle image={process.env.URL + 'icon/neirongxiezuo.svg'}></AtAvatar>
       </View>
     </View>

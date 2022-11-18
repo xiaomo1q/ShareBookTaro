@@ -22,15 +22,15 @@ const LoginUser = () => {
 
   const addMessagesClickedHandler = async () => {
     const form = {
-      form_avatarUrl:userInfo.avatarUrl,
+      form_avatarUrl: userInfo.avatarUrl,
       form_name: userInfo.nickName,
       form_id: userInfo.openid
     }
     const to = {
-      id: bookuserInfo.openid, name: bookuserInfo.nickName, to_avatarUrl: bookuserInfo?.avatarUrl 
+      id: bookuserInfo.openid, name: bookuserInfo.nickName, to_avatarUrl: bookuserInfo?.avatarUrl
     }
-    await Add_messages({ ...to,...form }).then(res => {
-      Taro.redirectTo({ url: '/pages/message/msg-detail/index?id=' + res.m_id })
+    await Add_messages({ ...to, ...form }).then(res => {
+      Taro.redirectTo({ url: '/pagesA/message/msg-detail/index?id=' + res.m_id })
     })
   }
 
@@ -54,30 +54,30 @@ const LoginUser = () => {
             </View>
             <View className={`flex-row justify-between ${styles['he-btn']}`}>
               <View className={`flex-row ${styles['group_5']}`}>
-                <View className={`${styles['group_6']}`}  onClick={()=>{Taro.redirectTo({url:'/pagesA/fansFollower/index?title=粉丝&id='+bookuserInfo.openid})}}>
+                <View className={`${styles['group_6']}`} onClick={() => { Taro.redirectTo({ url: '/pagesA/fansFollower/index?title=粉丝&id=' + bookuserInfo.openid }) }}>
                   <Text className={`${styles['font_2']}`}>{userInfo?.fans.length || 0}</Text>
                   <View>
                     <Text className={`${styles['font_3']}`}>粉丝</Text>
                   </View>
                 </View>
-                <View className={`${styles['group_6']}`}  onClick={()=>{Taro.redirectTo({url:'/pagesA/fansFollower/index?title=关注&id='+bookuserInfo.openid})}}>
+                <View className={`${styles['group_6']}`} onClick={() => { Taro.redirectTo({ url: '/pagesA/fansFollower/index?title=关注&id=' + bookuserInfo.openid }) }}>
                   <Text className={`${styles['font_2']}`}>{userInfo?.follower.length || 0}</Text>
                   <View> <Text className={`${styles['font_3']}`}>关注</Text></View>
                 </View>
               </View>
               {
-                userInfo.openid === bookuserInfo.openid ? <></>:<View className={`flex-row ${styles['space-x-11']} ${styles['group_7']}`}>
-                <View className={`flex-row ${styles['section_5']}`}>
-                  <Image className={`${styles['image_15']}`} src={process.env.URL + 'icon/xinxi.png'} />
-                  <Text className={`${styles['font_1']} ${styles['text_3']}`} onClick={addMessagesClickedHandler}>私信</Text>
+                userInfo.openid === bookuserInfo.openid ? <></> : <View className={`flex-row ${styles['space-x-11']} ${styles['group_7']}`}>
+                  <View className={`flex-row ${styles['section_5']}`}>
+                    <Image className={`${styles['image_15']}`} src={process.env.URL + 'icon/xinxi.png'} />
+                    <Text className={`${styles['font_1']} ${styles['text_3']}`} onClick={addMessagesClickedHandler}>私信</Text>
+                  </View>
+                  <View className={`flex-row ${styles['section_5']}`}>
+                    <Image className={`${styles['image_15']}`} src={process.env.URL + 'icon/add-user.png'} />
+                    <Text className={`${styles['font_1']} ${styles['text_3']}`}>关注</Text>
+                  </View>
                 </View>
-                <View className={`flex-row ${styles['section_5']}`}>
-                  <Image className={`${styles['image_15']}`} src={process.env.URL + 'icon/add-user.png'} />
-                  <Text className={`${styles['font_1']} ${styles['text_3']}`}>关注</Text>
-                </View>
-              </View>
               }
-              
+
             </View>
           </View>
         </View>
