@@ -24,8 +24,7 @@ module.exports = appInfo => {
         whitelist: [
             // ".xls",
             // ".xlsx",
-            ".png",
-            ".jpg",
+            '.jpg', '.jpeg','.png', '.gif', '.bmp', '.wbmp', '.webp','.tif','.psd',
             // ".svg",
             // ".pdf",
             // ".word",
@@ -82,7 +81,7 @@ module.exports = appInfo => {
             // // 密码
             // password: '123456',
             // // 数据库名
-            // database: 'book',
+            // database: 'vook',
             // host
             host: 'sh-cynosdbmysql-grp-li753bps.sql.tencentcdb.com',
             // 端口号

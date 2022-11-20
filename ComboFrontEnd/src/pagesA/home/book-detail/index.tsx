@@ -3,16 +3,15 @@ import Taro, { useRouter } from '@tarojs/taro';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Add_favorite_book } from '@/service/index'
+import NavCustomBar from '@/components/navCustomBar';
 import { AtIcon, AtAvatar } from 'taro-ui'
 import styles from './index.module.less'
-import NavCustomBar from '@/components/navCustomBar';
 
 const BookDetailView: React.FC = () => {
   const { params } = useRouter()
   const dispatch = useDispatch()
   const { only_book_detail } = useSelector((state: any) => state.book_model)
   useEffect(() => {
-    console.log( params.isbn );
     !!params.isbn && dispatch({ type: "book_model/getOnlyBookDetail", payload: { isbn: params.isbn } })
   }, [ params ])
 

@@ -1,31 +1,26 @@
 export default defineAppConfig({
   pages: [
     'pages/home/index',
-    'pages/home/book-detail/index',
     'pages/subtract/index/index',
-    'pages/subtract/only-detail/index',
-    'pages/subtract/form-index/index',
     'pages/release/index',
     'pages/message/index',
-    'pages/message/msg-detail/index',
     'pages/search/index',
     'pages/userinfo/index',
     'pages/userinfo/login',
   ],
   subpackages: [
-    // {
-    //   root: "subtractPages",
-    //   pages: [
-    //     "index/index",
-    //     'only-detail/index',
-    //     'form-index/index'
-    //   ],
-    // },
     {
       root: "pagesA",
       pages: [
         'bookuserinfo/index',
         'fansFollower/index',
+        'subtract/only-detail/index',
+        'subtract/form-index/index',
+        'message/msg-detail/index',
+        'home/book-detail/index',
+        'updateUserinfo/index',
+        'orderIn/index',
+        'updateBook/index',
       ],
     },
   ],

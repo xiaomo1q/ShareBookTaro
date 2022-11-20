@@ -1,20 +1,49 @@
 
 import React, { useState, useEffect } from 'react';
-import Taro from '@tarojs/taro';
+import { useDispatch, useSelector } from 'react-redux';
+import Taro, { useRouter } from '@tarojs/taro';
 import { View, Picker, Image } from '@tarojs/components'
 import { AtForm, AtInput, AtButton, AtList, AtListItem, AtTextarea } from 'taro-ui'
-import { Get_book_type, Add_only_book, File_img_delete } from '@/service/index';
+import { Get_book_type, Update_only_book, File_img_delete } from '@/service/index';
 import styles from './index.module.less'
+import NavCustomBar from '@/components/navCustomBar';
 
 const initVal = { isbn: '', book_name: '', book_type: '', book_desc: '', book_author: '', imgUrl: '' }
+// const initVal = {
+//   book_author: "马伯庸",
+//   book_desc: "大唐天宝十四年，长安城的小吏李善德突然接到一个任务：要在贵妃诞日之前，从岭南运来新鲜荔枝。荔枝“一日色变，两日香变，三日味变”，而岭南距长安五千余里，山水迢迢，这是个不可能完成的任务，可为了家人，李善德决心放手一搏：“就算失败，我也想知道，自己倒在距离终点多远的地方。”",
+//   book_name: "长安的荔枝",
+//   book_type: "小说",
+//   imgUrl: "/public/img/1668925452506435.jpeg",
+//   isbn: "9787572608582"
+// }
 /**
- * 发布图书
+ * 修改图书
  * @returns 
  */
 const Index = () => {
   const [bookType, setBookType] = useState<any>([]);
   const [formValue, setFormValue] = useState({ ...initVal });
+  const { params } = useRouter()
+  const dispatch = useDispatch()
+  const { only_book_detail } = useSelector((state: any) => state.book_model)
+
   useEffect(() => { fetchBookType() }, []);
+  useEffect(() => {
+    !!params.isbn && dispatch({ type: "book_model/getOnlyBookDetail", payload: { isbn: params.isbn } })
+  }, [params])
+
+  useEffect(() => {
+    if (!!only_book_detail && only_book_detail.isbn) {
+      for (const key in initVal) {
+        initVal[key] = only_book_detail[key]
+        if (key === 'imgUrl' && initVal[key].indexOf(':3030/') !== -1) {
+          initVal[key] = initVal[key].split('3030')[1]
+        }
+      }
+      setFormValue({ ...initVal })
+    }
+  }, [only_book_detail])
   const handleChange = (name, value) => {
     formValue[name] = value
     setFormValue({ ...formValue })
@@ -22,13 +51,14 @@ const Index = () => {
   const onSubmit = async () => {
     const obj = { ...formValue }
     obj.imgUrl = `${process.env.baseUrl}${formValue.imgUrl}`
-    await Add_only_book(obj).then(res => {
+    await Update_only_book(obj).then(res => {
       Taro.showToast({
         title: res.msg,
         icon: 'none',
         duration: 2000
       })
       setFormValue({ ...initVal })
+      !!params.isbn && dispatch({ type: "book_model/getOnlyBookDetail", payload: { isbn: params.isbn } })
     })
   }
   const fetchBookType = async () => {
@@ -88,7 +118,7 @@ const Index = () => {
     <View className={`flex-col ${styles['release-index']}`}>
       {/* <View className={styles['release-tip']}>上传发布图书信息</View> */}
       <AtForm>
-
+        <NavCustomBar needBackIcon title='编辑图书' url='/pages/search/index?title=我的图书'/>
         <AtInput required name='isbn' title='ISBN' type='text' value={formValue.isbn} placeholder='请输入ISBN' onChange={() => { }} onBlur={(value) => handleChange('isbn', value)} />
         <AtInput required name='name' title='书籍名称' type='text' value={formValue.book_name} placeholder='请输入图书名称' onChange={() => { }} onBlur={(value) => handleChange('book_name', value)} />
         <AtInput name='author' title='书籍作者' type='text' value={formValue.book_author} placeholder='请输入图书作者' onChange={(value) => handleChange('book_author', value)} />
@@ -117,8 +147,7 @@ const Index = () => {
         </View>
       </AtForm>
       <View className={`flex-row ${styles['re-footer']}`}>
-        <AtButton onClick={onSubmit}>确认发布</AtButton>
-        <AtButton onClick={() => setFormValue({ ...initVal })}>重置</AtButton>
+        <AtButton onClick={onSubmit}>修改并保存</AtButton>
       </View>
     </View>
   );

@@ -7,6 +7,7 @@ import book_detail from '@/assets/detail.json'
 import { Get_book_list, Get_book_type } from "@/service/index";
 import {RenderBookList} from '@/components/bookList';
 import styles from './courses.module.less';
+import { Empty } from '@antmjs/vantui';
 
 
 const HomeView: React.FC<any> = ({ loading }) => {
@@ -45,29 +46,32 @@ const HomeView: React.FC<any> = ({ loading }) => {
         </View>
       </View>
       <View className={`flex-row ${styles['equal-division']}`}>
-        <Swiper autoplay>
+        <Swiper autoplay={false}>
           <SwiperItem>  <Image src={process.env.URL + 'banner.png'} className={`${styles['image_6']}`} /> </SwiperItem>
           <SwiperItem>  <Image src={process.env.URL + 'banner.png'} className={`${styles['image_6']}`} /> </SwiperItem>
         </Swiper>
       </View>
       <View className={`flex-col ${styles['home-tab-list']}`}>
-        <AtTabs scroll current={tabActive} tabList={bookType} onClick={(value) => {
-          setTabActive(value)
-          dispatch({ type: "book_model/getBookList", payload: { type: bookType[value] } })
-        }}
-        >
-          {
-            bookType && bookType.length > 0 && bookType.map((it, ix) =>
-              <AtTabsPane current={ix} key={ix} index={ix}  >
-                {tabActive === ix &&
-                  // <AtActivityIndicator isOpened={loading.effects['book_model/getBookList']} mode='center'>
-                  <RenderBookList data={book_list} />
-                  // </AtActivityIndicator>
-                }
-              </AtTabsPane>
-            )
-          }
-        </AtTabs>
+        {
+            bookType && bookType.length > 0 ?  <AtTabs scroll current={tabActive} tabList={bookType} onClick={(value) => {
+              setTabActive(value)
+              dispatch({ type: "book_model/getBookList", payload: { type: bookType[value] } })
+            }}
+            >
+              {
+               bookType.map((it, ix) =>
+                  <AtTabsPane current={ix} key={ix} index={ix}  >
+                    {tabActive === ix &&
+                      // <AtActivityIndicator isOpened={loading.effects['book_model/getBookList']} mode='center'>
+                      <RenderBookList data={book_list} />
+                      // </AtActivityIndicator>
+                    }
+                  </AtTabsPane>
+                )
+              }
+            </AtTabs>:<Empty />
+        }
+       
       </View>
     </View>
   );

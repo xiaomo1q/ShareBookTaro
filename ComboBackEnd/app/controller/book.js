@@ -8,6 +8,11 @@ class BookController extends Controller {
         const params = this.ctx.request.body;
         this.ctx.body = await this.ctx.service.book.add_only_book(params);
     }
+    /** update图书 */
+    async update_only_book() {
+        const params = this.ctx.request.body;
+        this.ctx.body = await this.ctx.service.book.update_only_book(params);
+    }
 
     /** 获取用户已拥有的图书 */
     async get_connect_book_list() {
@@ -22,6 +27,7 @@ class BookController extends Controller {
             ctx.body = error;
         }
     }
+    
     async del_connect_book_list() {
         const { ctx, app } = this;
         const { isbn } = this.ctx.request.body;
@@ -114,12 +120,11 @@ class BookController extends Controller {
                 openid: decoded.openid,
             });
             ctx.body = { code: 0, msg: "收藏成功" };
-        } else {
+        } else { 
             const res = await app.mysql.get("favorite", {
                 isbn,
                 openid: decoded.openid,
             });
-            console.log(res);
             await app.mysql.delete("favorite", { fid: res.fid });
             ctx.body = { code: 0, msg: "取消收藏" };
         }

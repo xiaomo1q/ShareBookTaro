@@ -1,6 +1,6 @@
 .release-index {
   width: 100%;
-  height: calc(100vh - 50px);
+  height: calc(100vh);
   background: #fff;
 
   .release-tip {
@@ -15,7 +15,7 @@
 
   :global {
     .at-form {
-      height: calc(100% - 150px);
+      height: calc(100% - 100px);
     }
 
     .at-form::after {
@@ -74,21 +74,13 @@
   }
 
   .re-footer {
-    width: 100%;
+    width: 90%;
     margin: 20px auto;
 
     :global {
       .at-button {
-        width: 40%;
+        width: 100%;
         border-radius: 36px;
-      }
-
-      .at-button:nth-child(1) {
-        background: @color-txt;
-        color: @color-f-txt;
-      }
-
-      .at-button:nth-child(2) {
         border: 1px solid @color-txt;
         color: @color-txt;
       }

@@ -24,16 +24,18 @@
 
   .MSGD-main {
     width: calc(100% - 30px);
-    height: calc(100vh - 100px);
+    height: calc(100vh - 50px - 50px - 10px);
     overflow-y: scroll;
     margin: auto;
+    padding-top: 10px;
 
     .msg-box-left,
     .msg-box-right {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
+
       :global {
         .at-avatar {
           width: 36px;
@@ -58,30 +60,120 @@
 
     .msg-box-left {
       align-items: flex-start;
+
       ._des {
         max-width: 200px;
         min-width: 30px;
         height: auto;
-        background: #FFFFFF;
         box-shadow: 0px 50px 36px -19px rgba(112, 136, 255, 0.3);
         border-radius: 0px 10px 10px 10px;
-        color: @color-txt;
+        color: @color-f-txt;
         padding: 5px;
         font-size: 14px;
         margin-left: 15px;
+      }
+    }
+  }
+
+  .home-tab-connect {
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+
+    .section_5 {
+      width: 100%;
+      align-items: center;
+      filter: drop-shadow(0px 8px 6px #b8b8d233);
+      position: relative;
+      border-bottom: 1px solid #f2f2f4;
+
+      .image_20 {
+        width: 40px;
+        height: 50px;
+      }
+
+      .group_9 {
+        width: 100%;
+        margin-top: 5px;
+
+        .text_10 {
+          color: #1f1f39;
+          font-size: 14px;
+          font-family: Poppins;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          padding-left: 10px;
+        }
+      }
+    }
+
+    .view_3 {
+      margin-right: 10px;
+      margin-top: 24px;
+    }
+
+    .left {
+      width: 90%;
+    }
+
+    .betn {
+      width: 40px;
+      padding: 5px;
+      border-radius: 8px;
+      border: solid 1px #7088FF;
+      text-align: center;
+      color: #7088FF;
+    }
+  }
+
+  .send-box{
+    height: auto;
+    background: #7088FF;
+    box-shadow: 0px 50px 36px -19px rgba(112, 136, 255, 0.3);
+    border-radius: 10px 10px 10px 10px;
+    color: @color-f-txt;
+    padding: 5px;
+    font-size: 14px;
+    margin-right: 15px;
+    .send-box-deb-btn,
+    .send-box-btn {
+      width: 100%;
+      display: flex;
+      .sb-btn-r{
+        flex: 1;
+        text-align: center;
+        color: #C5D9E8;
+      }
+      .sb-btn-a{
+        flex: 1;
         text-align: center;
       }
     }
+    .send-box-deb-btn{
+      .sb-btn-r{
+        color: #ccc;
+      }
+      .sb-btn-a{
+        color: #ccc;
+      }
+    }
+  
   }
 
   .MSGD-footer {
     width: 100%;
     height: 50px;
     background: #fff;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     border-top: 1px solid rgba(112, 136, 255, 0.3);
 
     :global {
       .at-search-bar {
+        flex: 1;
+
         .at-search-bar__input-cnt {
           height: 30px;
         }
@@ -111,6 +203,10 @@
 
       .at-search-bar__action {
         background: #7088FF;
+      }
+
+      .at-icon {
+        width: 10%;
       }
     }
   }

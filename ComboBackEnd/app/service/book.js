@@ -28,6 +28,22 @@ class BookService extends Service {
       };
     }
   }
+  /** update图书 */
+  async update_only_book(params) {
+    const { ctx, app } = this;
+    try {
+      await app.mysql.update('db_book_list', params, { where: { isbn: params.isbn } });
+      return {
+        code: 0,
+        msg: '修改成功',
+      };
+    } catch (error) {
+      return {
+        code: 1,
+        error
+      };
+    }
+  }
   /** 根据分类图书列表 */
   async get_book_list(title) {
     const { ctx, app } = this;

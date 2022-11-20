@@ -26,7 +26,7 @@ module.exports = {
     devServer: {
       proxy: [{
         context: ["/api"],
-        target: "http://xxx.xxx.xxx.xxx:8000", //域名
+        target: "http://www.piscesxiaopan.com", //域名
         pathRewrite: {
           '^/api': '/api'
         },

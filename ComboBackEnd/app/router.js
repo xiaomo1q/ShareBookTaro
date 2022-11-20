@@ -7,6 +7,7 @@ module.exports = app => {
     const { router, controller, middleware, io } = app;
     // 引入 使用egg-jwt中间件来授权，授权成功才会执行下一个中间件
     const jwt = middleware.jwt(app.config.jwt);
+    // router.get('/', controller.user.test); // 注册
     router.get('/api/registered', controller.user.registered); // 注册
     router.get('/api/loginH5', controller.user.loginH5); // loginH5
 
@@ -15,9 +16,11 @@ module.exports = app => {
     router.post('/api/get_userInfo', controller.user.get_userInfo); // 登录并生成Token
 
     router.post('/api/add_only_book', jwt, controller.book.add_only_book); // 添加图书信息
+    router.post('/api/update_only_book', jwt, controller.book.update_only_book); // update图书信息
     router.get('/api/get_connect_book_list', jwt, controller.book.get_connect_book_list); // 拥有书主
     router.delete('/api/del_connect_book_list', jwt, controller.book.del_connect_book_list); // 拥有书主
     router.get('/api/get_bookuser_userInfo', jwt, controller.user.get_bookuser_userInfo); // 书主个人信息
+    router.post('/api/update_userInfo', jwt, controller.user.update_userInfo); // 修改书主个人信息
 
     router.get('/api/get_book_type', controller.book.get_book_type); // 获取图书类型
     router.get('/api/get_book_list', controller.book.get_book_list); // 获取图书列表
@@ -30,13 +33,21 @@ module.exports = app => {
     router.get('/api/get_exchange_square_list', controller.exchangeSquare.get_exchange_square_list); // 书圈广场
     router.get('/api/get_exchange_square_detail', jwt, controller.exchangeSquare.get_exchange_square_detail); // 书圈广场详情
     router.post('/api/add_exchange_square_detail', jwt, controller.exchangeSquare.add_exchange_square_detail); // 填写书评
-    router.post('/api/add_only_square_review', jwt, controller.exchangeSquare.add_only_square_review); // 填写书评
+    router.post('/api/add_only_square_review', jwt, controller.exchangeSquare.add_only_square_review); // 评论
+    router.post('/api/add_only_square_fav', jwt, controller.exchangeSquare.add_only_square_fav); // 书圈点赞
     router.post('/api/file/img/upload/', jwt, controller.exchangeSquare.file_img_upload); // 上传图片
     router.post('/api/file/img/delete/', jwt, controller.exchangeSquare.file_img_delete); // del图片
+
+    router.get('/api/add_fans_followers', jwt, controller.user.add_fans_followers); // 
+    router.delete('/api/del_fans_followers', jwt, controller.user.del_fans_followers); // 
+
 
     // 聊天
     router.post('/api/add_messages', jwt, controller.messages.add_messages); // 创建房间
     router.get('/api/msg_list', jwt, controller.messages.msg_list); // 群聊列表
+    router.get('/api/get_toUser_book_list', jwt, controller.messages.get_toUser_book_list); // 查询卖家的书库
+    router.post('/api/add_order_information', jwt, controller.messages.add_order_information); // 生成订单记录
+    router.post('/api/get_order_information', jwt, controller.messages.get_order_information); // 查询订单记录
 
     /**
      * 平台

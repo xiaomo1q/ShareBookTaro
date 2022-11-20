@@ -1,7 +1,8 @@
 /**
  * 服务器路径
  */
-const API_PATH = "/api";
+const API_PATH = "/api/api";
+// const API_PATH = "/api";
 
 export const InterfacePath = {
 
