@@ -41,7 +41,7 @@ export interface SettingsType {
 }
 
 const settings: SettingsType = {
-  siteTitle: 'ADMIN-ANTD-REACT',
+  siteTitle: '校图管理平台',
   topNavEnable: true,
   headFixed: true,
   siteTokenKey: 'Authorization',

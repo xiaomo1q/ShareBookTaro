@@ -54,8 +54,11 @@ module.exports = app => {
      */
     router.get('/api/admin/login', controller.adminUser.login); // 登录
     router.get('/api/admin/captcha', controller.adminUser.captcha); // 验证码
-    router.post('/api/admin/get_book_type', jwt, controller.adminUser.get_book_type); // 分类
+    router.post('/api/admin/get_book_type', controller.adminUser.get_book_type); // 分类
     router.post('/api/admin/get_book_list', controller.adminUser.get_book_list); // 列表
+    router.post('/api/admin/add_book_list', controller.adminUser.add_only_book); // 列表
+    router.post('/api/admin/update_only_book', controller.adminUser.update_only_book); // 列表
+    router.delete('/api/admin/del_only_book', controller.adminUser.del_only_book); // 列表
     //   router.resources('routerName', 'pathMatch', controller.class);
     // router.resources('list', '/api/list', jwt, controller.class);	// 需要验证Token的路由
     // router.put('/api/list', jwt, controller.class.update);	// update

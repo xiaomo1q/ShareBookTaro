@@ -14,7 +14,7 @@ export default defineConfig({
   // history: {
   //   type: 'hash',
   // },
-  title: 'umi-admin',
+  title: '校图管理平台',
   cssLoader: {
     localsConvention: 'camelCase',
   },

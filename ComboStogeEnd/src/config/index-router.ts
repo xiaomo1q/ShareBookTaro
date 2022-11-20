@@ -33,13 +33,6 @@ const IndexLayoutRoutes: RoutesDataItem[] = [
       },
       // {
       //   icon: 'control',
-      //   title: '实时聊天',
-      //   roles: ['admin', 'user', 'test'],
-      //   path: '/home/ws',
-      //   component: '@/pages/ws',
-      // },
-      // {
-      //   icon: 'control',
       //   title: 'word导出',
       //   roles: ['admin', 'user', 'test'],
       //   path: '/home/word',

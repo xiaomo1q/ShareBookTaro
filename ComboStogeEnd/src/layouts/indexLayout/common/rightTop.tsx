@@ -74,7 +74,7 @@ const RightTop: React.FC<RightTopProps> = ({
 
       <div className={styles['right-logout']}>
         <Dropdown overlay={menu} trigger={['click']}>
-          <Avatar src="https://images-1300238189.cos.ap-shanghai.myqcloud.com/icon/saqure.png" />
+          <Avatar src="https://images-1300238189.cos.ap-shanghai.myqcloud.com/de-avatar.png" />
         </Dropdown>
       </div>
     </div>

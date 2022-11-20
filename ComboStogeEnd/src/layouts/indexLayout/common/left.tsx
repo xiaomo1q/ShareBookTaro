@@ -19,7 +19,10 @@ const Left: React.FC<LeftProps> = ({
 }) => {
   return (
     <>
-      <div className={styles['logo']} />
+      <div className={styles['logo']} >
+        <img src={require('@/assets/images/logo-bl.svg')} />
+        <p>管理平台</p>
+      </div>
       {/* 侧边栏 */}
       <Menu theme="dark" mode="inline" selectedKeys={[selectedKey]}>
         {/* {
