@@ -15,12 +15,24 @@ import {
   Select,
 } from 'antd';
 import moment from 'moment';
-import { Add_book_list, Get_book_list, Get_book_type, Update_book_list } from '@/services/book';
+import { Add_only_book, Get_book_list, Get_book_type, Update_only_book, Del_only_book } from '@/services/book';
 import { history } from 'umi';
 import styles from './index.less'
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { removeProperty } from '@/utils/utils';
 const { TextArea } = Input;
+
+const initval = {
+  book_name: "",
+  book_type: "",
+  book_author: "",
+  book_desc: "",
+  // create_time : "2022-09-21T06:04:02.000Z", 
+  // imgUrl: "https://img2.doubanio.com/view/subject/l/public/s34290201.jpg",
+  isbn: "",
+  press: ""
+}
+
 const Home: React.FC<any> = (props) => {
   const [editForm] = Form.useForm();
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -37,16 +49,7 @@ const Home: React.FC<any> = (props) => {
     book_author: "",
     isbn: "",
   });
-  const [editformValue, setEditFormValue] = useState({
-    book_name: "咖啡馆比其他河流更慢",
-    book_type: "其他",
-    book_author: "库索",
-    book_desc: "",
-    // create_time : "2022-09-21T06:04:02.000Z", 
-    // imgUrl: "https://img2.doubanio.com/view/subject/l/public/s34290201.jpg",
-    isbn: "9787572608216",
-    press: "湖南文艺出版社"
-  });
+  const [editformValue, setEditFormValue] = useState<any>({ ...initval });
   const [formName, setFormName] = useState('add');
   const [pagination, setPagination] = useState({
     total: 0,
@@ -85,7 +88,7 @@ const Home: React.FC<any> = (props) => {
       key: 'book_type',
     },
     {
-      title: '时间',
+      title: '创建时间',
       dataIndex: 'create_time',
       key: 'create_time',
       render: (text: any, row: any, ix: any) => (
@@ -151,32 +154,35 @@ const Home: React.FC<any> = (props) => {
   // modal
   const showModal = () => {
     setIsModalVisible(true);
-    editForm.setFieldsValue({ add: { name: '', age: 0, time: '' } });
+    editForm.setFieldsValue({ ['add']: { ...initval } })
   };
 
   // 删除
-  const delRowClickedHandler = (row: { name: string }) => {
-    // DeleteClassList({ name: row.name }).then(res => {
-    //     fetchTable(pagination.pageCount, pagination.pageIndex)
-    // })
+  const delRowClickedHandler = async (row: { isbn: string }) => {
+    await Del_only_book({ isbn: row.isbn }).then(res => {
+      if (res.code === 0) {
+        message.success(res.msg);
+      } else {
+        message.warn(res.msg);
+      }
+      fetchTable(formValue, { pageCount: pagination.pageCount, pageIndex: pagination.pageIndex });
+    })
   };
 
   // 编辑
-  const editRowClickedHandler = (row: {
-    time: string;
-    _id: number;
-    name: string;
-    age: Number;
-  }) => {
+  const editRowClickedHandler = (row: any) => {
+    for (const key in editformValue) {
+      editformValue[key] = row[key]
+    }
     setFormName('edit');
+    editForm.setFieldsValue({ ['edit']: { ...editformValue } })
+    // setEditFormValue({ ...editformValue })
     setIsModalVisible(true);
   };
   // 提交
   const editFinishHandler = async (values: any) => {
-    console.log(formName, values[formName]);
     const search = removeProperty(values[formName])
-    console.log(search);
-    const re: any = await formName === 'add' ? Add_book_list(search) : Update_book_list(search)
+    const re: any = formName === 'add' ? await Add_only_book(search) : await Update_only_book(search)
     if (re.code === 0) {
       message.success(re.msg);
     } else {
@@ -184,6 +190,7 @@ const Home: React.FC<any> = (props) => {
     }
     setIsModalVisible(false);
     fetchTable(formValue, { pageCount: pagination.pageCount, pageIndex: pagination.pageIndex });
+    editForm.resetFields();
   };
 
   //导入 excel
@@ -279,6 +286,7 @@ const Home: React.FC<any> = (props) => {
     console.log(files);
 
   }
+
   return (
     <div className={styles['book-list']}>
       <div className={styles['header']}>
@@ -343,12 +351,17 @@ const Home: React.FC<any> = (props) => {
         title={{ 'add': "添加图书", 'edit': "编辑图书" }[formName]}
         visible={isModalVisible}
         footer={null}
-        forceRender={true}
+        forceRender={false}
         destroyOnClose={true}
-        onCancel={() => setIsModalVisible(false)}
+        onCancel={() => {
+          setEditFormValue({ ...initval });
+          setIsModalVisible(false);
+          editForm.resetFields();
+        }}
       >
-        <Form {...layout} name={formName}
-          initialValues={{ [formName]: editformValue }}
+        <Form name={formName}
+          {...layout}
+          // initialValues={{ [formName]: { ...editformValue } }}
           form={editForm} onFinish={editFinishHandler}>
           <Form.Item required name={[formName, 'isbn']} label="isbn">
             <Input />
@@ -366,7 +379,7 @@ const Home: React.FC<any> = (props) => {
             <Input />
           </Form.Item>
           <Form.Item name={[formName, 'book_desc']} label="简介">
-            <TextArea />
+            <TextArea autoSize />
           </Form.Item>
           {/* <Form.Item name={[formName, 'imgUrl']} label="封面" valuePropName="fileList">
             <Upload action="" maxCount={1} listType="picture-card"
@@ -380,9 +393,10 @@ const Home: React.FC<any> = (props) => {
             </Upload>
           </Form.Item> */}
           <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-            <Button type="primary" htmlType="submit">
-              提交
-            </Button>
+            <Space direction='horizontal'>
+              <Button type="primary" htmlType="submit">  提交   </Button>
+              <Button onClick={() => { setEditFormValue({ ...initval }); setIsModalVisible(false); editForm.resetFields(); }}>  取消   </Button>
+            </Space>
           </Form.Item>
         </Form>
       </Modal>

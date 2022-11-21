@@ -8,7 +8,7 @@ const IndexLayoutRoutes: RoutesDataItem[] = [
     icon: 'home',
     title: '首页',
     path: '/home',
-    redirect: '/home/table',
+    redirect: '/home/bookList',
     routes: [
       // {
       //   icon: 'control',
@@ -20,16 +20,16 @@ const IndexLayoutRoutes: RoutesDataItem[] = [
       {
         icon: 'control',
         title: '图书管理',
-        path: '/home/table',
+        path: '/home/bookList',
         roles: ['admin', 'user', 'test'],
-        component: '@/pages/table',
+        component: '@/pages/bookList',
       },
       {
         icon: 'control',
         title: '用户管理',
         roles: ['admin'],
-        path: '/home/userTable',
-        component: '@/pages/userTable',
+        path: '/home/userList',
+        component: '@/pages/userList',
       },
       // {
       //   icon: 'control',

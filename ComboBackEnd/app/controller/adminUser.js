@@ -41,10 +41,9 @@ class IndexController extends Controller {
     const query = !!search ? search : {}; // 查询条件
     const result = await this.app.mysql.select('db_book_list', {
       where: query,
+      orders: [["create_time", 'desc']],    // 排列
       limit: Number(pageCount), // 返回数据量
-      offset: (pageCount - 1) * pageIndex, // 数据偏移量
-      // 升序排列
-      orders: [["create_time",'asc']]
+      offset: (pageCount * pageIndex) - pageCount, // 数据偏移量
     });
     const totalCount = await this.app.mysql.count('db_book_list', query);
     this.ctx.body = {
@@ -85,7 +84,7 @@ class IndexController extends Controller {
   /** del */
   async del_only_book() {
     const { ctx, app } = this;
-    const params = ctx.request.body;
+    const { isbn } = ctx.request.query;
     try {
       await app.mysql.delete('db_book_list', { isbn });
       ctx.body = { code: 0, msg: '删除成功' }
@@ -93,7 +92,47 @@ class IndexController extends Controller {
       ctx.body = { code: 1, msg: '删除失败' }
     }
   }
-
+  /** 根据用户列表 */
+  async get_userinfo_list() {
+    const { pageCount, pageIndex, search } = this.ctx.request.body;
+    const query = !!search ? search : {}; // 查询条件
+    const result = await this.app.mysql.select('userinfo', {
+      where: query,
+      orders: [["create_time", 'desc']],    // 排列
+      limit: Number(pageCount), // 返回数据量
+      offset: (pageCount * pageIndex) - pageCount, // 数据偏移量
+    });
+    const totalCount = await this.app.mysql.count('userinfo', query);
+    this.ctx.body = {
+      code: 0,
+      list: result,
+      pageCount,
+      pageIndex,
+      total: totalCount,
+    };
+  }
+  /** update图书 */
+  async update_only_userinfo() {
+    const { ctx, app } = this;
+    const params = ctx.request.body;
+    try {
+      await app.mysql.update('userinfo', params, { where: { openid: params.openid } });
+      ctx.body = { code: 0, msg: '修改成功' }
+    } catch (error) {
+      ctx.body = { code: 1, msg: '修改失败' }
+    }
+  }
+  /** del */
+  async del_only_userinfo() {
+    const { ctx, app } = this;
+    const { openid } = ctx.request.query;
+    try {
+      await app.mysql.delete('userinfo', { openid });
+      ctx.body = { code: 0, msg: '删除成功' }
+    } catch (error) {
+      ctx.body = { code: 1, msg: '删除失败' }
+    }
+  }
   // // 用户列表
   // async userList() {
   //     const list = await this.ctx.model.User.find({});
