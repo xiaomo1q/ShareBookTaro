@@ -1,6 +1,6 @@
 .release-index {
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 50px);
   background: #fff;
 
   .release-tip {
@@ -42,7 +42,35 @@
     .at-textarea {
       border: 0;
     }
+    .at-textarea__textarea{
+      height: auto;
+    }
 
+  }
+  .re-flex{
+    width: calc(100% - 30px);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    .re-image{
+      width: 60px;
+      height: 60px;
+      margin: 5px;
+    }
+  }
+  .re-image-box{
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    .re-del{
+      position: absolute;
+      right: 3px;
+      top: 3px;
+      width: 20px;
+      height: 20px;
+    }
   }
 
   .re-footer {

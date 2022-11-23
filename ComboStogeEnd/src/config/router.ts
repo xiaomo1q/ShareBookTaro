@@ -24,7 +24,7 @@ export const routes: RoutesDataItem[] = [
   {
     title: '',
     path: '/user',
-    component: '@/layouts/UserLayout',
+    component: '@/layouts/userLayout',
     routes: [
       ...umiRoutes(UserLayoutRoutes, '/user', '/user'),
       {
@@ -43,7 +43,7 @@ export const routes: RoutesDataItem[] = [
       {
         title: '',
         path: '/',
-        component: '@/layouts/IndexLayout',
+        component: '@/layouts/indexLayout',
         routes: [
           ...umiRoutes(IndexLayoutRoutes),
           // ...umiRoutes(getPermissionMenuData(['user'], IndexLayoutRoutes)),

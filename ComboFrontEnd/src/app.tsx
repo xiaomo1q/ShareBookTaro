@@ -35,6 +35,7 @@ const App = (props) => {
     if (ENV === "h5") {
       token = localStorage.getItem("TOKEN"); //拿到本地缓存中存的token
       if (token) { } else {
+        localStorage.clear()
         Taro.redirectTo({
           url: "/pages/userinfo/login"
         })
@@ -46,6 +47,7 @@ const App = (props) => {
           console.log('session_key 未过期，并且在本生命周期一直有效');
         },
         fail() {
+          Taro.clearStorageSync() 
           console.log('session_key 已经失效，需要重新执行登录流程')
           Taro.redirectTo({
             url: "/pages/userinfo/login"

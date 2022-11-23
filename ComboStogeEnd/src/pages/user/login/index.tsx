@@ -62,9 +62,9 @@ const Login: React.FC<LoginProps> = (props) => {
     const { name } = props;
     return (
       <>
-        <h1 className={styles.title}>
-          {name === 'login' ? '账户登录' : '账户注册'}
-        </h1>
+        {/* <h1 className={styles.title}>
+          {name === 'login' ? '登录' : '注册'}
+        </h1> */}
         {/*  initialValues={{ 'username': 'admin', 'password': "123456" }} */}
         <Form
           name="basic"
@@ -78,7 +78,7 @@ const Login: React.FC<LoginProps> = (props) => {
             rules={[{ required: true, message: '请输入用户名' }]}
           >
             <Input
-              placeholder={'用户名: admin or test or user'}
+              // placeholder={'用户名: admin or test or user'}
               prefix={<UserOutlined />}
             />
           </Form.Item>
@@ -89,7 +89,7 @@ const Login: React.FC<LoginProps> = (props) => {
             name={[name, 'password']}
           >
             <Input.Password
-              placeholder={'密码：123456'}
+              // placeholder={'密码：123456'}
               prefix={<UnlockOutlined />}
             />
           </Form.Item>
@@ -181,7 +181,13 @@ const Login: React.FC<LoginProps> = (props) => {
   };
   return (
     <div className={styles.main}>
-      <FormItemComponents name={formName} />
+      <div className={styles['main-left']}>
+        <img src={require('@/assets/images/login-bg.png')} />
+      </div>
+      <div className={styles['main-right']}>
+        <img src={require('@/assets/images/logo-f.svg')} className={styles['main-logo']} />
+        <FormItemComponents name={formName} />
+      </div>
     </div>
   );
 };

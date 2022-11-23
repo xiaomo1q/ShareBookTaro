@@ -49,9 +49,9 @@ const IndexLayout: React.FC<any> = (props) => {
       obj ? null : history.push('*');
     } else {
       setSelectedKeys('/' + 'home');
-      setSidlerSelectedKeys('/home/table');
-      fetchRoute('/' + 'home', '/home/table');
-      const obj = recursionFun(IndexLayoutRoutes, '/home/table'); // 返回根据 id 查找到的数据对象
+      setSidlerSelectedKeys('/home/bookList');
+      fetchRoute('/' + 'home', '/home/bookList');
+      const obj = recursionFun(IndexLayoutRoutes, '/home/bookList'); // 返回根据 id 查找到的数据对象
       obj ? null : history.push('*');
     }
     if (!roles) {

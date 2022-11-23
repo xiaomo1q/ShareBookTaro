@@ -32,17 +32,18 @@ class IndexController extends Controller {
   /** 获取图书分类  */
   async get_book_type() {
     const { ctx, app } = this;
-    const result = await app.mysql.query('select distinct book_type from db_book_list');
+    const result = await app.mysql.query('select * from book_type');
     ctx.body = result;
   }
   /** 根据分类图书列表 */
   async get_book_list() {
-    const { pageCount, pageIndex, title } = this.ctx.request.body;
-    const query = title ? { book_type: title } : {}; // 查询条件
+    const { pageCount, pageIndex, search } = this.ctx.request.body;
+    const query = !!search ? search : {}; // 查询条件
     const result = await this.app.mysql.select('db_book_list', {
       where: query,
+      orders: [["create_time", 'desc']],    // 排列
       limit: Number(pageCount), // 返回数据量
-      offset: (pageCount - 1) * pageIndex, // 数据偏移量
+      offset: (pageCount * pageIndex) - pageCount, // 数据偏移量
     });
     const totalCount = await this.app.mysql.count('db_book_list', query);
     this.ctx.body = {
@@ -52,6 +53,85 @@ class IndexController extends Controller {
       pageIndex,
       total: totalCount,
     };
+  }
+  /** 添加图书 */
+  async add_only_book() {
+    const { ctx, app } = this;
+    const params = ctx.request.body;
+    try {
+      const corr = await app.mysql.get('db_book_list', { isbn: params.isbn });
+      if (!!corr) {
+        ctx.body = { code: 1, msg: '图书已存在' }
+      } else {
+        await app.mysql.insert('db_book_list', { ...params, create_time: new Date() });
+        ctx.body = { code: 0, msg: '添加成功' }
+      }
+    } catch (error) {
+      ctx.body = { code: 1, msg: '添加失败' }
+    }
+  }
+  /** update图书 */
+  async update_only_book() {
+    const { ctx, app } = this;
+    const params = ctx.request.body;
+    try {
+      await app.mysql.update('db_book_list', params, { where: { isbn: params.isbn } });
+      ctx.body = { code: 0, msg: '修改成功' }
+    } catch (error) {
+      ctx.body = { code: 1, msg: '修改失败' }
+    }
+  }
+  /** del */
+  async del_only_book() {
+    const { ctx, app } = this;
+    const { isbn } = ctx.request.query;
+    try {
+      await app.mysql.delete('db_book_list', { isbn });
+      ctx.body = { code: 0, msg: '删除成功' }
+    } catch (error) {
+      ctx.body = { code: 1, msg: '删除失败' }
+    }
+  }
+  /** 根据用户列表 */
+  async get_userinfo_list() {
+    const { pageCount, pageIndex, search } = this.ctx.request.body;
+    const query = !!search ? search : {}; // 查询条件
+    const result = await this.app.mysql.select('userinfo', {
+      where: query,
+      orders: [["create_time", 'desc']],    // 排列
+      limit: Number(pageCount), // 返回数据量
+      offset: (pageCount * pageIndex) - pageCount, // 数据偏移量
+    });
+    const totalCount = await this.app.mysql.count('userinfo', query);
+    this.ctx.body = {
+      code: 0,
+      list: result,
+      pageCount,
+      pageIndex,
+      total: totalCount,
+    };
+  }
+  /** update图书 */
+  async update_only_userinfo() {
+    const { ctx, app } = this;
+    const params = ctx.request.body;
+    try {
+      await app.mysql.update('userinfo', params, { where: { openid: params.openid } });
+      ctx.body = { code: 0, msg: '修改成功' }
+    } catch (error) {
+      ctx.body = { code: 1, msg: '修改失败' }
+    }
+  }
+  /** del */
+  async del_only_userinfo() {
+    const { ctx, app } = this;
+    const { openid } = ctx.request.query;
+    try {
+      await app.mysql.delete('userinfo', { openid });
+      ctx.body = { code: 0, msg: '删除成功' }
+    } catch (error) {
+      ctx.body = { code: 1, msg: '删除失败' }
+    }
   }
   // // 用户列表
   // async userList() {

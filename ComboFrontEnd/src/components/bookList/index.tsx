@@ -71,27 +71,35 @@ export const RenderConnectBookList = ({ data, onChange }) => {
  * @returns 
  */
 export const RenderDelBookList = ({ data, onChange, type }) => {
+  console.log(data, '......');
 
   return (<View className={`flex-col ${styles['home-tab-connect']}`}>
     {
       data && data.length > 0 ? data.map((item: any, index: any) =>
-        <AtSwipeAction key={index} autoClose options={[
-          { text: '删除', style: { backgroundColor: '#FF4949' } },
-        ]}
-          // onClosed={() => { console.log('close',item.book_name, index) }}
-          // onOpened={() => { console.log('open',item.book_name, index) }}
-          onClick={() => onChange(item.isbn)}
-        >
-          <View className={`flex-row ${styles['section_5']} ${styles['view']}`}>
-            <View className='flex-row'>
-              <Image src={!!item.imgUrl ? item.imgUrl : 'https://images-1300238189.cos.ap-shanghai.myqcloud.com/noImg.png'} className={`${styles['image_20']}`} />
-              <View className={`flex-col ${styles['group_9']}`}>
-                <Text className={`${styles['text_10']}`}>{item.book_name}</Text>
-              </View>
+        // <AtSwipeAction key={index} autoClose options={[
+        //   { text: '删除', style: { backgroundColor: '#FF4949' } },
+        // ]}
+        //   // onClosed={() => { console.log('close',item.book_name, index) }}
+        //   // onOpened={() => { console.log('open',item.book_name, index) }}
+        //   onClick={() => onChange(item.isbn)}
+        // >
+
+        // </AtSwipeAction>
+        <View className={`flex-row ${styles['section_5']} ${styles['view']}`} key={index} >
+          <View className='flex-row'>
+            <Image src={!!item.imgUrl ? item.imgUrl : 'https://images-1300238189.cos.ap-shanghai.myqcloud.com/noImg.png'} className={`${styles['image_20']}`} />
+            <View className={`flex-col ${styles['group_9']}`}>
+              <Text className={`${styles['text_10']}`}>{item.book_name}</Text>
             </View>
-            {/* <View className={styles['add-pay']}>捐赠</View> */}
           </View>
-        </AtSwipeAction>
+          <View className={`flex-col ${styles['act-btn']}`}>
+            <View className={styles['del']} onClick={() => onChange(item.isbn)}>删除</View>
+            {
+              type === '1' ? <View className={styles['edit']} onClick={() => Taro.redirectTo({ url: "/pagesA/updateBook/index?isbn=" + item.isbn })}>编辑</View> : null
+            }
+          </View>
+
+        </View>
       ) : <Empty />
     }
   </View>);

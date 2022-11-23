@@ -3,6 +3,7 @@
 const Controller = require('egg').Controller;
 
 class HouseController extends Controller {
+    /** 创建聊天 */
     async add_messages() {
         const { ctx, app } = this;
         const params = ctx.request.body;
@@ -50,6 +51,74 @@ class HouseController extends Controller {
         });
         const data = toUser.concat(fromUser)
         ctx.body = data
+    }
+    /** 查询卖家的书库 */
+    async get_toUser_book_list() {
+        const { ctx, app } = this;
+        try {
+            const decoded = await ctx.service.tool.jwtToken();
+            const { id } = ctx.request.query;
+            const cor = await app.mysql.select("groups_msg_touser", {
+                where: { userGroupID: id }
+            }) || [];
+            if (!!cor && cor.length > 0) {
+                const corr = await app.mysql
+                    .query(`SELECT * FROM db_book_list bl WHERE EXISTS(SELECT * FROM user_connect_book fv, userinfo us
+                      WHERE fv.openid = us.openid AND us.openid = ${JSON.stringify(cor[0].gm_toUserid)} and fv.isbn = bl.isbn)`);
+                ctx.body = corr;
+            }
+        } catch (error) {
+            ctx.body = error;
+        }
+    }
+    /** 生成订单记录 */
+    async add_order_information() {
+        const { ctx, app } = this;
+        const params = ctx.request.body;
+        const uuid = await ctx.service.tool.uuid();
+        // const decoded = await ctx.service.tool.jwtToken();
+
+        try {
+            // {
+            //     "oid": "111",
+            //     "create_time": null,
+            //     "isbn": "9787020090297",
+            //     "book_name": null,
+            //     "book_url": null,
+            //     "toUser_id": null,
+            //     "toUser_name": null,
+            //     "formUser_id": null,
+            //     "formUser_name": null
+            //   }
+            const result = await app.mysql.get('order_information', params)
+            if (!!result) {
+                ctx.body = { code: 1, msg: '请勿重复操作' }
+            } else {
+                const obj = { oid: uuid, create_time: new Date(), ...params }
+                await app.mysql.insert("order_information", obj);
+                ctx.body = { code: 0, msg: '生成交易记录' }
+            }
+
+        } catch (error) {
+
+        }
+    }
+    /** 查询订单记录 */
+    async get_order_information() {
+        const { ctx, app } = this;
+        const decoded = await ctx.service.tool.jwtToken();
+        let obj = {}
+        obj.inData = await app.mysql.select("order_information", {
+            where: {
+                formUser_id: decoded.openid
+            }
+        }) || [];
+        obj.outData = await app.mysql.select("order_information", {
+            where: {
+                toUser_id: decoded.openid
+            }
+        })|| [];
+        ctx.body = obj
     }
 }
 

@@ -6,6 +6,10 @@ const svgCaptcha = require('svg-captcha');
 
 class IndexController extends Controller {
     /** 注册 */
+    async test() {
+        this.ctx.body = '测试';
+    }
+    /** 注册 */
     async registered() {
         const params = await this.ctx.request.query;
         this.ctx.body = await this.ctx.service.user.registered(params);
@@ -39,11 +43,32 @@ class IndexController extends Controller {
         this.ctx.body = { ...data, appid };
     }
 
-    /** 添加用户 */
+    /** wx登录 */
     async login_user() {
         const { ctx, app } = this;
         const params = await ctx.request.body;
         ctx.body = await this.ctx.service.user.login(params);
+    }
+
+
+    /** uodate用户信息 */
+    async update_userInfo() {
+        const { ctx, app } = this;
+        const params = await ctx.request.body;
+        const decoded = await ctx.service.tool.jwtToken();
+        try {
+            await app.mysql.update('userinfo', {
+                ...params,
+                "update_date": new Date()
+            }, {
+                where: {
+                    openid: decoded.openid,
+                }
+            }) || {};
+            ctx.body = { code: 1, msg: '修改成功' };
+        } catch (error) {
+            throw error;
+        }
     }
 
     /** 用户信息 */
@@ -58,7 +83,6 @@ class IndexController extends Controller {
         } catch (error) {
             throw error;
         }
-
     }
 
     /** 书主用户信息 */
@@ -67,7 +91,10 @@ class IndexController extends Controller {
         const { id } = await ctx.request.query;
         const decoded = await ctx.service.tool.jwtToken();
         // mysql事务
-        const conn = await app.mysql.beginTransaction();
+        // const conn = await app.mysql.beginTransaction();
+
+        const conn = await app.mysql
+
         try {
             const user = await conn.get('userinfo', { openid: id });
             user.is_bookuser = false;
@@ -77,17 +104,38 @@ class IndexController extends Controller {
             user.fans = await ctx.service.user.fans_followers('fans', id);
             user.follower = await ctx.service.user.fans_followers('follower', id);
             ctx.body = user;
-            await conn.commit();
+            // await conn.commit();
         } catch (error) {
-            await conn.rollback(); // rollback call won't throw err
+            // await conn.rollback(); // rollback call won't throw err
             throw error;
         }
     }
     /** 粉丝or 关注者 */
-    async fans_followers() {
-        const { ctx } = this;
-        const { type, id } = await ctx.request.query;
-        ctx.body = await ctx.service.user.fans_followers(type, id);
+    async add_fans_followers() {
+        const { ctx, app } = this;
+        const params = await ctx.request.query;
+        const corr = await app.mysql.get('fans', params);
+        if (!!corr) {
+            ctx.body = { code: 1, msg: '正在关注' };
+        } else {
+            try {
+                await app.mysql.insert('fans', params);
+                ctx.body = { code: 0, msg: '关注成功' };
+            } catch (error) {
+                ctx.body = { code: 1, msg: '关注失败' };
+            }
+        }
+    }
+    async del_fans_followers() {
+        const { ctx, app } = this;
+        const params = await ctx.request.body;
+        const decoded = await ctx.service.tool.jwtToken();
+        try {
+            await app.mysql.delete('fans', params);
+            ctx.body = { code: 0, msg: '删除成功' };
+        } catch (error) {
+            ctx.body = { code: 1, msg: '删除失败' };
+        }
     }
 }
 

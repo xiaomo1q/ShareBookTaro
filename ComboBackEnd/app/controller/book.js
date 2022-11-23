@@ -8,6 +8,11 @@ class BookController extends Controller {
         const params = this.ctx.request.body;
         this.ctx.body = await this.ctx.service.book.add_only_book(params);
     }
+    /** update图书 */
+    async update_only_book() {
+        const params = this.ctx.request.body;
+        this.ctx.body = await this.ctx.service.book.update_only_book(params);
+    }
 
     /** 获取用户已拥有的图书 */
     async get_connect_book_list() {
@@ -22,30 +27,26 @@ class BookController extends Controller {
             ctx.body = error;
         }
     }
+
     async del_connect_book_list() {
         const { ctx, app } = this;
         const { isbn } = this.ctx.request.body;
         try {
             const decoded = await ctx.service.tool.jwtToken();
-            const corr =  await app.mysql.delete('user_connect_book',{
+            const corr = await app.mysql.delete('user_connect_book', {
                 openid: decoded.openid, isbn
             });
-            ctx.body = {code: 0, msg: '删除成功'};
+            ctx.body = { code: 0, msg: '删除成功' };
         } catch (error) {
-            ctx.body = {code: 1, msg: '删除失败'};
+            ctx.body = { code: 1, msg: '删除失败' };
         }
     }
 
     /** 获取图书分类  */
     async get_book_type() {
         const { ctx, app } = this;
-        // ctx.body = await app.mysql.select('book_type');
-        const result = await app.mysql.query("select distinct book_type from db_book_list");
-        let type = [];
-        for (let i = 0; i < result.length; i++) {
-            type.push({ title: result[i].book_type, id: i + 1 });
-        }
-        ctx.body = type;
+        ctx.body = await app.mysql.query("select * from book_type");
+        // const result = await app.mysql.query("select distinct book_type from db_book_list");
     }
     /** 根据分类图书列表 */
     async get_book_list() {
@@ -94,12 +95,12 @@ class BookController extends Controller {
         const { isbn } = this.ctx.request.body;
         try {
             const decoded = await ctx.service.tool.jwtToken();
-            const corr =  await app.mysql.delete('favorite',{
+            const corr = await app.mysql.delete('favorite', {
                 openid: decoded.openid, isbn
             });
-            ctx.body = {code: 0, msg: '删除成功'};
+            ctx.body = { code: 0, msg: '删除成功' };
         } catch (error) {
-            ctx.body = {code: 1, msg: '删除失败'};
+            ctx.body = { code: 1, msg: '删除失败' };
         }
     }
     /** 收藏此图书 */
@@ -119,7 +120,6 @@ class BookController extends Controller {
                 isbn,
                 openid: decoded.openid,
             });
-            console.log(res);
             await app.mysql.delete("favorite", { fid: res.fid });
             ctx.body = { code: 0, msg: "取消收藏" };
         }

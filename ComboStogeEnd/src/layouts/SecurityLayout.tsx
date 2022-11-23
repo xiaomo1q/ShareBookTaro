@@ -34,7 +34,7 @@ const SecurityLayout: React.FC<SecurityLayoutProps> = (props) => {
 // user models 命名
 export default connect(
   ({ user, loading }: { user: UserModelState; loading: Loading }) => ({
-    currentUser: user.currentUser,
+    // currentUser: user.currentUser,
     loading: loading.effects['user/fetchCurrent'],
   }),
 )(SecurityLayout);

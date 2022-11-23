@@ -44,3 +44,13 @@ export async function accountUserRole(params: any): Promise<any> {
 export async function accountUserDel(params: any): Promise<any> {
   return DELETERequest(USERDEL, params);
 }
+
+/**
+ * 服务器路径
+ */
+ const API_PATH = '/api/admin';
+
+ /** GET */
+ export const Get_userinfo_list = (data: any) => POSTRequest(API_PATH + '/get_userinfo_list', data);
+ export const Update_only_userinfo = (data: any) => POSTRequest(API_PATH + '/update_only_userinfo', data);
+ export const Del_only_userinfo = (data: any) => DELETERequest(API_PATH + '/del_only_userinfo', data);

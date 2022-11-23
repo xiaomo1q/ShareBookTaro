@@ -3,12 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Taro from '@tarojs/taro';
 import { View, Image } from '@tarojs/components'
+import { Add_exchange_square_detail, File_img_delete } from '@/service/index';
+// import NavCustomBar from '@/components/navCustomBar';
 import { AtForm, AtTextarea, AtButton, AtImagePicker, AtListItem, AtFloatLayout, AtSearchBar, AtIcon, AtDivider, AtInput } from 'taro-ui'
 import { RenderConnectBookList } from '@/components/bookList';
-import { fileToBase64, ObjArrDeduplication } from '@/utils/calculate'
+// import { fileToBase64, ObjArrDeduplication } from '@/utils/calculate'
 import styles from './index.module.less'
-import { Add_exchange_square_detail, File_img_delete } from '@/service/index';
-import NavCustomBar from '@/components/navCustomBar';
 
 
 const RenderFloatCon = () => {
@@ -39,11 +39,13 @@ const RenderFloatCon = () => {
 const Index = () => {
   const [formValue, setFormValue] = useState<any>({
     book_title: "", book_des: "", book_url: [], connect_list: [],
+    book_connect_url: []
   });
   const [isOpenedFloat, setIsOpenedFloat] = useState(false);
   const dispatch = useDispatch()
   const { connect_book_list } = useSelector((state: any) => state.public_storage)
   useEffect(() => {
+    console.log(connect_book_list, '..connect_book_list');
     if (connect_book_list && connect_book_list.length > 0) {
       const text: any = []
       const bookURL: any = []
@@ -51,12 +53,24 @@ const Index = () => {
         text.push(el.book_name)
         bookURL.push({ type: 0, url: el.imgUrl })
       });
-      formValue.connect_list = [...new Set([...formValue.connect_list, ...text])]
-      formValue.book_url = ObjArrDeduplication([...formValue.book_url, ...bookURL], 'url')
-
+      formValue.connect_list = text
+      formValue.book_connect_url = bookURL
+      // formValue.connect_list = [...new Set([...formValue.connect_list, ...text])]
+      // if (formValue.book_url.length > bookURL.length) {
+      //   let newArr = formValue.book_url.filter((v) => bookURL.every((val) => val.url != v.url))
+      //   formValue.book_url = ObjArrDeduplication([...formValue.book_url, ...newArr], 'url')
+      //   setFormValue({ ...formValue })
+      // } else if (formValue.book_url.length < bookURL.length) {
+      //   let newArr = bookURL.filter((v) => formValue.book_url.every((val) => val.url != v.url))
+      //   formValue.book_url = ObjArrDeduplication([...formValue.book_url, ...newArr], 'url')
+      //   setFormValue({ ...formValue })
+      // } else {
+      //   formValue.book_url = ObjArrDeduplication([...formValue.book_url, ...bookURL], 'url')
       setFormValue({ ...formValue })
+      // }
+
     } else {
-      setFormValue({ ...formValue, book_url: [], connect_list: [] })
+      setFormValue({ ...formValue, book_connect_url: [], connect_list: [] })
     }
   }, [connect_book_list]);
   useEffect(() => {
@@ -64,17 +78,20 @@ const Index = () => {
   }, [])
 
   const onSubmit = async (event) => {
-    const book_url:any= []
+    const book_url: any = []
     formValue.book_url.forEach(el => {
-      book_url.push(el.type === 0 ? el.url : `${process.env.baseUrl}${el.url}`)
+      book_url.push(`${process.env.baseUrl}${el.url}`)
+    });
+    formValue.book_connect_url.forEach(el => {
+      book_url.push(el.url)
     });
     const params = {
       ...formValue,
       book_url: book_url.join(';'),
       connect_list: formValue.connect_list.join(';'),
     };
-    await Add_exchange_square_detail(params).then(res=>{
-      if(res.code === 0){
+    await Add_exchange_square_detail(params).then(res => {
+      if (res.code === 0) {
         Taro.redirectTo({ url: '/pages/subtract/index/index' });
         dispatch({ type: "public_storage/connect_book_listUpdate", payload: { connect_book_list: [] } })
       }
@@ -120,11 +137,9 @@ const Index = () => {
     }
   }
   const delImageClickedHandler = async (el, ix) => {
-    formValue.book_url.splice(ix, 1)
-    formValue.book_name.splice(ix, 1)
-    setFormValue({ ...formValue })
     if (el.type === 1) { await File_img_delete({ ids: el.url }) }
-
+    formValue.book_url.splice(ix, 1)
+    setFormValue({ ...formValue })
   }
 
   return (
@@ -163,17 +178,21 @@ const Index = () => {
       <View className={`${styles['re-flex']}`}>
         {
           formValue.book_url.length > 0 && formValue.book_url.map((el, ix) => <View key={ix} className={`${styles['re-image-box']}`}>
-            <Image src={el.type === 0 ? el.url : `${process.env.baseUrl}${el.url}`} className={`${styles['re-image']}`} />
+            <Image src={`${process.env.baseUrl}${el.url}`} className={`${styles['re-image']}`} />
             {
               el.type === 0 ? null : <Image src={require('../../../assets/image/delete.svg')} className={`${styles['re-del']}`}
                 onClick={() => delImageClickedHandler(el, ix)}
               />
             }
-
           </View>)
         }
         {
-          formValue.book_url.length >= 6 ? null : <Image src={require('../../../assets/image/upload.svg')} className={`${styles['re-image']}`}
+          formValue.book_connect_url.length > 0 && formValue.book_connect_url.map((el, ix) => <View key={ix} className={`${styles['re-image-box']}`}>
+            <Image src={el.url} className={`${styles['re-image']}`} />
+          </View>)
+        }
+        {
+          (formValue.book_connect_url.length + formValue.book_url.length) >= 6 ? null : <Image src={require('../../../assets/image/upload.svg')} className={`${styles['re-image']}`}
             onClick={ImagePickerChangedHandler}
           />
         }

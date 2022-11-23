@@ -13,15 +13,14 @@ class IndexService extends Service {
     } else {
       // 生成Token
       const Token = app.jwt.sign({
-        openid: params.name + params.passward, // 需要存储的Token数据
+        openid: params.name, // 需要存储的Token数据
       }, app.config.jwt.secret, { expiresIn: '3600h' });
       // token 存储至数据库中
       await app.mysql.insert('userinfo', {
-        openid: params.name + params.passward,
-        nickName: params.name,
+        openid: params.name,
         session_key: params.passward,
         avatarUrl: 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132',
-        token: Token, update_date: new Date()
+        token: Token, update_date: new Date(), create_time: new Date()
       })
       // 将生成的Token返回给前端
       return {
@@ -41,7 +40,7 @@ class IndexService extends Service {
       if (corr.session_key === params.passward) {
         // 生成Token
         const Token = app.jwt.sign({
-          openid: corr.openid, // 需要存储的Token数据
+          openid: params.name // 需要存储的Token数据
         }, app.config.jwt.secret, { expiresIn: '3600h' });
         // token 存储至数据库中
         await app.mysql.update('userinfo', { update_date: new Date(), token: Token }, {
@@ -65,12 +64,16 @@ class IndexService extends Service {
     // 如果存在：就不是该用户的第一次登录，以前登陆过，就更新后台数据库中该用户的第一次登录时间
     // 返回用户信息
     if (corr) {
-      await app.mysql.update('userinfo', { update_date: new Date() }, {
+      // 生成Token
+      const Token = app.jwt.sign({
+        openid: params.openid, // 需要存储的Token数据
+      }, app.config.jwt.secret, { expiresIn: '3600h' });
+      await app.mysql.update('userinfo', { update_date: new Date(), token: Token }, {
         where: {
           openid: params.openid
         }
       })
-      return { code: 0, token: corr.token };
+      return { code: 0, token: Token };
     } else {
       // 生成Token
       const Token = app.jwt.sign({
@@ -83,7 +86,8 @@ class IndexService extends Service {
         ...params,
         countryCode: data.countryCode,
         phoneNumber: data.phoneNumber,
-        purePhoneNumber: data.purePhoneNumber, token: Token, update_date: new Date()
+        purePhoneNumber: data.purePhoneNumber, token: Token, update_date: new Date(),
+        create_time: new Date()
       })
       // 将生成的Token返回给前端
       return {
@@ -95,18 +99,18 @@ class IndexService extends Service {
   /** 粉丝or 关注者 */
   async fans_followers(type, id) {
     const { app } = this;
-    const conn = await app.mysql.beginTransaction();
+    // const conn = await app.mysql.beginTransaction();
     try {
       if (type === 'follower') {
         return await app.mysql
-          .query(`SELECT* FROM fans fs,userinfo us WHERE us.openid = fs.toUser_id AND fs.formUser_id = ${JSON.stringify(id)}`);
+          .query(`SELECT DISTINCT * FROM fans fs,userinfo us WHERE us.openid = fs.toUser_id AND fs.formUser_id = ${JSON.stringify(id)}`);
       } else if (type === 'fans') {
         return await app.mysql
-          .query(`SELECT* FROM fans fs,userinfo us WHERE us.openid = fs.formUser_id AND fs.toUser_id = ${JSON.stringify(id)}`);
+          .query(`SELECT DISTINCT * FROM fans fs,userinfo us WHERE us.openid = fs.formUser_id AND fs.toUser_id = ${JSON.stringify(id)}`);
       }
-      await conn.commit();
+      // await conn.commit();
     } catch (error) {
-      await conn.rollback(); // rollback call won't throw err
+      // await conn.rollback(); // rollback call won't throw err
       throw error;
     }
   }
