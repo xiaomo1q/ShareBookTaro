@@ -1,25 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import { Add_only_book, Del_only_book, Get_book_list, Get_book_type, Update_only_book } from '@/services/book';
+import { removeProperty } from '@/utils/utils';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import {
-  Table,
-  Button,
-  Modal,
-  Form,
-  DatePicker,
-  Input,
-  InputNumber,
-  Space,
-  message,
-  Upload,
-  Radio,
-  Spin,
-  Select,
+  Button, Form, Input, message, Modal, Select, Space, Table
 } from 'antd';
 import moment from 'moment';
-import { Add_only_book, Get_book_list, Get_book_type, Update_only_book, Del_only_book } from '@/services/book';
-import { history } from 'umi';
-import styles from './index.less'
-import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
-import { removeProperty } from '@/utils/utils';
+import React, { useEffect, useState } from 'react';
+import styles from './index.less';
 const { TextArea } = Input;
 
 const initval = {
@@ -53,7 +40,7 @@ const Home: React.FC<any> = (props) => {
   const [formName, setFormName] = useState('add');
   const [pagination, setPagination] = useState({
     total: 0,
-    pageCount: 10,
+    pageCount: 15,
     pageIndex: 1,
   });
   const [form] = Form.useForm();

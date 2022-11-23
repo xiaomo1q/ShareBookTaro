@@ -54,6 +54,9 @@ module.exports = app => {
      */
     router.get('/api/admin/login', controller.adminUser.login); // 登录
     router.get('/api/admin/captcha', controller.adminUser.captcha); // 验证码
+
+    router.get('/api/admin/overview_data', controller.adminUser.overview_data); // all total
+
     router.post('/api/admin/get_book_type', controller.adminUser.get_book_type); // 分类
     router.post('/api/admin/get_book_list', controller.adminUser.get_book_list); // 列表
     router.post('/api/admin/add_only_book', controller.adminUser.add_only_book); // 列表
@@ -63,6 +66,9 @@ module.exports = app => {
     router.post('/api/admin/get_userinfo_list', controller.adminUser.get_userinfo_list); // 列表
     router.post('/api/admin/update_only_userinfo', controller.adminUser.update_only_userinfo); // 列表
     router.delete('/api/admin/del_only_userinfo', controller.adminUser.del_only_userinfo); // 列表
+    router.post('/api/admin/notice_list', controller.adminUser.notice_list); // 通知
+    router.get('/api/admin/bookDownload', controller.book.bookDownload); // 图书下载
+    router.get('/api/admin/get_order_information', controller.adminUser.get_order_information); // 查询订单记录
 
 
 

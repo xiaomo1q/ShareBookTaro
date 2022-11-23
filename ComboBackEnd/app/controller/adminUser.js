@@ -1,9 +1,38 @@
 'use strict';
 /** 控制器 */
 const Controller = require('egg').Controller;
+const await = require('await-stream-ready/lib/await');
 const svgCaptcha = require('svg-captcha');
 
 class IndexController extends Controller {
+  async overview_data() {
+    const { ctx, app } = this;
+    // mysql事务
+    const conn = await app.mysql.beginTransaction();
+    try {
+      const visits_today = await conn.query('select COUNT(*) as total from userinfo where to_days(update_date) = to_days(now())');
+      const total_books = await conn.query('select COUNT(*) as total from db_book_list');
+      const total_book_reviews = await conn.query('select COUNT(*) as total from exchange_square');
+      const total_users = await conn.query('select COUNT(*) as total from userinfo');
+      const total_users_pie = await conn.query("SELECT COUNT(*) as value, CASE gender WHEN '0' THEN '男'WHEN '1' THEN '女' END AS name FROM userinfo GROUP BY gender");
+      const total_users_bar = await conn.query('SELECT book_type as name,COUNT(*) as value  FROM db_book_list GROUP BY book_type');
+      const notice = await conn.query('SELECT * FROM notice_list');
+      ctx.body = {
+        visits_today: visits_today[0].total,
+        total_books: total_books[0].total,
+        total_users: total_users[0].total,
+        total_book_reviews: total_book_reviews[0].total,
+        bar: total_users_bar,
+        pie: total_users_pie,
+        notice,
+      };
+      await conn.commit();
+    } catch (error) {
+      await conn.rollback(); // rollback call won't throw err
+      throw error;
+    }
+
+  }
   /** 登录 */
   async login() {
     const params = await this.ctx.request.query;
@@ -133,6 +162,31 @@ class IndexController extends Controller {
       ctx.body = { code: 1, msg: '删除失败' }
     }
   }
+
+  async notice_list() {
+    const { ctx, app } = this;
+    const { type, params } = ctx.request.body;
+    try {
+      switch (type) {
+        case 'add':
+          await app.mysql.insert('notice_list', { ...params, create_time: new Date() });
+          ctx.body = { code: 0, msg: '添加成功' }
+          break;
+        case 'update':
+          await app.mysql.update('notice_list', { ...params, create_time: new Date() }, { where: { id: params.id } });
+          ctx.body = { code: 0, msg: '修改成功' }
+          break;
+        case 'delete':
+          await app.mysql.delete('notice_list', { id: params.id });
+          ctx.body = { code: 0, msg: '修改成功' }
+          break;
+        default:
+          break;
+      }
+    } catch (error) {
+      ctx.body = { code: 0, msg: '失败' }
+    }
+  }
   // // 用户列表
   // async userList() {
   //     const list = await this.ctx.model.User.find({});
@@ -187,6 +241,13 @@ class IndexController extends Controller {
       text: captcha.text,
       img: captcha.data,
     };
+  }
+
+  /** 查询订单记录 */
+  async get_order_information() {
+    const { ctx, app } = this;
+    // const decoded = await ctx.service.tool.jwtToken();
+    ctx.body = await app.mysql.query(" select * from order_information") || [];
   }
 }
 

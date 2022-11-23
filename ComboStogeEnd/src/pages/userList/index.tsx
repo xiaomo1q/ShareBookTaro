@@ -1,25 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import { Del_only_userinfo, Get_userinfo_list, Update_only_userinfo } from '@/services/user';
+import { removeProperty } from '@/utils/utils';
+import { DeleteOutlined } from '@ant-design/icons';
 import {
-  Table,
-  Button,
-  Modal,
-  Form,
-  DatePicker,
-  Input,
-  InputNumber,
-  Space,
-  message,
-  Upload,
-  Radio,
-  Spin,
-  Select,
+  Button, Form, Input, message, Select, Space, Table
 } from 'antd';
 import moment from 'moment';
-import { Get_userinfo_list, Update_only_userinfo, Del_only_userinfo } from '@/services/user';
-import { history } from 'umi';
-import styles from './index.less'
-import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
-import { removeProperty } from '@/utils/utils';
+import React, { useEffect, useState } from 'react';
+import styles from './index.less';
 const { TextArea } = Input;
 
 const initval = {
@@ -52,7 +39,7 @@ const Home: React.FC<any> = (props) => {
   const [formName, setFormName] = useState('edit');
   const [pagination, setPagination] = useState({
     total: 0,
-    pageCount: 10,
+    pageCount: 15,
     pageIndex: 1,
   });
   const [form] = Form.useForm();
@@ -231,10 +218,10 @@ const Home: React.FC<any> = (props) => {
       </div>
 
       <div className={styles['main']}>
-        <Space size={16} className={styles['action']}>
+        {/* <Space size={16} className={styles['action']}>
           <Button onClick={downloadClickedHandler}>导出</Button>
         </Space>
-        <div className={styles['borde']} />
+        <div className={styles['borde']} /> */}
         <Table
           columns={columns}
           dataSource={data || []}

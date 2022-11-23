@@ -1,6 +1,7 @@
 "use strict";
 
 const Controller = require("egg").Controller;
+const { excelNew } = require('../extend/excel');
 
 class BookController extends Controller {
     /** 添加图书 */
@@ -123,6 +124,25 @@ class BookController extends Controller {
             await app.mysql.delete("favorite", { fid: res.fid });
             ctx.body = { code: 0, msg: "取消收藏" };
         }
+    }
+
+    async bookDownload() {
+        const { ctx, app } = this;
+        const dataItem = await app.mysql.query('select * from db_book_list');
+        const headers = [[
+            { t: 'ISBN', k: 'isbn' },
+            { t: '分类', k: 'book_type' },
+            { t: '书名', k: 'book_name' },
+            { t: '作者', k: 'book_author' },
+            { t: '出版', k: 'press' },
+            { t: '封面', k: 'imgUrl' },
+            { t: '简介', k: 'book_desc' },
+        ]];
+        const url = 'https://xxx';
+        // ctx.body = dataItem;
+        ctx.set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        ctx.set('Content-Disposition', "attachment;filename*=UTF-8' '" + encodeURIComponent('图书列表') + '.xlsx');
+        ctx.body = await excelNew(url, dataItem, headers);
     }
 
 }

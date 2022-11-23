@@ -8,15 +8,15 @@ const IndexLayoutRoutes: RoutesDataItem[] = [
     icon: 'home',
     title: '首页',
     path: '/home',
-    redirect: '/home/bookList',
+    redirect: '/home/workplace',
     routes: [
-      // {
-      //   icon: 'control',
-      //   title: '工作台',
-      //   path: '/home/workplace',
-      //   roles: ['admin', 'user', 'test'],
-      //   component: '@/pages/home',
-      // },
+      {
+        icon: 'control',
+        title: '总览',
+        path: '/home/workplace',
+        roles: ['admin', 'user', 'test'],
+        component: '@/pages/home',
+      },
       {
         icon: 'control',
         title: '图书管理',

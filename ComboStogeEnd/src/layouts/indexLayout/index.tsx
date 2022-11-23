@@ -1,23 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { history } from 'umi';
-import { connect } from 'dva';
+import { UserModelState } from '@/models/user';
+import {
+  formatRoutePathTheParents, getBreadcrumbRoutes, getPermissionMenuData, getRouteItem, recursionFun, RoutesDataItem
+} from '@/utils/routes';
 import { Layout } from 'antd';
+import { connect } from 'dva';
+import React, { useEffect, useState } from 'react';
+import { history } from 'umi';
+import BreadCrumbs from '../../components/BreadCrumbs';
 import IndexLayoutRoutes from '../../config/index-router';
 import Left from './common/left';
 import RightTop from './common/rightTop';
-import BreadCrumbs from '../../components/BreadCrumbs';
 import styles from './index.less';
-import { UserModelState } from '@/models/user';
-import {
-  getBreadcrumbRoutes,
-  RoutesDataItem,
-  getRouteItem,
-  formatRoutePathTheParents,
-  getPermissionMenuData,
-  recursionFun,
-} from '@/utils/routes';
 
-import { IndexRoute } from '@/services/index';
 const { Header, Sider, Content } = Layout;
 const IndexLayout: React.FC<any> = (props) => {
   const { children, location, route } = props;
@@ -49,9 +43,9 @@ const IndexLayout: React.FC<any> = (props) => {
       obj ? null : history.push('*');
     } else {
       setSelectedKeys('/' + 'home');
-      setSidlerSelectedKeys('/home/bookList');
-      fetchRoute('/' + 'home', '/home/bookList');
-      const obj = recursionFun(IndexLayoutRoutes, '/home/bookList'); // 返回根据 id 查找到的数据对象
+      setSidlerSelectedKeys('/home/workplace');
+      fetchRoute('/' + 'home', '/home/workplace');
+      const obj = recursionFun(IndexLayoutRoutes, '/home/workplace'); // 返回根据 id 查找到的数据对象
       obj ? null : history.push('*');
     }
     if (!roles) {
