@@ -18,6 +18,7 @@ class IndexService extends Service {
       // token 存储至数据库中
       await app.mysql.insert('userinfo', {
         openid: params.name,
+        nickName: params.name,
         session_key: params.passward,
         avatarUrl: 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132',
         token: Token, update_date: new Date(), create_time: new Date()

@@ -31,6 +31,13 @@ const IndexLayoutRoutes: RoutesDataItem[] = [
         path: '/home/userList',
         component: '@/pages/userList',
       },
+      {
+        icon: 'control',
+        title: '订单记录',
+        roles: ['admin'],
+        path: '/home/orderInformation',
+        component: '@/pages/orderInformation',
+      },
       // {
       //   icon: 'control',
       //   title: 'word导出',

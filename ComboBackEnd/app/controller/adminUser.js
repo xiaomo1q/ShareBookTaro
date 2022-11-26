@@ -246,8 +246,22 @@ class IndexController extends Controller {
   /** 查询订单记录 */
   async get_order_information() {
     const { ctx, app } = this;
-    // const decoded = await ctx.service.tool.jwtToken();
-    ctx.body = await app.mysql.query(" select * from order_information") || [];
+    const { pageCount, pageIndex, search } = ctx.request.body;
+    const query = !!search ? search : {}; // 查询条件
+    const result = await app.mysql.select('order_information', {
+      where: query,
+      orders: [["create_time", 'desc']],    // 排列
+      limit: Number(pageCount), // 返回数据量
+      offset: (pageCount * pageIndex) - pageCount, // 数据偏移量
+    });
+    const totalCount = await app.mysql.count('order_information', query);
+    ctx.body = {
+      code: 0,
+      list: result,
+      pageCount,
+      pageIndex,
+      total: totalCount,
+    };
   }
 }
 

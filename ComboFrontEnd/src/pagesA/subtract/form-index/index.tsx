@@ -79,14 +79,17 @@ const Index = () => {
 
   const onSubmit = async (event) => {
     const book_url: any = []
+    const obj = {...formValue}
     formValue.book_url.forEach(el => {
       book_url.push(`${process.env.baseUrl}${el.url}`)
     });
     formValue.book_connect_url.forEach(el => {
       book_url.push(el.url)
     });
+    delete obj.book_url
+    delete obj.book_connect_url
     const params = {
-      ...formValue,
+      ...obj,
       book_url: book_url.join(';'),
       connect_list: formValue.connect_list.join(';'),
     };

@@ -9,16 +9,6 @@ import React, { useEffect, useState } from 'react';
 import styles from './index.less';
 const { TextArea } = Input;
 
-const initval = {
-  book_name: "",
-  book_type: "",
-  book_author: "",
-  book_desc: "",
-  // create_time : "2022-09-21T06:04:02.000Z", 
-  // imgUrl: "https://img2.doubanio.com/view/subject/l/public/s34290201.jpg",
-  isbn: "",
-  press: ""
-}
 
 const Home: React.FC<any> = (props) => {
   const [editForm] = Form.useForm();

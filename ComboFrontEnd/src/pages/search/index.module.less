@@ -1,9 +1,39 @@
 .search-index{
-  height: calc(100vh - 50px);
+  height: 100vh;
+  background: #f2f2f4;
   :global{
     .at-search-bar__input{
       display: flex;
       align-items: center;
     }
+  }
+  .add-book{
+    width: 100%;
+    border: 1px solid #f2f2f4;
+    background: #fff;
+    font-size: 14px;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+    position: fixed;
+    bottom: 0;
+  }
+  .add-sub{
+    width: 50%;
+    border-bottom: 1px solid #f2f2f4;
+    font-size: 14px;
+    background: @color-txt;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+  }
+  .cancel{
+    width: 50%;
+    border-bottom: 1px solid #f2f2f4;
+    font-size: 14px;
+    color: @color-txt;
+    background: #fff;
+    padding: 10px 0;
+    text-align: center;
   }
 }

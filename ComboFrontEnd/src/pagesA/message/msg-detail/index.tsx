@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Taro, { useRouter } from '@tarojs/taro';
 import { useDispatch, useSelector } from 'react-redux';
-import { View, Text, Image } from '@tarojs/components'
+import { View, Text, Image, ScrollView } from '@tarojs/components'
 import { AtAvatar, AtButton, AtFloatLayout, AtForm, AtIcon, AtSearchBar } from "taro-ui"
 import NavCustomBar from '@/components/navCustomBar';
 import moment from 'moment'
@@ -12,17 +12,25 @@ import styles from './index.module.less'
 
 const wsio = process.env.TARO_ENV === 'h5' ? require('socket.io-client') : require('wxapp-socket-io');
 
+const url = 'ws://81.68.169.67:3030'
+// const url = 'ws://192.168.1.4:3030'
+let socket = wsio(url, {
+  // query: { m_id: id, n: 0 },
+  reconnection: true, //关闭自动重连
+  transports: ['websocket']
+});
 
 /**
  * 群聊信息
  * @returns 
  */
-let socket;
+// let socket;
 const MSGDetailIndex = () => {
   const [floatOpen, setFloatOpen] = useState(false)
   const [searchVal, setSearchVal] = useState('')
   const [connectBook, setConnectBook] = useState([])
   const [searchBookVal, setSearchBookVal] = useState('')
+  const [scrollTop, setScrollTop] = useState(0)
   const { params } = useRouter()
   const dispatch = useDispatch()
   const { userInfo } = useSelector((state: any) => state.global_user)
@@ -39,11 +47,15 @@ const MSGDetailIndex = () => {
     getWebSocket()
     fetchConnectBookList()
     dispatch({ type: "global_user/getUserInfo" })
+    setTimeout(() => {
+      scrollBottom()
+    }, 500);
   }, []);
   // 回到底部
   const scrollBottom = () => {
     const s: any = document.getElementById('box')
-    s.scrollTop = s.scrollHeight
+    s.scrollTop = s.offsetHeight
+    setScrollTop(s.offsetHeight)
   }
   // 发送
   const onSearch = (value: any) => {
@@ -57,20 +69,17 @@ const MSGDetailIndex = () => {
     orderSendClickedHandler()
   };
   const orderSendClickedHandler = () => {
-    scrollBottom()
+    setTimeout(() => {
+      scrollBottom()
+    }, 500);
     socket.on("chat", (res: any) => {
       setData(res)
       setSearchVal('')
     });
   }
   const getWebSocket = () => {
-    const url = 'ws://81.68.169.67:3030'
-    // const url = 'ws://192.168.1.4:3030'
-    socket = wsio(url, {
-      // query: { m_id: id, n: 0 },
-      reconnection: true, //关闭自动重连
-      transports: ['websocket']
-    });
+    socket.emit('chat', { m_id: params.id })
+    orderSendClickedHandler()
     socket.on("connect", () => {
       socket.emit('chat', { m_id: params.id })
       orderSendClickedHandler()
@@ -88,7 +97,6 @@ const MSGDetailIndex = () => {
     orderSendClickedHandler()
     setFloatOpen(false)
   }
-
   const isAgreeClickedHandler = async (item, status) => {
     item.isSend['甲方'] = userInfo
     item.isSend['status'] = status
@@ -122,47 +130,55 @@ const MSGDetailIndex = () => {
         <AtButton onClick={() => setFloatOpen(true)}>填写生成订单</AtButton>
       </View> */}
       <View dangerouslySetInnerHTML={{ __html: mesgView }} ></View>
-      <View className={styles['MSGD-main']} id='box'>
-        {
-          data && data[0] && data.map((item, index) => {
-            return <View key={index} className={styles[item.openid === userInfo.openid ? 'msg-box-right' : 'msg-box-left']}>
-              <AtAvatar image={item.avatarUrl} circle />
-              {
-                !!item.isSend ? <View className={styles['send-box']}>
-                  <View className={styles['_des']}>
-                    是否同意将 “{item.isSend.book_name}” 交给 “{item.isSend['乙方'].nickName}” ?
-                  </View>
-                  {
-                    item.isSend['乙方'].openid === userInfo.openid ? <View className={styles['send-box-deb-btn']} >
-                      {
-                        !!item.isSend.status ? item.isSend.status === '1' ?
-                          <View className={styles['sb-btn-a']}>对方同意</View> :
-                          <View className={styles['sb-btn-r']} >对方拒绝</View> : <>
-                          <View className={styles['sb-btn-r']} >已发送</View>
-                          {/* <View className={styles['sb-btn-r']} >拒绝</View>
-                          <View className={styles['sb-btn-a']}>同意</View> */}
-                        </>
-                      }
-                    </View> : <View className={styles['send-box-btn']} >
-                      {
-                        !!item.isSend.status ? item.isSend.status === '1' ?
-                          <View className={styles['sb-btn-a']}>您已同意</View> :
-                          <View className={styles['sb-btn-r']} >您已拒绝</View> : <>
-                          <View className={styles['sb-btn-r']} onClick={() => isAgreeClickedHandler(item, '0')} >拒绝</View>
-                          <View className={styles['sb-btn-a']} onClick={() => isAgreeClickedHandler(item, '1')}>同意</View>
-                        </>
-                      }
+
+      <ScrollView
+        scrollY
+        className={styles['MSGD-main']} 
+        scrollWithAnimation
+        scrollTop={scrollTop}
+      >
+        <View id='box' className='box'>
+          {
+            data && data[0] && data.map((item, index) => {
+              return <View key={index} className={styles[item.openid === userInfo.openid ? 'msg-box-right' : 'msg-box-left']}>
+                <AtAvatar image={item.avatarUrl} circle />
+                {
+                  !!item.isSend ? <View className={styles['send-box']}>
+                    <View className={styles['_des']}>
+                      是否同意将 “{item.isSend.book_name}” 交给 “{item.isSend['乙方'].nickName}” ?
                     </View>
-                  }
+                    {
+                      item.isSend['乙方'].openid === userInfo.openid ? <View className={styles['send-box-deb-btn']} >
+                        {
+                          !!item.isSend.status ? item.isSend.status === '1' ?
+                            <View className={styles['sb-btn-a']}>对方同意</View> :
+                            <View className={styles['sb-btn-r']} >对方拒绝</View> : <>
+                            <View className={styles['sb-btn-r']} >已发送</View>
+                            {/* <View className={styles['sb-btn-r']} >拒绝</View>
+                          <View className={styles['sb-btn-a']}>同意</View> */}
+                          </>
+                        }
+                      </View> : <View className={styles['send-box-btn']} >
+                        {
+                          !!item.isSend.status ? item.isSend.status === '1' ?
+                            <View className={styles['sb-btn-a']}>您已同意</View> :
+                            <View className={styles['sb-btn-r']} >您已拒绝</View> : <>
+                            <View className={styles['sb-btn-r']} onClick={() => isAgreeClickedHandler(item, '0')} >拒绝</View>
+                            <View className={styles['sb-btn-a']} onClick={() => isAgreeClickedHandler(item, '1')}>同意</View>
+                          </>
+                        }
+                      </View>
+                    }
 
-                </View>
-                  : <View className={styles['_des']}>{item.m_postMessage}</View>
-              }
+                  </View>
+                    : <View className={styles['_des']}>{item.m_postMessage}</View>
+                }
 
-            </View>
-          })
-        }
-      </View >
+              </View>
+            })
+          }
+        </View>
+      </ScrollView >
       <View className={styles['MSGD-footer']}>
         <AtSearchBar
           showActionButton

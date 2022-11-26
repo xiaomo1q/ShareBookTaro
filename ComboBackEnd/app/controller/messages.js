@@ -1,5 +1,7 @@
 'use strict';
 
+const await = require('await-stream-ready/lib/await');
+
 const Controller = require('egg').Controller;
 
 class HouseController extends Controller {
@@ -62,9 +64,10 @@ class HouseController extends Controller {
                 where: { userGroupID: id }
             }) || [];
             if (!!cor && cor.length > 0) {
+                const findId = decoded.openid === cor[0].gm_toUserid ? cor[0].gm_fromUserid : cor[0].gm_toUserid
                 const corr = await app.mysql
                     .query(`SELECT * FROM db_book_list bl WHERE EXISTS(SELECT * FROM user_connect_book fv, userinfo us
-                      WHERE fv.openid = us.openid AND us.openid = ${JSON.stringify(cor[0].gm_toUserid)} and fv.isbn = bl.isbn)`);
+                      WHERE fv.openid = us.openid AND us.openid = ${JSON.stringify(findId)} and fv.isbn = bl.isbn)`);
                 ctx.body = corr;
             }
         } catch (error) {
@@ -117,8 +120,18 @@ class HouseController extends Controller {
             where: {
                 toUser_id: decoded.openid
             }
-        })|| [];
+        }) || [];
         ctx.body = obj
+    }
+    /**公告通知 */
+    async get_notice_list() {
+        const { ctx, app } = this;
+        try {
+            const result = await app.mysql.select('notice_list', { where: { status: 1 } })
+            ctx.body = result;
+        } catch (error) {
+            ctx.body = { code: 0, msg: '失败' }
+        }
     }
 }
 

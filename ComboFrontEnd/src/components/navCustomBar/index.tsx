@@ -28,6 +28,7 @@ const colorReverse = (oldColor: string): string | never => {
  */
 const NavCustomBar: React.FC<Navigate> = (props) => {
   const [navBarHeight, setNavBarHeight] = useState('0px');
+  const [navBarPadding, setNavBarPadding] = useState('0px');
   const { needBackIcon, title, color } = props;
 
   /**@function 导航 */
@@ -36,6 +37,15 @@ const NavCustomBar: React.FC<Navigate> = (props) => {
       Taro.navigateBack({ delta: 1 })
       return;
     }
+    // if (props.url === '/pages/message/index') {
+    //   // let pages = Taro.getCurrentPages().length - 1;
+    //   // console.log(pages,'pages');
+      
+    //   // Taro.navigateBack({
+    //   //   delta: pages
+    //   // })
+    //   return
+    // }
     Taro.redirectTo({ url: props.url })
   }
 
@@ -47,7 +57,8 @@ const NavCustomBar: React.FC<Navigate> = (props) => {
     let menuBtnHeight = menuButtonObject.height;
     let menuBtnTop = menuButtonObject.top;
     let navBarHig = statusBarHeight + menuBtnHeight + (menuBtnTop - statusBarHeight) * 2;
-    setNavBarHeight(`${navBarHig}px`)
+    setNavBarHeight(`${navBarHig + 5}px`)
+    setNavBarPadding('10px')
   }
 
   const env = process.env.TARO_ENV;
@@ -61,13 +72,14 @@ const NavCustomBar: React.FC<Navigate> = (props) => {
 
   }, [])
 
-  return process.env.TARO_ENV === 'h5' ? <View className={styles['nav_custom_bar']} style={{ height: navBarHeight }}>
+  // process.env.TARO_ENV === 'h5' ?  : <></> 
+  return <View className={styles['nav_custom_bar']} style={{ height: navBarHeight, paddingTop: navBarPadding }}>
     <View className={styles['nav-container']}>
       <AtIcon className={styles[`nav_custom_bar_back ${needBackIcon ? '' : 'hidden'}`]} value='chevron-left' size={22} color={color} onClick={guide} />
       <View className={styles['title']} style={{ justifyContent: props.location ? props.location : 'center' }}>
         <Text style={{ color }} className={styles['nav_custom_bar_title']}>{title}</Text>
       </View>
     </View>
-  </View> : null
+  </View>
 }
 export default NavCustomBar;

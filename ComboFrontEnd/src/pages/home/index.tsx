@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { View, Text, Image, Swiper, SwiperItem } from '@tarojs/components';
 import { AtTabs, AtTabsPane, AtActivityIndicator } from 'taro-ui'
 import book_detail from '@/assets/detail.json'
-import { Get_book_list, Get_book_type } from "@/service/index";
-import {RenderBookList} from '@/components/bookList';
-import styles from './courses.module.less';
 import { Empty } from '@antmjs/vantui';
+import { Get_book_list, Get_book_type } from "@/service/index";
+import { RenderBookList } from '@/components/bookList';
+import styles from './courses.module.less';
 
 
 const HomeView: React.FC<any> = ({ loading }) => {
@@ -23,8 +23,11 @@ const HomeView: React.FC<any> = ({ loading }) => {
     // 图灵社区 https://m.ituring.com.cn/book?tab=all&sort=vote
     // https://api.ituring.com.cn/api/Book?tag=36515&page=1&sort=new
     await Get_book_type().then(res => {
-      setBookType(res)
-      dispatch({ type: "book_model/getBookList", payload: { type: res[tabActive] } })
+      if (!!res && res.length > 0){
+        res.forEach(el => { el.title = el.book_type});
+        setBookType(res)
+        dispatch({ type: "book_model/getBookList", payload: { type: res[tabActive] } })
+      }
     })
   }
   return (
@@ -53,25 +56,25 @@ const HomeView: React.FC<any> = ({ loading }) => {
       </View>
       <View className={`flex-col ${styles['home-tab-list']}`}>
         {
-            bookType && bookType.length > 0 ?  <AtTabs scroll current={tabActive} tabList={bookType} onClick={(value) => {
-              setTabActive(value)
-              dispatch({ type: "book_model/getBookList", payload: { type: bookType[value] } })
-            }}
-            >
-              {
-               bookType.map((it, ix) =>
-                  <AtTabsPane current={ix} key={ix} index={ix}  >
-                    {tabActive === ix &&
-                      // <AtActivityIndicator isOpened={loading.effects['book_model/getBookList']} mode='center'>
-                      <RenderBookList data={book_list} />
-                      // </AtActivityIndicator>
-                    }
-                  </AtTabsPane>
-                )
-              }
-            </AtTabs>:<Empty />
+          bookType && bookType.length > 0 ? <AtTabs scroll current={tabActive} tabList={bookType} onClick={(value) => {
+            setTabActive(value)
+            dispatch({ type: "book_model/getBookList", payload: { type: bookType[value] } })
+          }}
+          >
+            {
+              bookType.map((it, ix) =>
+                <AtTabsPane current={ix} key={ix} index={ix}  >
+                  {tabActive === ix &&
+                    // <AtActivityIndicator isOpened={loading.effects['book_model/getBookList']} mode='center'>
+                    <RenderBookList data={book_list} />
+                    // </AtActivityIndicator>
+                  }
+                </AtTabsPane>
+              )
+            }
+          </AtTabs> : <Empty />
         }
-       
+
       </View>
     </View>
   );

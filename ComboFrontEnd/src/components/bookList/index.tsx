@@ -71,8 +71,6 @@ export const RenderConnectBookList = ({ data, onChange }) => {
  * @returns 
  */
 export const RenderDelBookList = ({ data, onChange, type }) => {
-  console.log(data, '......');
-
   return (<View className={`flex-col ${styles['home-tab-connect']}`}>
     {
       data && data.length > 0 ? data.map((item: any, index: any) =>
@@ -92,11 +90,12 @@ export const RenderDelBookList = ({ data, onChange, type }) => {
               <Text className={`${styles['text_10']}`}>{item.book_name}</Text>
             </View>
           </View>
-          <View className={`flex-col ${styles['act-btn']}`}>
-            <View className={styles['del']} onClick={() => onChange(item.isbn)}>删除</View>
+          <View className={`flex-row ${styles['act-btn']}`}>
             {
               type === '1' ? <View className={styles['edit']} onClick={() => Taro.redirectTo({ url: "/pagesA/updateBook/index?isbn=" + item.isbn })}>编辑</View> : null
             }
+
+            <View className={styles['del']} onClick={() => onChange(item.isbn)}>删除</View>
           </View>
 
         </View>

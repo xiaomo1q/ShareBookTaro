@@ -55,7 +55,7 @@ class ExchangeSquareController extends Controller {
       user_id: corr.openid,
       update_time: new Date()
     }
-    await app.mysql.update('exchange_square', { comment_num: Number(num) + 1 }, { where: { id: _id } });
+    await app.mysql.update('exchange_square', { comment_num: Number(num) }, { where: { id: _id } });
     const uuid = await ctx.service.tool.uuid();
     await app.mysql.insert('comment_user', { id: uuid, ...obj });
     ctx.body = { code: 0 };

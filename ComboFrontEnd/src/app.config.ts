@@ -17,6 +17,7 @@ export default defineAppConfig({
         'subtract/only-detail/index',
         'subtract/form-index/index',
         'message/msg-detail/index',
+        'message/notice-detail/index',
         'home/book-detail/index',
         'updateUserinfo/index',
         'orderIn/index',
@@ -63,5 +64,6 @@ export default defineAppConfig({
     navigationBarBackgroundColor: '#fff',
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'black',
+    "navigationStyle": "custom"
   }
 })

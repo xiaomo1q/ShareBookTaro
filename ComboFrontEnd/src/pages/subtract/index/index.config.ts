@@ -1,3 +1,4 @@
 export default definePageConfig({
-  navigationBarTitleText: '交流广场'
+  navigationBarTitleText: '交流广场',
+  navigationStyle: 'default'
 })

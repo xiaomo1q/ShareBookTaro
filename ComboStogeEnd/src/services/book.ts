@@ -9,6 +9,7 @@ const API_PATH = '/api/admin';
 
 export const GET_overview_data = (data?: any) => GETRequest(API_PATH + '/overview_data', data);
 export const Action_notice_list = (data?: any) => POSTRequest(API_PATH + '/notice_list', data);
+export const Get_order_information = (data?: any) => POSTRequest(API_PATH + '/get_order_information', data);
 
 
 export const Get_book_type = (data?: any) => POSTRequest(API_PATH + '/get_book_type', data);

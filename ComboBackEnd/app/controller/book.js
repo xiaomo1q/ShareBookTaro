@@ -1,6 +1,7 @@
 "use strict";
 
 const Controller = require("egg").Controller;
+const await = require("await-stream-ready/lib/await");
 const { excelNew } = require('../extend/excel');
 
 class BookController extends Controller {
@@ -144,7 +145,38 @@ class BookController extends Controller {
         ctx.set('Content-Disposition', "attachment;filename*=UTF-8' '" + encodeURIComponent('图书列表') + '.xlsx');
         ctx.body = await excelNew(url, dataItem, headers);
     }
+    /** 批量添加 用户关联图书 */
+    async add_connect_book() {
+        const { ctx, app } = this
+        const decoded = await ctx.service.tool.jwtToken();
+        const params = this.ctx.request.body;
+        if (!!params && params.length > 0) {
+            const arr = []
+            params.forEach((el) => {
+                arr.push({ isbn: el.isbn, openid: decoded.openid, update_date: new Date() })
+            });
+            let values = [];
+            arr.forEach(function (n, i) {
+                let _arr = [];
+                for (let m in n) {
+                    _arr.push(n[m]);
+                }
+                values.push(_arr);
+            })
+            const sql = "INSERT INTO user_connect_book(isbn,openid,update_date) VALUES ?";
 
+            await app.mysql.query(sql, [values],  (err, rows, fields) =>{
+                callback(err, rows);
+            });
+            ctx.body = { code: 0, msg: '添加成功' }
+        }
+
+        // await app.mysql.insert('user_connect_book', {
+        //     update_date: new Date(),
+        //     isbn: params.isbn,
+        //     openid: decoded.openid,
+        //   });
+    }
 }
 
 module.exports = BookController;

@@ -1,8 +1,9 @@
 import { POSTRequest, GETRequest, DELETERequest } from "../utils/net-requests";
 import { InterfacePath } from "./interfacePath";
 
-const API_PATH = "/api/api";
-// const API_PATH = "/api";
+// const API_PATH = "/api/api";
+const API_PATH = process.env.NODE_ENV === 'development' ? "/api" : "/api/api";
+console.log(process.env.NODE_ENV, 'process.env');
 /**
  * 获取 token
  */
@@ -27,6 +28,7 @@ export const Add_only_book = (data) => POSTRequest(InterfacePath.add_only_book, 
 export const Update_only_book = (data) => POSTRequest(API_PATH + '/update_only_book', { data });
 export const Get_connect_book_list = (data) => GETRequest(InterfacePath.get_connect_book_list, { data });
 export const Del_connect_book_list = (data) => DELETERequest(InterfacePath.del_connect_book_list, { data });
+export const Add_connect_book = (data) => POSTRequest(API_PATH + '/add_connect_book', { data });
 // 收藏
 export const Get_favorite_book_list = () => GETRequest(InterfacePath.get_favorite_book_list);
 export const Del_favorite_book_list = (data) => DELETERequest(InterfacePath.del_favorite_book_list, { data });
@@ -54,4 +56,5 @@ export const MSG_list = () => GETRequest(InterfacePath.msg_list);
 export const Get_toUser_book_list = (data) => GETRequest(API_PATH + '/get_toUser_book_list', { data });
 export const Add_order_information = (data) => POSTRequest(API_PATH + '/add_order_information', { data });
 export const Get_order_information = (data) => POSTRequest(API_PATH + '/get_order_information', { data });
+export const Get_notice_list = (data) => GETRequest(API_PATH + '/get_notice_list', { data });
 

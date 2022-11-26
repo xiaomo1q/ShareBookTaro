@@ -1,4 +1,5 @@
 export default {
   usingComponents: {},
-  navigationBarTitleText: '首页'
+  navigationBarTitleText: '首页',
+  navigationStyle: 'default'
 };

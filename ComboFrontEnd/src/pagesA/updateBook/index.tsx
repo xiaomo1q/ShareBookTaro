@@ -136,7 +136,7 @@ const Index = () => {
         <View className={`${styles['re-flex']}`}>
           {
             !!formValue.imgUrl ? <View className={`${styles['re-image-box']}`}>
-              <Image src={`${process.env.baseUrl}${formValue.imgUrl}`} className={`${styles['re-image']}`} />
+              <Image src={`${formValue.imgUrl}`} className={`${styles['re-image']}`} />
               <Image src={require('../../assets/image/delete.svg')} className={`${styles['re-del']}`}
                 onClick={() => delImageClickedHandler(formValue.imgUrl)}
               />

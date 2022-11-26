@@ -21,13 +21,14 @@ module.exports = app => {
     router.delete('/api/del_connect_book_list', jwt, controller.book.del_connect_book_list); // 拥有书主
     router.get('/api/get_bookuser_userInfo', jwt, controller.user.get_bookuser_userInfo); // 书主个人信息
     router.post('/api/update_userInfo', jwt, controller.user.update_userInfo); // 修改书主个人信息
+    router.post('/api/add_connect_book', jwt, controller.book.add_connect_book); // 修改书主个人信息
 
     router.get('/api/get_book_type', controller.book.get_book_type); // 获取图书类型
     router.get('/api/get_book_list', controller.book.get_book_list); // 获取图书列表
     router.get('/api/get_only_book_detail', jwt, controller.book.get_only_book_detail); // 获取图书详情
     router.get('/api/search_book_list', controller.book.search_book_list); // 搜索
     router.get('/api/get_favorite_book_list', jwt, controller.book.get_favorite_book_list); // 收藏列表
-    router.delete('/api/del_favorite_book_list', jwt, controller.book.del_favorite_book_list); // 收藏列表
+    router.delete('/api/del_favorite_book_list', jwt, controller.book.del_favorite_book_list); // del收藏
     router.get('/api/add_favorite_book', jwt, controller.book.add_favorite_book); // 收藏
 
     router.get('/api/get_exchange_square_list', controller.exchangeSquare.get_exchange_square_list); // 书圈广场
@@ -43,6 +44,7 @@ module.exports = app => {
 
 
     // 聊天
+    router.get('/api/get_notice_list', controller.messages.get_notice_list); // 通知
     router.post('/api/add_messages', jwt, controller.messages.add_messages); // 创建房间
     router.get('/api/msg_list', jwt, controller.messages.msg_list); // 群聊列表
     router.get('/api/get_toUser_book_list', jwt, controller.messages.get_toUser_book_list); // 查询卖家的书库
@@ -68,7 +70,7 @@ module.exports = app => {
     router.delete('/api/admin/del_only_userinfo', controller.adminUser.del_only_userinfo); // 列表
     router.post('/api/admin/notice_list', controller.adminUser.notice_list); // 通知
     router.get('/api/admin/bookDownload', controller.book.bookDownload); // 图书下载
-    router.get('/api/admin/get_order_information', controller.adminUser.get_order_information); // 查询订单记录
+    router.post('/api/admin/get_order_information', controller.adminUser.get_order_information); // 查询订单记录
 
 
 

@@ -1,5 +1,5 @@
 import NavCustomBar from '@/components/navCustomBar';
-import { Add_only_square_review } from '@/service/index';
+import { Add_only_square_fav, Add_only_square_review } from '@/service/index';
 import { View, Image, Text } from '@tarojs/components';
 import { useRouter } from '@tarojs/taro';
 import moment from 'moment';
@@ -24,7 +24,10 @@ const OnlyDetailView: React.FC = () => {
       }
     })
   }
-
+  const onlyFavClickedHandler = async (item) => {
+    await Add_only_square_fav({ _id: item.id, num: item.like_num })
+    dispatch({ type: "square_modal/get_exchange_square_detail", payload: { _id: params._id } })
+  }
   return (
     <View className={`flex-col ${styles['only-detail']}`}>
       <NavCustomBar needBackIcon title='正文' url='/pages/subtract/index/index' />
@@ -82,9 +85,9 @@ const OnlyDetailView: React.FC = () => {
         <View className={`flex-row ${styles['space-x-9']} ${styles['group_7']}`}>
           <View className={`flex-row ${styles['space-x-9']} ${styles['group_7']}`}>
             <Image src={process.env.URL + 'icon/pinglun.svg'} className={`${styles['image_1']}`} />
-            <Text className={`${styles['text_13']}`}>{only_detail?.comment_num}</Text>
+            <Text className={`${styles['text_13']}`}>{only_detail?.comment_list?.length}</Text>
           </View>
-          <View className={`flex-row ${styles['space-x-9']} ${styles['group_7']}`}>
+          <View className={`flex-row ${styles['space-x-9']} ${styles['group_7']}`}  onClick={() => onlyFavClickedHandler(only_detail)}>
             <Image src={process.env.URL + 'icon/dianzan.svg'} className={`${styles['image_1']}`} />
             <Text className={`${styles['text_12']}`}>{only_detail?.like_num}</Text>
           </View>

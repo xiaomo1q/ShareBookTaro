@@ -7,20 +7,20 @@ class DefaultController extends Controller {
     const { ctx, app } = this;
     const nsp = app.io.of('/');
     // const { m_id } = yield ctx.request.query;
-    // console.log(ctx.args, '.......*******%%%%%%%%');
+    console.log(ctx.args, '.......*******%%%%%%%%');
     if (ctx.args[1]) {
       const message = ctx.args[1] || {};
       const corr = yield app.mysql.select('messages', { where: { gm_id: ctx.args[0].m_id } });
-      console.log(!!message.isSend);
+      // console.log(!!message.isSend,'....');
       const objMsg = !!message.isSend ? JSON.parse(message.isSend) : {}
       const filter = corr.filter(i => {
         const obj = !!i.isSend && i.isSend.isbn ? i.isSend : JSON.parse(i.isSend)
         if (!!obj) {
-          console.log(obj.isbn, objMsg.isbn, '....', obj.status);
+          // console.log(obj.isbn, objMsg.isbn, '....', obj.status);
           return obj.isbn === objMsg.isbn && !!obj.status && obj.status === objMsg.status
         }
       })
-      console.log(!!filter, filter.length > 0);
+      // console.log(!!filter, filter.length > 0);
       if (!!filter && filter.length > 0) { } else { yield app.mysql.insert('messages', message); }
 
     }
