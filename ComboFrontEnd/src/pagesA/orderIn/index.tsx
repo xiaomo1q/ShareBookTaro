@@ -19,7 +19,6 @@ const OrderDetailIndex = () => {
   const { userInfo } = useSelector((state: any) => state.global_user)
   const fetchConnectBookList = async () => {
     const res = await Get_order_information({})
-    console.log(res, '......');
     setConnectBook(res || [])
   }
 

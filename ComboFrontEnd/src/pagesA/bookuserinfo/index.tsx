@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Taro, { useRouter } from '@tarojs/taro';
 import { useDispatch, useSelector } from 'react-redux';
 import { View, Text, Image } from '@tarojs/components';
-import { RenderBookList } from '@/components/bookList'
 import NavCustomBar from '@/components/navCustomBar';
+import { RenderBookList } from '@/components/bookList'
 import { Add_fans_followers, Add_messages, Del_fans_followers } from '@/service/index';
 import styles from './index.module.less';
 

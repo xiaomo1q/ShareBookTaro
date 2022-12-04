@@ -59,14 +59,16 @@ module.exports = app => {
 
     router.get('/api/admin/overview_data', controller.adminUser.overview_data); // all total
 
-    router.post('/api/admin/get_book_type', controller.adminUser.get_book_type); // 分类
-    router.post('/api/admin/get_book_list', controller.adminUser.get_book_list); // 列表
-    router.post('/api/admin/add_only_book', controller.adminUser.add_only_book); // 列表
-    router.post('/api/admin/update_only_book', controller.adminUser.update_only_book); // 列表
-    router.delete('/api/admin/del_only_book', controller.adminUser.del_only_book); // 列表
+    router.post('/api/admin/get_book_type', controller.adminUser.get_book_type); // get分类
+    router.post('/api/admin/add_book_type', controller.adminUser.add_book_type); // add分类
+    router.delete('/api/admin/del_book_type', controller.adminUser.del_book_type); // del分类
+    router.post('/api/admin/get_book_list', controller.adminUser.get_book_list); // get列表
+    router.post('/api/admin/add_only_book', controller.adminUser.add_only_book); // add列表
+    router.post('/api/admin/update_only_book', controller.adminUser.update_only_book); // update列表
+    router.delete('/api/admin/del_only_book', controller.adminUser.del_only_book); // del列表
 
-    router.post('/api/admin/get_userinfo_list', controller.adminUser.get_userinfo_list); // 列表
-    router.post('/api/admin/update_only_userinfo', controller.adminUser.update_only_userinfo); // 列表
+    router.post('/api/admin/get_userinfo_list', controller.adminUser.get_userinfo_list); // gel列表
+    router.post('/api/admin/update_only_userinfo', controller.adminUser.update_only_userinfo); // update列表
     router.delete('/api/admin/del_only_userinfo', controller.adminUser.del_only_userinfo); // 列表
     router.post('/api/admin/notice_list', controller.adminUser.notice_list); // 通知
     router.get('/api/admin/bookDownload', controller.book.bookDownload); // 图书下载

@@ -57,6 +57,8 @@ const Index = () => {
               token = Taro.getStorageSync("TOKEN"); //拿到本地缓存中存的token
             }
             const tempFilePaths = res.tempFilePaths;
+            console.log(tempFilePaths[0], '.tempFilePaths');
+
             Taro.uploadFile({
               url: "/api/file/img/upload/",
               filePath: tempFilePaths[0],
@@ -64,8 +66,11 @@ const Index = () => {
               header: {
                 Authorization: token, //将token添加到头部
               },
-              formData: { file: res.tempFiles[0].originalFileObj },
+              formData: {
+                // file: res.tempFiles[0].originalFileObj
+              },
               success: (re) => {
+                console.log(re);
                 const urk: any = JSON.parse(re.data)
                 formValue.imgUrl = urk.url
                 setFormValue({ ...formValue })

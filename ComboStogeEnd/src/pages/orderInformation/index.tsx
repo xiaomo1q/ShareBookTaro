@@ -18,7 +18,7 @@ const Home: React.FC<any> = (props) => {
   });
   const [pagination, setPagination] = useState({
     total: 0,
-    pageCount: 15,
+    pageCount: 10,
     pageIndex: 1,
   });
   const [form] = Form.useForm();

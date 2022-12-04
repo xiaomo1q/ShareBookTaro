@@ -2,10 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import Taro, { useRouter } from '@tarojs/taro'
 import { useDispatch, useSelector } from 'react-redux';
-import { View, Text } from '@tarojs/components'
-import { AtFloatLayout, AtSearchBar } from 'taro-ui'
 import NavCustomBar from '@/components/navCustomBar';
 import { RenderBookList, RenderConnectBookList, RenderDelBookList } from '@/components/bookList';
+import { View, Text } from '@tarojs/components'
+import { AtFloatLayout, AtSearchBar } from 'taro-ui'
 import { Add_connect_book, Del_connect_book_list, Del_favorite_book_list } from '@/service/index';
 import styles from './index.module.less'
 

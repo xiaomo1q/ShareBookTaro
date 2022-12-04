@@ -6,6 +6,7 @@ import {
 } from 'antd';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import BookTypeTag from './bookType';
 import styles from './index.less';
 const { TextArea } = Input;
 
@@ -40,7 +41,7 @@ const Home: React.FC<any> = (props) => {
   const [formName, setFormName] = useState('add');
   const [pagination, setPagination] = useState({
     total: 0,
-    pageCount: 15,
+    pageCount: 8,
     pageIndex: 1,
   });
   const [form] = Form.useForm();
@@ -253,20 +254,20 @@ const Home: React.FC<any> = (props) => {
   };
 
   const downloadClickedHandler = () => {
-    // // 手动拼接GET请求
-    // // 导出接口
-    // const exportAPI = window.location.origin;
-    // // 筛选条件
-    // let queryStr = '/api/downExcel';
-    // // 伪造a标签点击
-    // const downloadUrl = `${exportAPI}${queryStr}`;
-    // const a = document.createElement('a');
-    // a.href = downloadUrl;
-    // // a.download = 'users.xls';
-    // a.style.display = 'none';
-    // document.body.appendChild(a);
-    // a.click();
-    // document.body.removeChild(a);
+    // 手动拼接GET请求
+    // 导出接口
+    const exportAPI = window.location.origin;
+    // 筛选条件
+    let queryStr = '/api/admin/bookDownload';
+    // 伪造a标签点击
+    const downloadUrl = `${exportAPI}${queryStr}`;
+    const a = document.createElement('a');
+    a.href = downloadUrl;
+    // a.download = 'users.xls';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   };
 
   const uploadChangedHandler = (files: any) => {
@@ -307,17 +308,20 @@ const Home: React.FC<any> = (props) => {
         </Form>
       </div>
 
+      <div className={styles['action-tags']}> <BookTypeTag /></div>
       <div className={styles['main']}>
-        <Space size={16} className={styles['action']}>
-          <Button type="primary" onClick={showModal}> 添加 </Button>
-          {/* <Upload {...propsUpload}>
+        <div className={styles['action']}>
+          <div className={styles['flex-row']}>
+            <Button type="primary" onClick={showModal}> 添加 </Button>
+            <Button onClick={downloadClickedHandler}>导出</Button>
+            {/* <Upload {...propsUpload}>
             <Button >导入excel</Button>
           </Upload>
           <Upload {...propsImg}>
             <Button >文件存储</Button>
           </Upload> */}
-          <Button onClick={downloadClickedHandler}>导出</Button>
-        </Space>
+          </div>
+        </div>
         <div className={styles['borde']} />
         <Table
           // loading

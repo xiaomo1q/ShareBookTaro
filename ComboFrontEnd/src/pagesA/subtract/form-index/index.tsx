@@ -45,7 +45,6 @@ const Index = () => {
   const dispatch = useDispatch()
   const { connect_book_list } = useSelector((state: any) => state.public_storage)
   useEffect(() => {
-    console.log(connect_book_list, '..connect_book_list');
     if (connect_book_list && connect_book_list.length > 0) {
       const text: any = []
       const bookURL: any = []

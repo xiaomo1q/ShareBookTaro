@@ -13,6 +13,9 @@ export const Get_order_information = (data?: any) => POSTRequest(API_PATH + '/ge
 
 
 export const Get_book_type = (data?: any) => POSTRequest(API_PATH + '/get_book_type', data);
+export const Add_book_type = (data?: any) => POSTRequest(API_PATH + '/add_book_type', data);
+export const Del_book_type = (data?: any) => DELETERequest(API_PATH + '/del_book_type', data);
+
 export const Get_book_list = (data: any) => POSTRequest(API_PATH + '/get_book_list', data);
 export const Add_only_book = (data: any) => POSTRequest(API_PATH + '/add_only_book', data);
 export const Update_only_book = (data: any) => POSTRequest(API_PATH + '/update_only_book', data);

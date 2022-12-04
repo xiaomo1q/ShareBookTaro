@@ -64,6 +64,28 @@ class IndexController extends Controller {
     const result = await app.mysql.query('select * from book_type');
     ctx.body = result;
   }
+  /** add图书分类  */
+  async add_book_type() {
+    const { ctx, app } = this;
+    const { book_type } = this.ctx.request.body;
+    try {
+      await app.mysql.insert('book_type', { book_type });
+      ctx.body = { code: 0, msg: '添加成功' };
+    } catch (error) {
+      ctx.body = { code: 1, msg: '添加失败' };
+    }
+  }
+  /** del图书分类  */
+  async del_book_type() {
+    const { ctx, app } = this;
+    const { book_type } = ctx.request.query;
+    try {
+      await app.mysql.delete('book_type', { book_type });
+      ctx.body = { code: 0, msg: '删除成功' };
+    } catch (error) {
+      ctx.body = { code: 1, msg: '删除失败' };
+    }
+  }
   /** 根据分类图书列表 */
   async get_book_list() {
     const { pageCount, pageIndex, search } = this.ctx.request.body;

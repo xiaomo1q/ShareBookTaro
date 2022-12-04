@@ -2,7 +2,6 @@
  * 服务器路径
  */
  const API_PATH = process.env.NODE_ENV === 'development' ? "/api" : "/api/api";
- console.log(process.env.NODE_ENV, 'process.env');
 export const InterfacePath = {
 
   registered: API_PATH + "/registered",
