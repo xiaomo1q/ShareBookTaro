@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sd</title>
+</head>
+
+<body>
+  <script>
+    const sudoku = [
+      ['.', '.', '.', '4', '.', '.', '.', '3', '.'],
+      ['7', '.', '4', '8', '.', '.', '1', '.', '2'],
+      ['.', '.', '.', '2', '3', '.', '4', '.', '9'],
+      ['.', '4', '.', '5', '.', '9', '.', '8', '.'],
+      ['5', '.', '.', '.', '.', '.', '9', '1', '3'],
+      ['1', '.', '.', '.', '8', '.', '2', '.', '4'],
+      ['.', '.', '.', '.', '.', '.', '3', '4', '5'],
+      ['.', '5', '1', '9', '4', '.', '7', '2', '.'],
+      ['4', '7', '3', '.', '5', '.', '.', '9', '1']
+    ]
+    checkV(sudoku)
+    function checkV(sudo) {
+      for (let i = 0; i < 9; i++) {
+        let row = {}, col = {}       //辅助变量，用来判定行、列是否冲突
+        for (let j = 0; j < 9; j++) {
+          let cur1 = sudo[i][j], cur2 = sudo[j][i]      //一次内循环同时完成行列的判定
+          console.log(cur1, cur2);
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>
