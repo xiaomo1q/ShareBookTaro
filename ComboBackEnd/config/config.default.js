@@ -81,17 +81,7 @@ module.exports = appInfo => {
             // // 密码
             // password: '123456',
             // // 数据库名
-            // database: 'vook',
-            // host
-            host: 'sh-cynosdbmysql-grp-li753bps.sql.tencentcdb.com',
-            // 端口号
-            port: '21802',
-            // 用户名
-            user: 'root',
-            // 密码
-            password: 'Book_1234',
-            // 数据库名
-            database: 'book',
+            // database: 'Book',
         },
         // 是否加载到 app 上，默认开启
         app: true,
